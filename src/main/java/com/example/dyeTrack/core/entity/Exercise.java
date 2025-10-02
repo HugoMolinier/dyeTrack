@@ -1,0 +1,92 @@
+package com.example.dyeTrack.core.entity;
+
+import java.util.ArrayList;
+import java.util.List;
+
+import com.example.dyeTrack.core.entity.RelExerciseMuscle.RelExerciseMuscle;
+
+import jakarta.persistence.CascadeType;
+import jakarta.persistence.Column;
+import jakarta.persistence.Entity;
+import jakarta.persistence.FetchType;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
+import jakarta.persistence.Id;
+import jakarta.persistence.JoinColumn;
+import jakarta.persistence.ManyToOne;
+import jakarta.persistence.OneToMany;
+import jakarta.validation.constraints.NotBlank;
+
+@Entity
+public class Exercise {
+
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long idExercise;
+
+    @NotBlank
+    private String nameFR;
+
+    @Column(columnDefinition = "TEXT")
+    private String description;
+
+    @Column(columnDefinition = "TEXT")
+    private String linkVideo;
+
+    @ManyToOne
+    @JoinColumn(name = "idCreator", nullable = true)//si null c'est que c'est admin add
+    private User user;    
+
+    @OneToMany(mappedBy = "exercice", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    private List<RelExerciseMuscle> relExerciseMuscles = new ArrayList<>();
+
+    public List<RelExerciseMuscle> getRelExerciseMuscles() {
+        return relExerciseMuscles;
+    }
+
+    public Exercise() {
+    }
+
+    public Exercise(String nameFR, User user) {
+        this(nameFR, null, null, user);
+    }
+
+    public Exercise(String nameFR, String description, User user) {
+        this(nameFR, description, null, user);
+    }
+
+    public Exercise(String nameFR, String description, String linkVideo, User user) {
+        this.nameFR = nameFR;
+        this.description = description;
+        this.linkVideo = linkVideo;
+        this.user = user;
+    }
+
+
+    public Long getIdExercise(){
+        return idExercise;
+    }
+
+    public String getNameFR(){
+        return nameFR;
+    }
+
+    public String getDescription(){
+        return description;
+    }
+
+    public String getLinkVideo(){
+        return linkVideo;
+    }
+
+    public User getUser(){
+        return user;
+    }
+    
+    public void setDescription(String newDescription){
+        this.description = newDescription;
+    }
+    public void setNameFR(String newNameFR){
+        this.nameFR = newNameFR;
+    }
+}

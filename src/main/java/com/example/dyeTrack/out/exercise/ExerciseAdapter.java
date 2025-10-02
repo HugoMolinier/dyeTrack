@@ -1,0 +1,34 @@
+package com.example.dyeTrack.out.exercise;
+
+import java.util.List;
+
+import org.springframework.stereotype.Component;
+
+import com.example.dyeTrack.core.entity.Exercise;
+import com.example.dyeTrack.core.port.out.ExercisePort;
+
+@Component
+public class ExerciseAdapter implements ExercisePort {
+    private ExerciseRepository exerciseRepository;
+
+    public ExerciseAdapter(ExerciseRepository exerciseRepository){
+        this.exerciseRepository = exerciseRepository;
+    }
+
+    public Exercise getByIdExercise(Long idExercise){
+        return exerciseRepository.findByIdExercise(idExercise);
+    }
+
+    public List<Exercise> getAll(String name, Boolean officialExercise, Long idUser){
+        return exerciseRepository.findAllFiltered( name,  officialExercise,  idUser);
+    }
+
+
+    public Exercise create(Exercise exercise){
+        return exerciseRepository.save(exercise);
+    }
+
+
+    
+    
+}
