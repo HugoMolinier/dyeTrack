@@ -2,30 +2,18 @@ package com.example.dyeTrack.core.valueobject;
 
 
 import jakarta.persistence.Embeddable;
-import jakarta.validation.constraints.NotNull;
 
 @Embeddable
-public class MuscleInfo {
-
-    @NotNull
-    private Long idMuscle;
+public class MuscleInfo extends IDNameValue {
 
     private boolean principal = true; // valeur par défaut
 
+
     public MuscleInfo() {}
 
-    public MuscleInfo(Long idMuscle, boolean principal) {
-        this.idMuscle = idMuscle;
+    public MuscleInfo(Long idMuscle, boolean principal,String nameFR, String nameEN) {
+        super(idMuscle,nameFR,nameEN);
         this.principal = principal;
-    }
-
-    // getters & setters
-    public Long getIdMuscle() {
-        return idMuscle;
-    }
-
-    public void setIdMuscle(Long idMuscle) {
-        this.idMuscle = idMuscle;
     }
 
     public boolean isPrincipal() {

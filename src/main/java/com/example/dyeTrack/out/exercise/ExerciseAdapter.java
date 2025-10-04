@@ -19,14 +19,28 @@ public class ExerciseAdapter implements ExercisePort {
         return exerciseRepository.findByIdExercise(idExercise);
     }
 
-    public List<Exercise> getAll(String name, Boolean officialExercise, Long idUser){
-        return exerciseRepository.findAllFiltered( name,  officialExercise,  idUser);
+    public List<Exercise> getAll(String name, Boolean officialExercise, Long idUser,Boolean onlyPrincipalMuscle,List<Integer> idsMuscle,List<Long> idsExercices){
+        return exerciseRepository.findAllFiltered( name,  officialExercise,  idUser, onlyPrincipalMuscle, idsMuscle,idsExercices);
+    }
+
+    public List<Exercise> getAllWithShowGroupe(String name, Boolean officialExercise, Long idUser,Boolean onlyPrincipalMuscle,List<Integer> idsGroupesMusculaire,List<Integer> idsMuscle,List<Long> idsExercices){
+        return exerciseRepository.findAllFilteredWithGroup( name,  officialExercise,  idUser,onlyPrincipalMuscle,idsGroupesMusculaire, idsMuscle,idsExercices);
     }
 
 
     public Exercise create(Exercise exercise){
         return exerciseRepository.save(exercise);
     }
+
+    public Exercise update(Exercise exercise) {
+        return exerciseRepository.save(exercise);
+    }
+    public void delete(Exercise exercise){
+        exerciseRepository.delete(exercise);
+    }
+
+
+
 
 
     

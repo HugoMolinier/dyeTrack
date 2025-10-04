@@ -6,7 +6,6 @@ import com.example.dyeTrack.core.entity.RelExerciseMuscle.RelExerciseMuscle;
 
 public interface RelExerciseMusclePort {
     void saveAll(List<RelExerciseMuscle> relExerciseMuscles);
-    List<RelExerciseMuscle> findAllWithExerciseAndMuscle();
-    
+    void deleteByExerciceId(Long idExercice);
     
 }

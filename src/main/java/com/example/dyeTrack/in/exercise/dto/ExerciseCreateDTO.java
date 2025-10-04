@@ -2,10 +2,11 @@ package com.example.dyeTrack.in.exercise.dto;
 
 import java.util.List;
 
-import com.example.dyeTrack.core.valueobject.MuscleInfo;
+import com.example.dyeTrack.core.valueobject.MuscleInsertExercice;
 
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
+
 
 public class ExerciseCreateDTO {
 
@@ -18,12 +19,12 @@ public class ExerciseCreateDTO {
     private Long idUser;
 
     @NotBlank(message = "relExerciseMuscle est obligatoire")
-    private List<MuscleInfo> relExerciseMuscle;
+    private List<MuscleInsertExercice> relExerciseMuscle;
 
     public ExerciseCreateDTO() {
     }
 
-    public ExerciseCreateDTO(String nameFR, String description, String linkVideo, Long idUser,List<MuscleInfo> relExerciseMuscle) {
+    public ExerciseCreateDTO(String nameFR, String description, String linkVideo, Long idUser,List<MuscleInsertExercice> relExerciseMuscle) {
         this.nameFR = nameFR;
         this.description = description;
         this.linkVideo = linkVideo;
@@ -64,10 +65,10 @@ public class ExerciseCreateDTO {
         this.idUser = idUser;
     }
 
-    public List<MuscleInfo> getRelExerciseMuscles(){
+    public List<MuscleInsertExercice> getRelExerciseMuscles(){
         return relExerciseMuscle;
     }
-    public void setRelExerciseMuscles(List<MuscleInfo> relExerciseMuscle){
+    public void setRelExerciseMuscles(List<MuscleInsertExercice> relExerciseMuscle){
         this.relExerciseMuscle = relExerciseMuscle;
     }
 }

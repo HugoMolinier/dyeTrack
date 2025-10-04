@@ -1,10 +1,15 @@
 package com.example.dyeTrack.core.entity;
 
 
+import java.util.List;
+
+import com.example.dyeTrack.core.entity.RelExerciseMuscle.RelExerciseMuscle;
+
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.OneToMany;
 
 @Entity
 public class User {
@@ -12,6 +17,13 @@ public class User {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     private String name;
+
+    @OneToMany(mappedBy = "user")
+    private List<PresetSeance> presets;
+
+    public List<PresetSeance> getPreset() {
+        return presets;
+    }
 
     public User(Long id,String name){
         this.id =id;

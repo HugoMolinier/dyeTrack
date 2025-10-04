@@ -50,5 +50,10 @@ public class Muscle {
         return groupeMusculaire;
     }
 
-    
+    @Override
+    public String toString() {
+       return "nameFR" + this.nameFR +
+	  " : id " + this.id +
+	  ", groupeMusculair( " + this.groupeMusculaire+")";
+   }
 }

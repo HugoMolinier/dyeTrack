@@ -7,7 +7,7 @@ import jakarta.persistence.Id;
 import jakarta.validation.constraints.NotBlank;
 
 @Entity
-public class GroupeMusculaire {
+public class Equipement {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -22,11 +22,11 @@ public class GroupeMusculaire {
     
     
 
-    public GroupeMusculaire(String nomFR,String nomEN ){
+    public Equipement(String nomFR,String nomEN ){
         this.nomFR = nomFR;
         this.nomEN = nomEN;
     }
-    protected GroupeMusculaire() {}
+    protected Equipement() {}
 
     public Long getId(){
         return id;
@@ -40,7 +40,7 @@ public class GroupeMusculaire {
 
     @Override
    public String toString() {
-       return "idGroupeMusculaire " + this.id +
+       return "id " + this.id +
 	  " : nomFR " + this.nomFR ;
    }
 }

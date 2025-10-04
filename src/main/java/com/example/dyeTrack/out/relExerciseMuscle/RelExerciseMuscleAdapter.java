@@ -19,8 +19,10 @@ public class RelExerciseMuscleAdapter implements RelExerciseMusclePort{
         relExerciseMuscleRepository.saveAll(relation);
     }
 
-    public List<RelExerciseMuscle> findAllWithExerciseAndMuscle(){
-        return relExerciseMuscleRepository.findAllWithExerciseAndMuscle();
+
+    public void deleteByExerciceId(Long idExercice){
+        relExerciseMuscleRepository.deleteByExerciseId(idExercice);
+
     }
 
 

@@ -3,6 +3,7 @@ package com.example.dyeTrack.core.entity;
 import java.util.ArrayList;
 import java.util.List;
 
+import com.example.dyeTrack.core.entity.PresetSeanceExercice.PresetSeanceExercice;
 import com.example.dyeTrack.core.entity.RelExerciseMuscle.RelExerciseMuscle;
 
 import jakarta.persistence.CascadeType;
@@ -37,8 +38,12 @@ public class Exercise {
     @JoinColumn(name = "idCreator", nullable = true)//si null c'est que c'est admin add
     private User user;    
 
-    @OneToMany(mappedBy = "exercice", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    @OneToMany(mappedBy = "exercice", cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.LAZY)
     private List<RelExerciseMuscle> relExerciseMuscles = new ArrayList<>();
+
+    @OneToMany(mappedBy = "exercice", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<PresetSeanceExercice> presetSeanceExercices = new ArrayList<>();
+
 
     public List<RelExerciseMuscle> getRelExerciseMuscles() {
         return relExerciseMuscles;
@@ -79,6 +84,10 @@ public class Exercise {
         return linkVideo;
     }
 
+    public void setLinkVideo(String link){
+        this.linkVideo=link;
+    }
+
     public User getUser(){
         return user;
     }
@@ -89,4 +98,11 @@ public class Exercise {
     public void setNameFR(String newNameFR){
         this.nameFR = newNameFR;
     }
+
+    @Override
+   public String toString() {
+       return "idExercise" + this.idExercise +
+	  " : nameFR " + this.nameFR +
+	  ", user " + this.user;
+   }
 }

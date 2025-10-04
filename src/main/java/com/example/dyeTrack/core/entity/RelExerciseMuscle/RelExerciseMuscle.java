@@ -45,4 +45,11 @@ public class RelExerciseMuscle {
 
     public boolean isPrincipal() { return principal; }
     public void setPrincipal(boolean principal) { this.principal = principal; }
+
+    public String toString() {
+       return "RelExerciseMuscleId" + this.id +
+	  " : muscle (" + this.muscle+ ")" +
+	  ", exercice(" + this.exercice +")" +
+        ", principal " + this.principal;
+   }
 }
