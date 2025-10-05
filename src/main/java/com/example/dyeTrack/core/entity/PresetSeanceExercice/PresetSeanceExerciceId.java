@@ -4,14 +4,14 @@ import jakarta.persistence.Embeddable;
 import java.io.Serializable;
 import java.util.Objects;
 
-
 @Embeddable
 public class PresetSeanceExerciceId implements Serializable {
 
     private Long presetSeanceId;
     private Long exerciceId;
 
-    public PresetSeanceExerciceId() {}
+    public PresetSeanceExerciceId() {
+    }
 
     public PresetSeanceExerciceId(Long presetSeanceId, Long exerciceId) {
         this.presetSeanceId = presetSeanceId;
@@ -19,20 +19,31 @@ public class PresetSeanceExerciceId implements Serializable {
     }
 
     // getters et setters
-    public Long getPresetSeanceId() { return presetSeanceId; }
-    public void setMuscleId(Long presetSeanceId) { this.presetSeanceId = presetSeanceId; }
+    public Long getPresetSeanceId() {
+        return presetSeanceId;
+    }
 
-    public Long getExerciceId() { return exerciceId; }
-    public void setExerciceId(Long exerciceId) { this.exerciceId = exerciceId; }
+    public void setMuscleId(Long presetSeanceId) {
+        this.presetSeanceId = presetSeanceId;
+    }
 
+    public Long getExerciceId() {
+        return exerciceId;
+    }
+
+    public void setExerciceId(Long exerciceId) {
+        this.exerciceId = exerciceId;
+    }
 
     @Override
     public boolean equals(Object o) {
-        if (this == o) return true;
-        if (!(o instanceof PresetSeanceExerciceId)) return false;
+        if (this == o)
+            return true;
+        if (!(o instanceof PresetSeanceExerciceId))
+            return false;
         PresetSeanceExerciceId that = (PresetSeanceExerciceId) o;
         return Objects.equals(presetSeanceId, that.presetSeanceId) &&
-               Objects.equals(exerciceId, that.exerciceId);
+                Objects.equals(exerciceId, that.exerciceId);
     }
 
     @Override

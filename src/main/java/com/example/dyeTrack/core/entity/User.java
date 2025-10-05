@@ -1,7 +1,6 @@
 package com.example.dyeTrack.core.entity;
 
 import java.sql.Date;
-import java.time.LocalDate;
 import java.util.List;
 
 import jakarta.persistence.Entity;
@@ -49,7 +48,8 @@ public class User {
         this.pseudo = pseudo;
     }
 
-    public User(String pseudo, String email, String password, Date dateRegister,Date dateNaissance, Integer taille, Boolean sexeMale) {
+    public User(String pseudo, String email, String password, Date dateRegister, Date dateNaissance, Integer taille,
+            Boolean sexeMale) {
         this.pseudo = pseudo;
         this.email = email;
         this.password = password;

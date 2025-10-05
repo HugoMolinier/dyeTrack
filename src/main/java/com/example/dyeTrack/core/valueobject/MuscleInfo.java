@@ -1,18 +1,17 @@
 package com.example.dyeTrack.core.valueobject;
 
-
 import jakarta.persistence.Embeddable;
 
 @Embeddable
 public class MuscleInfo extends IDNameValue {
 
-    private boolean principal = true; // valeur par défaut
+    private boolean principal = true;
 
+    public MuscleInfo() {
+    }
 
-    public MuscleInfo() {}
-
-    public MuscleInfo(Long idMuscle, boolean principal,String nameFR, String nameEN) {
-        super(idMuscle,nameFR,nameEN);
+    public MuscleInfo(Long idMuscle, boolean principal, String nameFR, String nameEN) {
+        super(idMuscle, nameFR, nameEN);
         this.principal = principal;
     }
 

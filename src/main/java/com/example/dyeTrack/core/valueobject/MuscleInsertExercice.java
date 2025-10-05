@@ -7,9 +7,10 @@ public class MuscleInsertExercice {
 
     private Long idMuscle;
 
-    private boolean principal = true; // par défaut true
+    private boolean principal = true;
 
-    public MuscleInsertExercice() {}
+    public MuscleInsertExercice() {
+    }
 
     public MuscleInsertExercice(Long idMuscle, boolean principal) {
         this.idMuscle = idMuscle;

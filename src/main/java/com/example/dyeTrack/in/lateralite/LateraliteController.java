@@ -14,12 +14,12 @@ import com.example.dyeTrack.core.service.LateraliteService;
 public class LateraliteController {
     private LateraliteService service;
 
-    public LateraliteController(LateraliteService service){
+    public LateraliteController(LateraliteService service) {
         this.service = service;
     }
 
     @GetMapping("/")
     public List<Lateralite> getAll() {
-       return service.getAll();
+        return service.getAll();
     }
 }

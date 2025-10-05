@@ -14,12 +14,12 @@ import com.example.dyeTrack.core.service.GroupeMusculaireService;
 public class GroupeMusculaireController {
     private GroupeMusculaireService service;
 
-    public GroupeMusculaireController(GroupeMusculaireService service){
+    public GroupeMusculaireController(GroupeMusculaireService service) {
         this.service = service;
     }
 
     @GetMapping("/")
     public List<GroupeMusculaire> getAll() {
-       return service.getAll();
+        return service.getAll();
     }
 }

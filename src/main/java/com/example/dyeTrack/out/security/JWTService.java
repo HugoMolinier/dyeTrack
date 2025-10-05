@@ -1,6 +1,5 @@
 package com.example.dyeTrack.out.security;
 
-
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
@@ -20,7 +19,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 @Service
-public class JWTService implements JwtServicePort  {
+public class JWTService implements JwtServicePort {
 
     private final String secretKey;
 
@@ -28,8 +27,9 @@ public class JWTService implements JwtServicePort  {
         this.secretKey = secretKey;
     }
 
- /**
+    /**
      * Génère un token JWT contenant uniquement l'id de l'utilisateur.
+     * 
      * @param userId l'identifiant unique de l'utilisateur
      * @return le JWT en String
      */

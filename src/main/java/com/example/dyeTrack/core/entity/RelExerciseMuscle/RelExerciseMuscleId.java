@@ -10,7 +10,8 @@ public class RelExerciseMuscleId implements Serializable {
     private Long muscleId;
     private Long exerciceId;
 
-    public RelExerciseMuscleId() {}
+    public RelExerciseMuscleId() {
+    }
 
     public RelExerciseMuscleId(Long muscleId, Long exerciceId) {
         this.muscleId = muscleId;
@@ -18,20 +19,31 @@ public class RelExerciseMuscleId implements Serializable {
     }
 
     // getters et setters
-    public Long getMuscleId() { return muscleId; }
-    public void setMuscleId(Long muscleId) { this.muscleId = muscleId; }
+    public Long getMuscleId() {
+        return muscleId;
+    }
 
-    public Long getExerciceId() { return exerciceId; }
-    public void setExerciceId(Long exerciceId) { this.exerciceId = exerciceId; }
+    public void setMuscleId(Long muscleId) {
+        this.muscleId = muscleId;
+    }
 
-    // hashCode et equals obligatoires
+    public Long getExerciceId() {
+        return exerciceId;
+    }
+
+    public void setExerciceId(Long exerciceId) {
+        this.exerciceId = exerciceId;
+    }
+
     @Override
     public boolean equals(Object o) {
-        if (this == o) return true;
-        if (!(o instanceof RelExerciseMuscleId)) return false;
+        if (this == o)
+            return true;
+        if (!(o instanceof RelExerciseMuscleId))
+            return false;
         RelExerciseMuscleId that = (RelExerciseMuscleId) o;
         return Objects.equals(muscleId, that.muscleId) &&
-               Objects.equals(exerciceId, that.exerciceId);
+                Objects.equals(exerciceId, that.exerciceId);
     }
 
     @Override

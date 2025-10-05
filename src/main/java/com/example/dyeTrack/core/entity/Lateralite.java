@@ -13,34 +13,35 @@ public class Lateralite {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-
     @NotBlank
     private String nomFR;
 
     @NotBlank
     private String nomEN;
-    
-    
 
-    public Lateralite(String nomFR,String nomEN ){
+    public Lateralite(String nomFR, String nomEN) {
         this.nomFR = nomFR;
         this.nomEN = nomEN;
     }
-    protected Lateralite() {}
 
-    public Long getId(){
+    protected Lateralite() {
+    }
+
+    public Long getId() {
         return id;
     }
-    public String getNomFR(){
+
+    public String getNomFR() {
         return nomFR;
     }
-    public String getNomEN(){
+
+    public String getNomEN() {
         return nomEN;
     }
 
     @Override
-   public String toString() {
-       return "id " + this.id +
-	  " : nomFR " + this.nomFR ;
-   }
+    public String toString() {
+        return "id " + this.id +
+                " : nomFR " + this.nomFR;
+    }
 }

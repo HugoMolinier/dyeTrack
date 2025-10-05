@@ -42,11 +42,12 @@ public class PresetSeanceExercice {
     private Equipement equipement;
 
     // --- Constructeurs ---
-    public PresetSeanceExercice() {}
+    public PresetSeanceExercice() {
+    }
 
     public PresetSeanceExercice(PresetSeance presetSeance, Exercise exercice,
-                                String parameter, Integer rangeRepInf, Integer rangeRepSup,
-                                Integer orderExercice, Lateralite lateralite, Equipement equipement) {
+            String parameter, Integer rangeRepInf, Integer rangeRepSup,
+            Integer orderExercice, Lateralite lateralite, Equipement equipement) {
         this.presetSeance = presetSeance;
         this.exercice = exercice;
         this.id = new PresetSeanceExerciceId(presetSeance.getIdPresetSeance(), exercice.getIdExercise());
@@ -70,8 +71,6 @@ public class PresetSeanceExercice {
     public PresetSeance getPresetSeance() {
         return presetSeance;
     }
-
-
 
     public Exercise getExercice() {
         return exercice;

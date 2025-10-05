@@ -35,15 +35,14 @@ public class Exercise {
     private String linkVideo;
 
     @ManyToOne
-    @JoinColumn(name = "idCreator", nullable = true)//si null c'est que c'est admin add
-    private User user;    
+    @JoinColumn(name = "idCreator", nullable = true) // si null c'est que c'est admin add
+    private User user;
 
     @OneToMany(mappedBy = "exercice", cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.LAZY)
     private List<RelExerciseMuscle> relExerciseMuscles = new ArrayList<>();
 
     @OneToMany(mappedBy = "exercice", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<PresetSeanceExercice> presetSeanceExercices = new ArrayList<>();
-
 
     public List<RelExerciseMuscle> getRelExerciseMuscles() {
         return relExerciseMuscles;
@@ -67,42 +66,42 @@ public class Exercise {
         this.user = user;
     }
 
-
-    public Long getIdExercise(){
+    public Long getIdExercise() {
         return idExercise;
     }
 
-    public String getNameFR(){
+    public String getNameFR() {
         return nameFR;
     }
 
-    public String getDescription(){
+    public String getDescription() {
         return description;
     }
 
-    public String getLinkVideo(){
+    public String getLinkVideo() {
         return linkVideo;
     }
 
-    public void setLinkVideo(String link){
-        this.linkVideo=link;
+    public void setLinkVideo(String link) {
+        this.linkVideo = link;
     }
 
-    public User getUser(){
+    public User getUser() {
         return user;
     }
-    
-    public void setDescription(String newDescription){
+
+    public void setDescription(String newDescription) {
         this.description = newDescription;
     }
-    public void setNameFR(String newNameFR){
+
+    public void setNameFR(String newNameFR) {
         this.nameFR = newNameFR;
     }
 
     @Override
-   public String toString() {
-       return "idExercise" + this.idExercise +
-	  " : nameFR " + this.nameFR +
-	  ", user " + this.user;
-   }
+    public String toString() {
+        return "idExercise" + this.idExercise +
+                " : nameFR " + this.nameFR +
+                ", user " + this.user;
+    }
 }

@@ -8,23 +8,20 @@ import com.example.dyeTrack.core.entity.PresetSeanceExercice.PresetSeanceExercic
 import com.example.dyeTrack.core.port.out.PresetSeanceExercicePort;
 
 @Component
-public class PresetSeanceExerciceAdapter implements PresetSeanceExercicePort{
+public class PresetSeanceExerciceAdapter implements PresetSeanceExercicePort {
     private final PresetSeanceExerciceRepository presetSeanceExerciceRepository;
 
-    public PresetSeanceExerciceAdapter(PresetSeanceExerciceRepository presetSeanceExerciceRepository){
+    public PresetSeanceExerciceAdapter(PresetSeanceExerciceRepository presetSeanceExerciceRepository) {
         this.presetSeanceExerciceRepository = presetSeanceExerciceRepository;
     }
 
-    public void saveAll(List<PresetSeanceExercice> relation){
+    public void saveAll(List<PresetSeanceExercice> relation) {
         presetSeanceExerciceRepository.saveAll(relation);
     }
 
-
-    public void deleteByPresetId(Long idPreset){
+    public void deleteByPresetId(Long idPreset) {
         presetSeanceExerciceRepository.deleteByPresetId(idPreset);
 
     }
 
-
-    
 }

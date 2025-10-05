@@ -1,12 +1,10 @@
 package com.example.dyeTrack.core.valueobject;
 
-
 import jakarta.persistence.Embeddable;
 import jakarta.validation.constraints.NotNull;
 
 @Embeddable
 public class IDNameValue {
-    
 
     @NotNull
     private Long id;
@@ -15,9 +13,10 @@ public class IDNameValue {
 
     private String nameEN;
 
-    public IDNameValue() {}
+    public IDNameValue() {
+    }
 
-    public IDNameValue(Long id,String nameFR, String nameEN) {
+    public IDNameValue(Long id, String nameFR, String nameEN) {
         this.id = id;
         this.nameFR = nameFR;
         this.nameEN = nameEN;
@@ -32,22 +31,20 @@ public class IDNameValue {
         this.id = id;
     }
 
-    public String getNameFR(){
+    public String getNameFR() {
         return nameFR;
     }
 
-    
-    public String getNameEN(){
+    public String getNameEN() {
         return nameEN;
     }
 
-    public void setNameEN(String newNameEN){
-        this.nameEN =newNameEN;
-    }
-    public void setNameFR(String newNameFR){
-        this.nameFR =newNameFR;
+    public void setNameEN(String newNameEN) {
+        this.nameEN = newNameEN;
     }
 
-
+    public void setNameFR(String newNameFR) {
+        this.nameFR = newNameFR;
+    }
 
 }

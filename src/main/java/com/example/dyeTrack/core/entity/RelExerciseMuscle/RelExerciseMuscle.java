@@ -12,18 +12,19 @@ public class RelExerciseMuscle {
     private RelExerciseMuscleId id = new RelExerciseMuscleId();
 
     @ManyToOne
-    @MapsId("muscleId") // correspond au champ muscleId dans RelExerciseMuscleId
+    @MapsId("muscleId")
     @JoinColumn(name = "muscle_id")
     private Muscle muscle;
 
     @ManyToOne
-    @MapsId("exerciceId") // correspond au champ exerciceId dans RelExerciseMuscleId
+    @MapsId("exerciceId")
     @JoinColumn(name = "exercice_id")
     private Exercise exercice;
 
-    private boolean principal; // true = muscle principal, false = secondaire
+    private boolean principal;
 
-    public RelExerciseMuscle() {}
+    public RelExerciseMuscle() {
+    }
 
     public RelExerciseMuscle(Muscle muscle, Exercise exercice, boolean principal) {
         this.muscle = muscle;
@@ -32,24 +33,43 @@ public class RelExerciseMuscle {
         this.principal = principal;
     }
 
-
     // getters & setters
-    public RelExerciseMuscleId getId() { return id; }
-    public void setId(RelExerciseMuscleId id) { this.id = id; }
+    public RelExerciseMuscleId getId() {
+        return id;
+    }
 
-    public Muscle getMuscle() { return muscle; }
-    public void setMuscle(Muscle muscle) { this.muscle = muscle; }
+    public void setId(RelExerciseMuscleId id) {
+        this.id = id;
+    }
 
-    public Exercise getExercice() { return exercice; }
-    public void setExercice(Exercise exercice) { this.exercice = exercice; }
+    public Muscle getMuscle() {
+        return muscle;
+    }
 
-    public boolean isPrincipal() { return principal; }
-    public void setPrincipal(boolean principal) { this.principal = principal; }
+    public void setMuscle(Muscle muscle) {
+        this.muscle = muscle;
+    }
+
+    public Exercise getExercice() {
+        return exercice;
+    }
+
+    public void setExercice(Exercise exercice) {
+        this.exercice = exercice;
+    }
+
+    public boolean isPrincipal() {
+        return principal;
+    }
+
+    public void setPrincipal(boolean principal) {
+        this.principal = principal;
+    }
 
     public String toString() {
-       return "RelExerciseMuscleId" + this.id +
-	  " : muscle (" + this.muscle+ ")" +
-	  ", exercice(" + this.exercice +")" +
-        ", principal " + this.principal;
-   }
+        return "RelExerciseMuscleId" + this.id +
+                " : muscle (" + this.muscle + ")" +
+                ", exercice(" + this.exercice + ")" +
+                ", principal " + this.principal;
+    }
 }

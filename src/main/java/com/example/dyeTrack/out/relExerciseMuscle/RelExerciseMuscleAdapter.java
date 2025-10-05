@@ -8,23 +8,20 @@ import com.example.dyeTrack.core.entity.RelExerciseMuscle.RelExerciseMuscle;
 import com.example.dyeTrack.core.port.out.RelExerciseMusclePort;
 
 @Component
-public class RelExerciseMuscleAdapter implements RelExerciseMusclePort{
+public class RelExerciseMuscleAdapter implements RelExerciseMusclePort {
     private final RelExerciseMuscleRepository relExerciseMuscleRepository;
 
-    public RelExerciseMuscleAdapter(RelExerciseMuscleRepository relExerciseMuscleRepository){
+    public RelExerciseMuscleAdapter(RelExerciseMuscleRepository relExerciseMuscleRepository) {
         this.relExerciseMuscleRepository = relExerciseMuscleRepository;
     }
 
-    public void saveAll(List<RelExerciseMuscle> relation){
+    public void saveAll(List<RelExerciseMuscle> relation) {
         relExerciseMuscleRepository.saveAll(relation);
     }
 
-
-    public void deleteByExerciceId(Long idExercice){
+    public void deleteByExerciceId(Long idExercice) {
         relExerciseMuscleRepository.deleteByExerciseId(idExercice);
 
     }
 
-
-    
 }

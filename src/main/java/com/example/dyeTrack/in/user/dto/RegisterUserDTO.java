@@ -13,8 +13,6 @@ public class RegisterUserDTO extends LoginUserDTO {
     @NotBlank(message = "Pseudo is required")
     private String pseudo;
 
-
-
     @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd")
     private LocalDate dateNaissance;
 
@@ -24,16 +22,35 @@ public class RegisterUserDTO extends LoginUserDTO {
     private Boolean sexeMale;
 
     // Getters et setters
-    public String getPseudo() { return pseudo; }
-    public void setPseudo(String pseudo) { this.pseudo = pseudo; }
+    public String getPseudo() {
+        return pseudo;
+    }
 
+    public void setPseudo(String pseudo) {
+        this.pseudo = pseudo;
+    }
 
-    public LocalDate getDateNaissance() { return dateNaissance; }
-    public void setDateNaissance(LocalDate dateNaissance) { this.dateNaissance = dateNaissance; }
+    public LocalDate getDateNaissance() {
+        return dateNaissance;
+    }
 
-    public Integer getTaille() { return taille; }
-    public void setTaille(Integer taille) { this.taille = taille; }
+    public void setDateNaissance(LocalDate dateNaissance) {
+        this.dateNaissance = dateNaissance;
+    }
 
-    public Boolean getSexeMale() { return sexeMale; }
-    public void setSexeMale(Boolean sexeMale) { this.sexeMale = sexeMale; }
+    public Integer getTaille() {
+        return taille;
+    }
+
+    public void setTaille(Integer taille) {
+        this.taille = taille;
+    }
+
+    public Boolean getSexeMale() {
+        return sexeMale;
+    }
+
+    public void setSexeMale(Boolean sexeMale) {
+        this.sexeMale = sexeMale;
+    }
 }

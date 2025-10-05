@@ -6,6 +6,7 @@ import com.example.dyeTrack.core.entity.Equipement;
 
 public interface EquipementPort {
     List<Equipement> getAll();
+
     void save(Equipement equipement);
-    
+
 }

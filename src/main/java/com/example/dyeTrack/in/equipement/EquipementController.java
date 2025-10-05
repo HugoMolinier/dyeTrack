@@ -14,12 +14,12 @@ import com.example.dyeTrack.core.service.EquipementService;
 public class EquipementController {
     private EquipementService service;
 
-    public EquipementController(EquipementService service){
+    public EquipementController(EquipementService service) {
         this.service = service;
     }
 
     @GetMapping("/")
     public List<Equipement> getAll() {
-       return service.getAll();
+        return service.getAll();
     }
 }

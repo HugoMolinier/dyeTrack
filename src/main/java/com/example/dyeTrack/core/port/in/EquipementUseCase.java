@@ -5,5 +5,5 @@ import java.util.List;
 import com.example.dyeTrack.core.entity.Equipement;
 
 public interface EquipementUseCase {
-    List<Equipement> getAll();    
+    List<Equipement> getAll();
 }

@@ -8,13 +8,11 @@ import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
 import jakarta.validation.constraints.NotBlank;
 
-
 @Entity
 public class Muscle {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id; 
-
+    private Long id;
 
     @NotBlank
     private String nameFR;
@@ -27,33 +25,35 @@ public class Muscle {
     @JoinColumn(name = "groupe_musculaire_id", nullable = false)
     private GroupeMusculaire groupeMusculaire;
 
-    public Muscle(String nameFR,String nameEN, GroupeMusculaire groupeMusculaire){
+    public Muscle(String nameFR, String nameEN, GroupeMusculaire groupeMusculaire) {
         this.nameFR = nameFR;
         this.nameEN = nameEN;
         this.groupeMusculaire = groupeMusculaire;
     }
-    protected Muscle() {}  //Pour Hibernate
 
-    
-    public Long getId(){
+    protected Muscle() {
+    } // Pour Hibernate
+
+    public Long getId() {
         return id;
     }
-    public String getNameFR(){
+
+    public String getNameFR() {
         return nameFR;
     }
-    public String getNameEN(){
+
+    public String getNameEN() {
         return nameEN;
     }
 
-
-    public GroupeMusculaire getGroupeMusculaire(){
+    public GroupeMusculaire getGroupeMusculaire() {
         return groupeMusculaire;
     }
 
     @Override
     public String toString() {
-       return "nameFR" + this.nameFR +
-	  " : id " + this.id +
-	  ", groupeMusculair( " + this.groupeMusculaire+")";
-   }
+        return "nameFR" + this.nameFR +
+                " : id " + this.id +
+                ", groupeMusculair( " + this.groupeMusculaire + ")";
+    }
 }

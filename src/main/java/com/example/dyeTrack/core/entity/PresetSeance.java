@@ -4,7 +4,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 import com.example.dyeTrack.core.entity.PresetSeanceExercice.PresetSeanceExercice;
-import com.example.dyeTrack.core.entity.RelExerciseMuscle.RelExerciseMuscle;
 
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Entity;
@@ -28,7 +27,7 @@ public class PresetSeance {
 
     @ManyToOne
     @JoinColumn(name = "idCreator", nullable = false)
-    private User user;    
+    private User user;
 
     @OneToMany(mappedBy = "presetSeance", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<PresetSeanceExercice> presetSeanceExercices = new ArrayList<>();
@@ -36,13 +35,14 @@ public class PresetSeance {
     public List<PresetSeanceExercice> getPresetSeanceExercice() {
         return presetSeanceExercices;
     }
-    public PresetSeance() {}
+
+    public PresetSeance() {
+    }
 
     public PresetSeance(String name, User user) {
         this.name = name;
         this.user = user;
     }
-
 
     public Long getIdPresetSeance() {
         return idPresetSeance;
@@ -67,5 +67,5 @@ public class PresetSeance {
     public void setUser(User user) {
         this.user = user;
     }
-    
+
 }

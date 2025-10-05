@@ -1,11 +1,6 @@
 package com.example.dyeTrack.in.exercise.dto;
 
-
-
 import com.example.dyeTrack.core.entity.Exercise;
-
-
-
 
 public class ExerciceLightReturnDTO implements ExerciceReturnDTO {
 
@@ -27,13 +22,12 @@ public class ExerciceLightReturnDTO implements ExerciceReturnDTO {
     }
 
     public ExerciceLightReturnDTO(Exercise exercise) {
-        this.idExercice =exercise.getIdExercise();
+        this.idExercice = exercise.getIdExercise();
         this.nameFR = exercise.getNameFR();
         this.description = exercise.getDescription();
         this.linkVideo = exercise.getLinkVideo();
-        this.idCreator = exercise.getUser() !=null ? exercise.getUser().getId() : null;
+        this.idCreator = exercise.getUser() != null ? exercise.getUser().getId() : null;
     }
-
 
     public Long getIdExercice() {
         return idExercice;

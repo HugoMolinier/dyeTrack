@@ -6,5 +6,6 @@ import com.example.dyeTrack.core.entity.PresetSeanceExercice.PresetSeanceExercic
 
 public interface PresetSeanceExercicePort {
     void saveAll(List<PresetSeanceExercice> presetSeanceExercices);
+
     void deleteByPresetId(Long idPreset);
 }

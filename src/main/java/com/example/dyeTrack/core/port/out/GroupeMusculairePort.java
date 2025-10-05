@@ -6,6 +6,7 @@ import com.example.dyeTrack.core.entity.GroupeMusculaire;
 
 public interface GroupeMusculairePort {
     List<GroupeMusculaire> getAll();
+
     void save(GroupeMusculaire nomGroupeMusculaire);
-    
+
 }
