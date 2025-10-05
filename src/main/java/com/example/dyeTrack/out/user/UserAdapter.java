@@ -1,7 +1,4 @@
 package com.example.dyeTrack.out.user;
-
-import java.util.List;
-
 import org.springframework.stereotype.Component;
 
 import com.example.dyeTrack.core.entity.User;
@@ -21,9 +18,18 @@ public class UserAdapter implements UserPort {
 
     }
 
-    public List<User> getAll(){
-        return userRepository.findAll();
+    public User save(User user){
+        return userRepository.save(user);
 
+    }
+
+    public User update(User user){
+        return userRepository.save(user);
+
+    }
+
+    public User findByMailHashed(String hashedEmail){
+        return userRepository.findByEmail(hashedEmail).orElse(null);
     }
     
 }

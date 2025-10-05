@@ -1,10 +1,9 @@
 package com.example.dyeTrack.core.port.out;
-
-import java.util.List;
-
 import com.example.dyeTrack.core.entity.User;
 
 public interface UserPort {
     User get(Long id);
-    List<User> getAll();
+    User save(User user);
+    User findByMailHashed(String email);
+    User update(User user);
 }

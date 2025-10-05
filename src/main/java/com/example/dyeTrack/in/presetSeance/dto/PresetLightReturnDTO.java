@@ -2,9 +2,6 @@ package com.example.dyeTrack.in.presetSeance.dto;
 
 import com.example.dyeTrack.core.entity.PresetSeance;
 
-
-
-
 public class PresetLightReturnDTO implements PresetReturnDTO {
 
     private Long idPresetSeance;
@@ -20,10 +17,9 @@ public class PresetLightReturnDTO implements PresetReturnDTO {
     }
 
     public PresetLightReturnDTO(PresetSeance presetSeance) {
-        this.idPresetSeance =presetSeance.getIdPresetSeance();
+        this.idPresetSeance = presetSeance.getIdPresetSeance();
         this.name = presetSeance.getName();
     }
-
 
     public Long getIdPreset() {
         return idPresetSeance;
@@ -40,7 +36,5 @@ public class PresetLightReturnDTO implements PresetReturnDTO {
     public void setName(String name) {
         this.name = name;
     }
-
-
 
 }

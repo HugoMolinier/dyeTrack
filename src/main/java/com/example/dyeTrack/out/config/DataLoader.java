@@ -49,7 +49,6 @@ public class DataLoader implements CommandLineRunner {
 
     private void addData(){
 
-        userRepository.save(new User("hugo For test"));
     doTheSaveLateralite("Bilatéral", "Bilateral");
     doTheSaveLateralite("Unilatéral", "Unilateral");
     doTheSaveLateralite("Alterné", "Alternated");
