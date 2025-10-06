@@ -31,3 +31,8 @@ build/
 
 ### VS Code ###
 .vscode/
+
+
+# Fichier de configuration Spring Boot
+application.properties
+application-test.properties

@@ -5,15 +5,16 @@ import com.example.dyeTrack.core.entity.User;
 
 public class UserDTO {
 
-    private final Long id;
-    private final String pseudo;
-    private final Date dateRegister;
-    private final Date dateNaissance;
+    private Long id;
+    private String pseudo;
+    private Date dateRegister;
+    private Date dateNaissance;
+    private Integer taille;
+    private Boolean sexeMale;
 
-    private final Integer taille;
-    private final Boolean sexeMale;
+    public UserDTO() {
+    }
 
-    // Constructeur principal
     public UserDTO(Long id, String pseudo, Date dateRegister, Date dateNaissance, Integer taille, Boolean sexeMale) {
         this.id = id;
         this.pseudo = pseudo;

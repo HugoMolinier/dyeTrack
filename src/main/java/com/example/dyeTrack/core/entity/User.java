@@ -8,9 +8,11 @@ import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.OneToMany;
+import jakarta.persistence.Table;
 import jakarta.validation.constraints.NotBlank;
 
 @Entity
+@Table(name = "\"user\"")
 public class User {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -39,13 +41,10 @@ public class User {
     public User() {
     }
 
-    public User(Long id, String pseudo) {
-        this.id = id;
+    public User(String pseudo, String email, String password) {
         this.pseudo = pseudo;
-    }
-
-    public User(String pseudo) {
-        this.pseudo = pseudo;
+        this.email = email;
+        this.password = password;
     }
 
     public User(String pseudo, String email, String password, Date dateRegister, Date dateNaissance, Integer taille,

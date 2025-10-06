@@ -59,8 +59,10 @@ public class UserController {
     @PostMapping("/register")
     @Operation(summary = "User registration", description = "Allows a new user to register and receive a JWT token")
     public ReturnUserTokenDTO register(@RequestBody @Valid RegisterUserDTO dto) {
+
         return new ReturnUserTokenDTO(service.save(dto.getPseudo(), dto.getEmail(), dto.getPassword(),
                 dto.getDateNaissance(), dto.getTaille(), dto.getSexeMale()));
+
     }
 
 }

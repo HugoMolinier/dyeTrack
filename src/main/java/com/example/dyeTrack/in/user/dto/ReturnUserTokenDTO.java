@@ -4,8 +4,8 @@ import com.example.dyeTrack.core.valueobject.AuthValue;
 
 public class ReturnUserTokenDTO {
 
-    private final UserDTO userDTO;
-    private final String token;
+    private UserDTO userDTO;
+    private String token;
 
     // Constructeur principa
     public ReturnUserTokenDTO(UserDTO userDTO, String token) {
@@ -16,6 +16,9 @@ public class ReturnUserTokenDTO {
     public ReturnUserTokenDTO(AuthValue authValue) {
         this.token = authValue.getToken();
         this.userDTO = new UserDTO(authValue.getUser());
+    }
+
+    public ReturnUserTokenDTO() {
     }
 
     // Getters

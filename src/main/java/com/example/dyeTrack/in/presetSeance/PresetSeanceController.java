@@ -95,7 +95,7 @@ public class PresetSeanceController {
     @Operation(summary = "Update a Preset of user", description = "Accessible only if a valid JWT is provided and corresponds to the user")
     public ResponseEntity<String> update(@PathVariable Long id,
             @RequestParam String newName,
-            @RequestBody @Valid List<PresetSeanceExercice> infoExerciePreset,
+            @RequestBody @Valid List<PresetSeanceExerciceVO> infoExerciePreset,
             HttpServletRequest request) {
         Long idTokenUser = SecurityUtil.getUserIdFromContext();
 

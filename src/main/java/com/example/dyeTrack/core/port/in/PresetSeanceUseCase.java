@@ -3,7 +3,6 @@ package com.example.dyeTrack.core.port.in;
 import java.util.List;
 
 import com.example.dyeTrack.core.entity.PresetSeance;
-import com.example.dyeTrack.core.entity.PresetSeanceExercice.PresetSeanceExercice;
 import com.example.dyeTrack.core.valueobject.PresetSeanceExerciceVO;
 
 public interface PresetSeanceUseCase {
@@ -14,7 +13,7 @@ public interface PresetSeanceUseCase {
     PresetSeance getById(Long idPreset, Long idUser);
 
     PresetSeance update(Long idPreset, Long idUserQuiModifie, String newName,
-            List<PresetSeanceExercice> relExerciseMuscles);
+            List<PresetSeanceExerciceVO> relExerciseMuscles);
 
     void delete(Long idpresetSeance, Long idUserQuiDelete);
 }

@@ -54,12 +54,12 @@ public class PresetSeanceService implements PresetSeanceUseCase {
         PresetSeance presetSeance = presetSeancePort.save(new PresetSeance(name, user));
 
         // do relExerciceMuscle
-
-        int index = 1;
-        List<Equipement> equipements = equipementPort.getAll();
-        List<Lateralite> lateralites = lateralitePort.getAll();
         List<PresetSeanceExercice> listExerciceToAdd = new ArrayList<PresetSeanceExercice>();
         if (presetSeanceExercice != null && !presetSeanceExercice.isEmpty()) {
+
+            int index = 1;
+            List<Equipement> equipements = equipementPort.getAll();
+            List<Lateralite> lateralites = lateralitePort.getAll();
             for (PresetSeanceExerciceVO presetSeanceExerciceVO : presetSeanceExercice) {
                 Long idExercice = presetSeanceExerciceVO.getIdExercice();
                 Long idLateralite = presetSeanceExerciceVO.getIdLateralite();
@@ -111,7 +111,7 @@ public class PresetSeanceService implements PresetSeanceUseCase {
     }
 
     public PresetSeance update(Long idPreset, Long idUserQuiModifie, String newName,
-            List<PresetSeanceExercice> relExerciseMuscles) {
+            List<PresetSeanceExerciceVO> presetSeanceExercice) {
         if (idPreset == null)
             throw new ForbiddenException("idPreset empty");
         PresetSeance presetSeance = presetSeancePort.getById(idPreset);
@@ -126,6 +126,45 @@ public class PresetSeanceService implements PresetSeanceUseCase {
         }
 
         // gestion relExerciceMuscles a faire
+        List<PresetSeanceExercice> listExerciceToAdd = new ArrayList<PresetSeanceExercice>();
+        if (presetSeanceExercice != null && !presetSeanceExercice.isEmpty()) {
+            presetSeanceExercicePort.deleteByPresetId(idPreset);
+            int index = 1;
+            List<Equipement> equipements = equipementPort.getAll();
+            List<Lateralite> lateralites = lateralitePort.getAll();
+            for (PresetSeanceExerciceVO presetSeanceExerciceVO : presetSeanceExercice) {
+                Long idExercice = presetSeanceExerciceVO.getIdExercice();
+                Long idLateralite = presetSeanceExerciceVO.getIdLateralite();
+                Long idEquipement = presetSeanceExerciceVO.getIdEquipement();
+
+                Exercise exercice = exercisePort.getByIdExercise(idExercice);
+                if (exercice == null) {
+                    throw new IllegalArgumentException("Exercice ID " + idExercice + " invalide");
+                }
+
+                Lateralite lateralite = lateralites.stream()
+                        .filter(l -> l.getId().equals(idLateralite))
+                        .findFirst()
+                        .orElseThrow(() -> new IllegalArgumentException("Lateralite ID " + idLateralite + " invalide"));
+
+                Equipement equipement = equipements.stream()
+                        .filter(eq -> eq.getId().equals(idEquipement))
+                        .findFirst()
+                        .orElseThrow(() -> new IllegalArgumentException("Equipement ID " + idEquipement + " invalide"));
+
+                listExerciceToAdd.add(new PresetSeanceExercice(
+                        presetSeance,
+                        exercice,
+                        presetSeanceExerciceVO.getParameter(),
+                        presetSeanceExerciceVO.getRangeRepInf(),
+                        presetSeanceExerciceVO.getRangeRepSup(),
+                        index,
+                        lateralite,
+                        equipement));
+                index++;
+            }
+            presetSeanceExercicePort.saveAll(listExerciceToAdd);
+        }
 
         return presetSeance;
     }
