@@ -35,79 +35,107 @@ public class UserService implements UserUseCase {
         this.jwtService = jwtService;
     }
 
+    @Override
     public User get(Long id) {
         return userPort.get(id);
     }
 
     @Transactional
-    public AuthValue save(String pseudo, String email, String password, LocalDate dateNaissance, Integer taille,
-            Boolean sexeMale) {
-        if (pseudo == null || pseudo.isBlank())
-            throw new ForbiddenException("pseudo empty");
-        if (email == null || email.isBlank())
-            throw new ForbiddenException("email empty");
-        if (password == null || password.isBlank())
-            throw new ForbiddenException("password empty");
-        if (taille != null && (taille < 50 || taille > 300))
-            throw new ForbiddenException("taille Not realistic");
+    @Override
+    public AuthValue save(String pseudo, String email, String password, LocalDate dateNaissance,
+            Integer taille, Boolean sexeMale) {
+        validateNewUserInputs(pseudo, email, password, taille);
 
-        String emailRegex = "^[A-Za-z0-9+_.-]+@[A-Za-z0-9.-]+$";
-        if (!Pattern.matches(emailRegex, email)) {
-            throw new ForbiddenException("email format invalid");
-        }
         String hashedEmail = HashUtil.hashEmail(email, emailSecretKey);
-        User userVerif = userPort.findByMailHashed(hashedEmail);
-        if (userVerif != null)
+        if (userPort.findByMailHashed(hashedEmail) != null) {
             throw new ForbiddenException("Email déjà utilisé : " + email);
-        String hashedPassword = passwordEncoder.encode(password);
-        java.sql.Date sqlDateNaissance = dateNaissance != null ? java.sql.Date.valueOf(dateNaissance) : null;
+        }
 
-        User user = userPort.save(new User(pseudo, hashedEmail, hashedPassword, new Date(System.currentTimeMillis()),
-                sqlDateNaissance, taille, sexeMale));
+        User user = new User(
+                pseudo,
+                hashedEmail,
+                passwordEncoder.encode(password),
+                new Date(System.currentTimeMillis()),
+                dateNaissance != null ? Date.valueOf(dateNaissance) : null,
+                taille,
+                sexeMale);
+
+        user = userPort.save(user);
         return new AuthValue(jwtService.generateToken(user.getId()), user);
     }
 
     @Transactional
+    @Override
     public AuthValue login(String email, String password) {
-        if (email == null)
-            throw new ForbiddenException("email empty");
-        if (password == null)
-            throw new ForbiddenException("password empty");
-        if (email == null || email.isBlank())
-            throw new ForbiddenException("email empty");
-        if (password == null || password.isBlank())
-            throw new ForbiddenException("password empty");
+        if (isBlank(email) || isBlank(password)) {
+            throw new ForbiddenException("Email ou mot de passe vide");
+        }
+
         String hashedEmail = HashUtil.hashEmail(email, emailSecretKey);
         User user = userPort.findByMailHashed(hashedEmail);
-        if (user == null || !passwordEncoder.matches(password, user.getPassword()))
-            throw new ForbiddenException("wrong password or email");
+
+        if (user == null || !passwordEncoder.matches(password, user.getPassword())) {
+            throw new ForbiddenException("Email ou mot de passe incorrect");
+        }
+
         return new AuthValue(jwtService.generateToken(user.getId()), user);
     }
 
+    @Transactional
+    @Override
     public User update(Long idTokenUser, Long idUser, String pseudo, String password,
             LocalDate dateNaissance, Integer taille, Boolean sexeMale) {
-        if (!idTokenUser.equals(idUser))
+
+        if (!idTokenUser.equals(idUser)) {
             throw new ForbiddenException("Not same user");
+        }
 
         User user = userPort.get(idUser);
-        if (user == null)
-            throw new ForbiddenException("User not found");
-        if (pseudo != null && !pseudo.isBlank())
+
+        if (!isBlank(pseudo))
             user.setPseudo(pseudo);
-        if (password != null && !password.isBlank())
+        if (!isBlank(password))
             user.setPassword(passwordEncoder.encode(password));
         if (dateNaissance != null)
-            user.setDateNaissance(java.sql.Date.valueOf(dateNaissance));
+            user.setDateNaissance(Date.valueOf(dateNaissance));
 
         if (taille != null) {
-            if (taille < 50 || taille > 300) {
-                throw new ForbiddenException("taille not realistic");
-            }
+            validateTaille(taille);
             user.setTaille(taille);
         }
+
         if (sexeMale != null)
             user.setSexeMale(sexeMale);
+
         return userPort.save(user);
     }
 
+    /* --- Private helpers --- */
+
+    private void validateNewUserInputs(String pseudo, String email, String password, Integer taille) {
+        if (isBlank(pseudo))
+            throw new ForbiddenException("Pseudo vide");
+        if (isBlank(email))
+            throw new ForbiddenException("Email vide");
+        if (isBlank(password))
+            throw new ForbiddenException("Mot de passe vide");
+        validateEmailFormat(email);
+        if (taille != null)
+            validateTaille(taille);
+    }
+
+    private void validateEmailFormat(String email) {
+        String regex = "^[A-Za-z0-9+_.-]+@[A-Za-z0-9.-]+$";
+        if (!Pattern.matches(regex, email))
+            throw new ForbiddenException("Email format invalid");
+    }
+
+    private void validateTaille(Integer taille) {
+        if (taille < 50 || taille > 300)
+            throw new ForbiddenException("Taille non réaliste");
+    }
+
+    private boolean isBlank(String str) {
+        return str == null || str.isBlank();
+    }
 }

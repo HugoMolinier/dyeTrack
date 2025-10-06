@@ -3,6 +3,7 @@ package com.example.dyeTrack.in.exercise;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.server.ResponseStatusException;
 
 import com.example.dyeTrack.core.entity.Exercise;
 import com.example.dyeTrack.core.entity.GroupeMusculaire;
@@ -104,51 +105,105 @@ public class ExerciseController {
             return new ExerciceLightReturnDTO(exercice);
         }
 
-        List<MuscleInfo> muscles = exercice.getRelExerciseMuscles().stream()
-                .map(rem -> new MuscleInfo(rem.getMuscle().getId(), rem.isPrincipal(), rem.getMuscle().getNameFR(),
-                        rem.getMuscle().getNameEN()))
-                .toList();
+        List<MuscleInfo> muscles = new ArrayList<>();
+        IDNameValue mainFocusGroup = null;
 
-        return new ExerciceDetailReturnDTO(exercice, muscles, null);
+        for (RelExerciseMuscle rem : exercice.getRelExerciseMuscles()) {
+            if (showMuscles) {
+                muscles.add(new MuscleInfo(rem.getMuscle().getId(), rem.isPrincipal(), rem.getMuscle().getNameFR(),
+                        rem.getMuscle().getNameEN()));
+            }
+            if (showMainFocusMuscularGroup && rem.isPrincipal() && mainFocusGroup == null) {
+                GroupeMusculaire gm = rem.getMuscle().getGroupeMusculaire();
+                if (gm != null) {
+                    mainFocusGroup = new IDNameValue(gm.getId(), gm.getNomFR(), gm.getNomEN());
+                }
+            }
+        }
+        if (exercice.getRelExerciseMuscles() == null || exercice.getRelExerciseMuscles().isEmpty()) {
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST,
+                    "Cet exercice n'a aucun muscle associé.");
+        }
+
+        return new ExerciceDetailReturnDTO(exercice, muscles, mainFocusGroup);
     }
 
     @PostMapping("/create")
     @Operation(summary = "Create Exercice information", description = "Accessible only if a valid JWT is provided and corresponds to the user", security = @SecurityRequirement(name = "bearerAuth"))
-    public ResponseEntity<String> create(@RequestBody @Valid ExerciseCreateDTO exercisedto,
+    public ExerciceDetailReturnDTO create(@RequestBody @Valid ExerciseCreateDTO exercisedto,
             HttpServletRequest request) {
+
         Long idTokenUser = SecurityUtil.getUserIdFromContext();
-        exerciseService.create(exercisedto.getNameFR(), exercisedto.getDescription(), exercisedto.getLinkVideo(),
-                idTokenUser, exercisedto.getRelExerciseMuscles());
-        return ResponseEntity.status(HttpStatus.CREATED).body("Exercise created successfully");
+        Exercise exercice = exerciseService.create(
+                exercisedto.getNameFR(),
+                exercisedto.getDescription(),
+                exercisedto.getLinkVideo(),
+                idTokenUser,
+                exercisedto.getRelExerciseMuscles());
+
+        List<MuscleInfo> muscles = new ArrayList<>();
+        IDNameValue mainFocusGroup = null;
+
+        for (RelExerciseMuscle rem : exercice.getRelExerciseMuscles()) {
+            muscles.add(new MuscleInfo(rem.getMuscle().getId(), rem.isPrincipal(),
+                    rem.getMuscle().getNameFR(), rem.getMuscle().getNameEN()));
+
+            if (rem.isPrincipal() && mainFocusGroup == null) {
+                GroupeMusculaire gm = rem.getMuscle().getGroupeMusculaire();
+                if (gm != null) {
+                    mainFocusGroup = new IDNameValue(gm.getId(), gm.getNomFR(), gm.getNomEN());
+                }
+            }
+        }
+
+        return new ExerciceDetailReturnDTO(exercice, muscles, mainFocusGroup);
     }
 
     @Transactional
     @PostMapping("/createMultiple")
     @Operation(summary = "Create Multiple Exercice information", description = "Accessible only if a valid JWT is provided and corresponds to the user", security = @SecurityRequirement(name = "bearerAuth"))
 
-    public ResponseEntity<String> createMultiple(@RequestBody List<ExerciseCreateDTO> exercises,
+    public List<ExerciceLightReturnDTO> createMultiple(@RequestBody List<ExerciseCreateDTO> exercises,
             HttpServletRequest request) {
         Long idTokenUser = SecurityUtil.getUserIdFromContext();
+        List<ExerciceLightReturnDTO> exercicesOut = new ArrayList<>();
         for (ExerciseCreateDTO ex : exercises) {
-            exerciseService.create(
+            exercicesOut.add(new ExerciceLightReturnDTO(exerciseService.create(
                     ex.getNameFR(),
                     ex.getDescription(),
                     ex.getLinkVideo(),
                     idTokenUser,
-                    ex.getRelExerciseMuscles());
+                    ex.getRelExerciseMuscles())));
         }
-        return ResponseEntity.status(HttpStatus.CREATED).body("Exercises created successfully");
+        return exercicesOut;
     }
 
     @PutMapping("/update/{id}")
     @Operation(summary = "Update Exercice information", description = "Accessible only if a valid JWT is provided and corresponds to the user", security = @SecurityRequirement(name = "bearerAuth"))
-    public ResponseEntity<String> update(@PathVariable Long id,
+    public ExerciceDetailReturnDTO update(@PathVariable Long id,
             HttpServletRequest request,
             @RequestBody @Valid ExerciseCreateDTO dto) {
         Long idTokenUser = SecurityUtil.getUserIdFromContext();
-        exerciseService.update(id, idTokenUser, dto.getNameFR(), dto.getDescription(), dto.getLinkVideo(),
+        Exercise exercice = exerciseService.update(id, idTokenUser, dto.getNameFR(), dto.getDescription(),
+                dto.getLinkVideo(),
                 dto.getRelExerciseMuscles());
-        return ResponseEntity.ok("Exercise updated successfully");
+
+        List<MuscleInfo> muscles = new ArrayList<>();
+        IDNameValue mainFocusGroup = null;
+
+        for (RelExerciseMuscle rem : exercice.getRelExerciseMuscles()) {
+            muscles.add(new MuscleInfo(rem.getMuscle().getId(), rem.isPrincipal(),
+                    rem.getMuscle().getNameFR(), rem.getMuscle().getNameEN()));
+
+            if (rem.isPrincipal() && mainFocusGroup == null) {
+                GroupeMusculaire gm = rem.getMuscle().getGroupeMusculaire();
+                if (gm != null) {
+                    mainFocusGroup = new IDNameValue(gm.getId(), gm.getNomFR(), gm.getNomEN());
+                }
+            }
+        }
+
+        return new ExerciceDetailReturnDTO(exercice, muscles, mainFocusGroup);
 
     }
 

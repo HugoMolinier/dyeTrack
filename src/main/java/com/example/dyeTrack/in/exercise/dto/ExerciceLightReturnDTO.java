@@ -1,7 +1,9 @@
 package com.example.dyeTrack.in.exercise.dto;
 
 import com.example.dyeTrack.core.entity.Exercise;
+import com.fasterxml.jackson.annotation.JsonInclude;
 
+@JsonInclude(JsonInclude.Include.NON_EMPTY)
 public class ExerciceLightReturnDTO implements ExerciceReturnDTO {
 
     private Long idExercice;

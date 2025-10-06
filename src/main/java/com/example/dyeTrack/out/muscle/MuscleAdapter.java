@@ -2,6 +2,7 @@ package com.example.dyeTrack.out.muscle;
 
 import java.util.List;
 
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Component;
 
 import com.example.dyeTrack.core.entity.Muscle;
@@ -15,6 +16,7 @@ public class MuscleAdapter implements MusclePort {
         this.repository = repository;
     }
 
+    @Cacheable("muscles")
     public List<Muscle> getAll() {
         return repository.findAll();
     }

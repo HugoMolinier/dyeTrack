@@ -19,7 +19,7 @@ public class ExerciseCreateDTO {
     public ExerciseCreateDTO() {
     }
 
-    public ExerciseCreateDTO(String nameFR, String description, String linkVideo, Long idUser,
+    public ExerciseCreateDTO(String nameFR, String description, String linkVideo,
             List<MuscleInsertExercice> relExerciseMuscle) {
         this.nameFR = nameFR;
         this.description = description;
