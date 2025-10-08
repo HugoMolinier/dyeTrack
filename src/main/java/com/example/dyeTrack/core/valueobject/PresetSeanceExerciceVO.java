@@ -18,6 +18,9 @@ public class PresetSeanceExerciceVO {
         this.idEquipement = idEquipement;
     }
 
+    public PresetSeanceExerciceVO() {
+    }
+
     public Long getIdExercice() {
         return idExercice;
     }
@@ -40,5 +43,29 @@ public class PresetSeanceExerciceVO {
 
     public Long getIdEquipement() {
         return idEquipement;
+    }
+
+    public void setIdExercice(Long idExercice) {
+        this.idExercice = idExercice;
+    }
+
+    public void setParameter(String parameter) {
+        this.parameter = parameter;
+    }
+
+    public void setRangeRepInf(Integer rangeRepInf) {
+        this.rangeRepInf = rangeRepInf;
+    }
+
+    public void setRangeRepSup(Integer rangeRepSup) {
+        this.rangeRepSup = rangeRepSup;
+    }
+
+    public void setIdLateralite(Long idLateralite) {
+        this.idLateralite = idLateralite;
+    }
+
+    public void setIdEquipement(Long idEquipement) {
+        this.idEquipement = idEquipement;
     }
 }

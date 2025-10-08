@@ -3,34 +3,33 @@ package com.example.dyeTrack.in.presetSeance.dto;
 import java.util.List;
 
 import com.example.dyeTrack.core.entity.PresetSeance;
-import com.example.dyeTrack.core.valueobject.PresetSeanceExerciceVO;
 import com.fasterxml.jackson.annotation.JsonInclude;
 
 @JsonInclude(JsonInclude.Include.NON_EMPTY)
 public class PresetDetailReturnDTO extends PresetLightReturnDTO {
 
-    private List<PresetSeanceExerciceVO> presetSeanceExerciceVOs;
+    private List<PresetSeanceExerciceVODTO> presetSeanceExerciceVODTO;
 
     public PresetDetailReturnDTO() {
         super();
     }
 
-    public PresetDetailReturnDTO(Long idPreset, String name, List<PresetSeanceExerciceVO> presetSeanceExerciceVOs) {
+    public PresetDetailReturnDTO(Long idPreset, String name, List<PresetSeanceExerciceVODTO> presetSeanceExerciceVOs) {
         super(idPreset, name);
-        this.presetSeanceExerciceVOs = presetSeanceExerciceVOs;
+        this.presetSeanceExerciceVODTO = presetSeanceExerciceVOs;
     }
 
-    public PresetDetailReturnDTO(PresetSeance presetSeance, List<PresetSeanceExerciceVO> presetSeanceExerciceVOs) {
+    public PresetDetailReturnDTO(PresetSeance presetSeance, List<PresetSeanceExerciceVODTO> presetSeanceExerciceVOs) {
         super(presetSeance);
-        this.presetSeanceExerciceVOs = presetSeanceExerciceVOs;
+        this.presetSeanceExerciceVODTO = presetSeanceExerciceVOs;
     }
 
-    public List<PresetSeanceExerciceVO> getPresetSeanceExerciceVO() {
-        return presetSeanceExerciceVOs;
+    public List<PresetSeanceExerciceVODTO> getPresetSeanceExerciceVODTO() {
+        return presetSeanceExerciceVODTO;
     }
 
-    public void setMuscleInfos(List<PresetSeanceExerciceVO> presetSeanceExerciceVOs) {
-        this.presetSeanceExerciceVOs = presetSeanceExerciceVOs;
+    public void setPresetSeanceExerciceVODTO(List<PresetSeanceExerciceVODTO> presetSeanceExerciceVODTO) {
+        this.presetSeanceExerciceVODTO = presetSeanceExerciceVODTO;
     }
 
 }

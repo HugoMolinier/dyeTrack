@@ -4,10 +4,8 @@ import com.example.dyeTrack.core.entity.Exercise;
 import com.fasterxml.jackson.annotation.JsonInclude;
 
 @JsonInclude(JsonInclude.Include.NON_EMPTY)
-public class ExerciceLightReturnDTO implements ExerciceReturnDTO {
+public class ExerciceLightReturnDTO extends ExerciceUltraLightReturnDTO {
 
-    private Long idExercice;
-    private String nameFR;
     private String description;
     private String linkVideo;
     private Long idCreator;
@@ -16,35 +14,17 @@ public class ExerciceLightReturnDTO implements ExerciceReturnDTO {
     }
 
     public ExerciceLightReturnDTO(Long idExercice, String nameFR, String description, String linkVideo, Long idUser) {
-        this.idExercice = idExercice;
-        this.nameFR = nameFR;
+        super(idExercice, nameFR);
         this.description = description;
         this.linkVideo = linkVideo;
         this.idCreator = idUser;
     }
 
     public ExerciceLightReturnDTO(Exercise exercise) {
-        this.idExercice = exercise.getIdExercise();
-        this.nameFR = exercise.getNameFR();
+        super(exercise);
         this.description = exercise.getDescription();
         this.linkVideo = exercise.getLinkVideo();
         this.idCreator = exercise.getUser() != null ? exercise.getUser().getId() : null;
-    }
-
-    public Long getIdExercice() {
-        return idExercice;
-    }
-
-    public void setIdExercice(Long idExercice) {
-        this.idExercice = idExercice;
-    }
-
-    public String getNameFR() {
-        return nameFR;
-    }
-
-    public void setNameFR(String nameFR) {
-        this.nameFR = nameFR;
     }
 
     public String getDescription() {

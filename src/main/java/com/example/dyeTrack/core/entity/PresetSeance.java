@@ -36,6 +36,10 @@ public class PresetSeance {
         return presetSeanceExercices;
     }
 
+    public void setPresetSeanceExercice(List<PresetSeanceExercice> presetSeanceExercices) {
+        this.presetSeanceExercices = presetSeanceExercices;
+    }
+
     public PresetSeance() {
     }
 

@@ -11,7 +11,20 @@ public class PresetSeanceCreateRequestDTO {
 
     private List<PresetSeanceExerciceVO> presetSeanceExerciceVOs;
 
+    public PresetSeanceCreateRequestDTO() {
+    }
+
+    public PresetSeanceCreateRequestDTO(String name, List<PresetSeanceExerciceVO> presetSeanceExerciceVOs) {
+        this.name = name;
+        this.presetSeanceExerciceVOs = presetSeanceExerciceVOs;
+    }
+
+    public PresetSeanceCreateRequestDTO(String name) {
+        this.name = name;
+    }
+
     // --- Getters ---
+
     public String getName() {
         return name;
     }

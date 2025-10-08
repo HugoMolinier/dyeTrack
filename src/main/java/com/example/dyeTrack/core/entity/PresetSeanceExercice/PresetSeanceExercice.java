@@ -11,16 +11,15 @@ import jakarta.validation.constraints.NotNull;
 @Entity
 public class PresetSeanceExercice {
 
-    @EmbeddedId
-    private PresetSeanceExerciceId id = new PresetSeanceExerciceId();
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id;
 
     @ManyToOne
-    @MapsId("presetSeanceId")
-    @JoinColumn(name = "preset_seance_id")
+    @JoinColumn(name = "id_preset", nullable = false)
     private PresetSeance presetSeance;
 
     @ManyToOne
-    @MapsId("exerciceId")
     @JoinColumn(name = "exercice_id")
     private Exercise exercice;
 
@@ -50,7 +49,6 @@ public class PresetSeanceExercice {
             Integer orderExercice, Lateralite lateralite, Equipement equipement) {
         this.presetSeance = presetSeance;
         this.exercice = exercice;
-        this.id = new PresetSeanceExerciceId(presetSeance.getIdPresetSeance(), exercice.getIdExercise());
         this.parameter = parameter;
         this.rangeRepInf = rangeRepInf;
         this.rangeRepSup = rangeRepSup;
@@ -60,12 +58,8 @@ public class PresetSeanceExercice {
     }
 
     // --- Getters & Setters ---
-    public PresetSeanceExerciceId getId() {
+    public Long getId() {
         return id;
-    }
-
-    public void setId(PresetSeanceExerciceId id) {
-        this.id = id;
     }
 
     public PresetSeance getPresetSeance() {

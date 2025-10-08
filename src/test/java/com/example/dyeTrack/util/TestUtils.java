@@ -1,8 +1,8 @@
 package com.example.dyeTrack.util;
 
 import com.example.dyeTrack.core.util.HashUtil;
+import com.example.dyeTrack.core.valueobject.MuscleInsertExercice;
 import com.example.dyeTrack.in.exercise.dto.ExerciceDetailReturnDTO;
-import com.example.dyeTrack.in.exercise.dto.ExerciceLightReturnDTO;
 import com.example.dyeTrack.in.exercise.dto.ExerciseCreateDTO;
 import com.example.dyeTrack.in.user.dto.RegisterUserDTO;
 import com.example.dyeTrack.in.user.dto.ReturnUserTokenDTO;
@@ -13,6 +13,9 @@ import org.springframework.test.web.servlet.MockMvc;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
+
+import java.util.List;
+
 import org.springframework.http.MediaType;
 
 public class TestUtils {
@@ -75,6 +78,15 @@ public class TestUtils {
             throw new RuntimeException("L'ID de l'exercice créé est null !");
         }
         return created;
+    }
+
+    public static ExerciseCreateDTO buildExercise(String name, String desc, List<MuscleInsertExercice> muscles) {
+        ExerciseCreateDTO dto = new ExerciseCreateDTO();
+        dto.setNameFR(name);
+        dto.setDescription(desc);
+        dto.setRelExerciseMuscles(muscles);
+        dto.setLinkVideo("http://youtube.com/xxx");
+        return dto;
     }
 
     /**

@@ -51,15 +51,15 @@ public class PresetSeanceService implements PresetSeanceUseCase {
         User user = userPort.get(idUserWhoAdd);
         if (user == null)
             throw new ExerciseCreationException("user Not found with id " + idUserWhoAdd);
-        PresetSeance presetSeance = presetSeancePort.save(new PresetSeance(name, user));
+        PresetSeance presetSeance = new PresetSeance(name, user);
 
         // do relExerciceMuscle
-        List<PresetSeanceExercice> listExerciceToAdd = new ArrayList<PresetSeanceExercice>();
         if (presetSeanceExercice != null && !presetSeanceExercice.isEmpty()) {
 
             int index = 1;
             List<Equipement> equipements = equipementPort.getAll();
             List<Lateralite> lateralites = lateralitePort.getAll();
+            List<PresetSeanceExercice> listExerciceToAdd = new ArrayList<PresetSeanceExercice>();
             for (PresetSeanceExerciceVO presetSeanceExerciceVO : presetSeanceExercice) {
                 Long idExercice = presetSeanceExerciceVO.getIdExercice();
                 Long idLateralite = presetSeanceExerciceVO.getIdLateralite();
@@ -91,7 +91,8 @@ public class PresetSeanceService implements PresetSeanceUseCase {
                         equipement));
                 index++;
             }
-            presetSeanceExercicePort.saveAll(listExerciceToAdd);
+            presetSeance.getPresetSeanceExercice().addAll(listExerciceToAdd);
+            presetSeancePort.save(presetSeance);
         }
         ;
         return presetSeance;
@@ -110,10 +111,13 @@ public class PresetSeanceService implements PresetSeanceUseCase {
         return presetSeance;
     }
 
+    @Transactional
     public PresetSeance update(Long idPreset, Long idUserQuiModifie, String newName,
-            List<PresetSeanceExerciceVO> presetSeanceExercice) {
+            List<PresetSeanceExerciceVO> presetSeanceExerciceVOs) {
+
         if (idPreset == null)
             throw new ForbiddenException("idPreset empty");
+
         PresetSeance presetSeance = presetSeancePort.getById(idPreset);
         if (presetSeance == null)
             throw new ForbiddenException("Preset Not found with id " + idPreset);
@@ -122,51 +126,53 @@ public class PresetSeanceService implements PresetSeanceUseCase {
 
         if (newName != null) {
             presetSeance.setName(newName);
-            presetSeancePort.update(presetSeance);
         }
 
-        // gestion relExerciceMuscles a faire
-        List<PresetSeanceExercice> listExerciceToAdd = new ArrayList<PresetSeanceExercice>();
-        if (presetSeanceExercice != null && !presetSeanceExercice.isEmpty()) {
-            presetSeanceExercicePort.deleteByPresetId(idPreset);
-            int index = 1;
+        // Mise à jour des exercices associés si fournis
+        if (presetSeanceExerciceVOs != null && !presetSeanceExerciceVOs.isEmpty()) {
+
             List<Equipement> equipements = equipementPort.getAll();
             List<Lateralite> lateralites = lateralitePort.getAll();
-            for (PresetSeanceExerciceVO presetSeanceExerciceVO : presetSeanceExercice) {
-                Long idExercice = presetSeanceExerciceVO.getIdExercice();
-                Long idLateralite = presetSeanceExerciceVO.getIdLateralite();
-                Long idEquipement = presetSeanceExerciceVO.getIdEquipement();
 
-                Exercise exercice = exercisePort.getByIdExercise(idExercice);
+            List<PresetSeanceExercice> listExerciceToAdd = new ArrayList<>();
+            int index = 1;
+
+            for (PresetSeanceExerciceVO vo : presetSeanceExerciceVOs) {
+                Exercise exercice = exercisePort.getByIdExercise(vo.getIdExercice());
                 if (exercice == null) {
-                    throw new IllegalArgumentException("Exercice ID " + idExercice + " invalide");
+                    throw new IllegalArgumentException("Exercice ID " + vo.getIdExercice() + " invalide");
                 }
 
                 Lateralite lateralite = lateralites.stream()
-                        .filter(l -> l.getId().equals(idLateralite))
+                        .filter(l -> l.getId().equals(vo.getIdLateralite()))
                         .findFirst()
-                        .orElseThrow(() -> new IllegalArgumentException("Lateralite ID " + idLateralite + " invalide"));
+                        .orElseThrow(() -> new IllegalArgumentException(
+                                "Lateralite ID " + vo.getIdLateralite() + " invalide"));
 
                 Equipement equipement = equipements.stream()
-                        .filter(eq -> eq.getId().equals(idEquipement))
+                        .filter(eq -> eq.getId().equals(vo.getIdEquipement()))
                         .findFirst()
-                        .orElseThrow(() -> new IllegalArgumentException("Equipement ID " + idEquipement + " invalide"));
+                        .orElseThrow(() -> new IllegalArgumentException(
+                                "Equipement ID " + vo.getIdEquipement() + " invalide"));
 
                 listExerciceToAdd.add(new PresetSeanceExercice(
                         presetSeance,
                         exercice,
-                        presetSeanceExerciceVO.getParameter(),
-                        presetSeanceExerciceVO.getRangeRepInf(),
-                        presetSeanceExerciceVO.getRangeRepSup(),
+                        vo.getParameter(),
+                        vo.getRangeRepInf(),
+                        vo.getRangeRepSup(),
                         index,
                         lateralite,
                         equipement));
+
                 index++;
             }
-            presetSeanceExercicePort.saveAll(listExerciceToAdd);
+
+            presetSeance.getPresetSeanceExercice().clear();
+            presetSeance.getPresetSeanceExercice().addAll(listExerciceToAdd);
         }
 
-        return presetSeance;
+        return presetSeancePort.update(presetSeance);
     }
 
     public void delete(Long idpresetSeance, Long idUserQuiModifie) {
@@ -178,6 +184,9 @@ public class PresetSeanceService implements PresetSeanceUseCase {
         if (!presetSeance.getUser().getId().equals(idUserQuiModifie))
             throw new ForbiddenException("Cet utilisateur ne peut pas delete ce preset");
 
+        if (presetSeance.getPresetSeanceExercice() != null && !presetSeance.getPresetSeanceExercice().isEmpty()) {
+            presetSeance.getPresetSeanceExercice().clear();
+        }
         presetSeancePort.delete(presetSeance);
     }
 

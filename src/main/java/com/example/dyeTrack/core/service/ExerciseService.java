@@ -43,11 +43,10 @@ public class ExerciseService implements ExerciseUseCase {
     public List<Exercise> getAll(String name, Boolean officialExercise, Long idUser, Boolean onlyPrincipalMuscle,
             Boolean showMainFocusMuscularGroup, List<Integer> idsGroupeMuscle, List<Integer> idMuscle,
             List<Long> idsExercice) {
-        if (showMainFocusMuscularGroup || idsGroupeMuscle != null) {
-            return exercisePort.getAllWithShowGroupe(name, officialExercise, idUser, onlyPrincipalMuscle,
-                    idsGroupeMuscle, idMuscle, idsExercice);
-        }
-        return exercisePort.getAll(name, officialExercise, idUser, onlyPrincipalMuscle, idMuscle, idsExercice);
+        return (showMainFocusMuscularGroup || idsGroupeMuscle != null)
+                ? exercisePort.getAllWithShowGroupe(name, officialExercise, idUser, onlyPrincipalMuscle,
+                        idsGroupeMuscle, idMuscle, idsExercice)
+                : exercisePort.getAll(name, officialExercise, idUser, onlyPrincipalMuscle, idMuscle, idsExercice);
     }
 
     @Transactional
@@ -59,39 +58,15 @@ public class ExerciseService implements ExerciseUseCase {
             throw new ExerciseCreationException("idUser empty");
         if (relExerciseMuscles == null || relExerciseMuscles.isEmpty())
             throw new ExerciseCreationException("La liste des muscles ne peut pas être vide");
+
         User user = userPort.get(idUser);
         if (user == null)
             throw new ExerciseCreationException("user Not found with id " + idUser);
+
         Exercise exercise = new Exercise(nameFR, description, linkVideo, user);
+        List<RelExerciseMuscle> relations = buildRelExerciseMuscles(exercise, relExerciseMuscles);
+        exercise.getRelExerciseMuscles().addAll(relations);
 
-        int principalCount = 0;
-        Map<Long, Boolean> musclePrincipalMap = new HashMap<>();
-        Map<Long, Muscle> muscleMap = musclePort.getAll().stream()
-                .collect(Collectors.toMap(Muscle::getId, m -> m));
-        for (MuscleInsertExercice muscleInfo : relExerciseMuscles) {
-            Long muscleId = muscleInfo.getIdMuscle();
-            Boolean existingPrincipal = musclePrincipalMap.get(muscleId);
-
-            if (existingPrincipal != null && !existingPrincipal.equals(muscleInfo.isPrincipal())) {
-                throw new ExerciseCreationException(
-                        "Le muscle " + muscleId + " ne peut pas être à la fois principal et non principal");
-            }
-
-            if (existingPrincipal == null) {
-                Muscle muscle = muscleMap.get(muscleId);
-                if (muscle == null)
-                    throw new ExerciseCreationException("muscle Not found with id " + muscleId);
-
-                exercise.getRelExerciseMuscles().add(new RelExerciseMuscle(muscle, exercise, muscleInfo.isPrincipal()));
-                musclePrincipalMap.put(muscleId, muscleInfo.isPrincipal());
-
-                if (muscleInfo.isPrincipal())
-                    principalCount++;
-            }
-        }
-
-        if (principalCount != 1)
-            throw new ExerciseCreationException("Il doit y avoir 1 muscle principal");
         return exercisePort.create(exercise);
     }
 
@@ -100,6 +75,7 @@ public class ExerciseService implements ExerciseUseCase {
             List<MuscleInsertExercice> relExerciseMuscles) {
         if (idExercice == null)
             throw new ExerciseCreationException("idExercice empty");
+
         Exercise exercise = exercisePort.getByIdExercise(idExercice);
         if (exercise == null)
             throw new ExerciseCreationException("exercise Not found with id " + idExercice);
@@ -114,24 +90,10 @@ public class ExerciseService implements ExerciseUseCase {
             exercise.setLinkVideo(linkVideo);
         }
 
-        // pour les muscles
         if (relExerciseMuscles != null && !relExerciseMuscles.isEmpty()) {
-            List<RelExerciseMuscle> relExerciseMusclesArray = new ArrayList<RelExerciseMuscle>();
-            int principalCount = 0;
-            Map<Long, Muscle> muscleMap = musclePort.getAll().stream()
-                    .collect(Collectors.toMap(Muscle::getId, m -> m));
-            for (MuscleInsertExercice muscleInfo : relExerciseMuscles) {
-                Muscle muscle = muscleMap.get(muscleInfo.getIdMuscle());
-                if (muscle == null)
-                    throw new ExerciseCreationException("muscle Not found with id " + muscleInfo.getIdMuscle());
-                relExerciseMusclesArray.add(new RelExerciseMuscle(muscle, exercise, muscleInfo.isPrincipal()));
-                if (muscleInfo.isPrincipal())
-                    principalCount++;
-            }
-            if (principalCount != 1)
-                throw new ExerciseCreationException("Il doit y avoir 1 muscle principal");
+            List<RelExerciseMuscle> relations = buildRelExerciseMuscles(exercise, relExerciseMuscles);
             exercise.getRelExerciseMuscles().clear();
-            exercise.getRelExerciseMuscles().addAll(relExerciseMusclesArray);
+            exercise.getRelExerciseMuscles().addAll(relations);
         }
 
         return exercisePort.update(exercise);
@@ -141,6 +103,7 @@ public class ExerciseService implements ExerciseUseCase {
     public void delete(Long idExercice, Long idUserQuiDelete) {
         if (idExercice == null)
             throw new ExerciseCreationException("idExercice empty");
+
         Exercise exercise = exercisePort.getByIdExercise(idExercice);
         if (exercise == null)
             throw new ExerciseCreationException("exercise Not found with id " + idExercice);
@@ -148,8 +111,45 @@ public class ExerciseService implements ExerciseUseCase {
             throw new ExerciseCreationException("Impossible de delete un exercice officiel");
         if (!exercise.getUser().getId().equals(idUserQuiDelete))
             throw new ExerciseCreationException("Cet utilisateur ne peut pas delete cet exercice");
-
         exercisePort.delete(exercise);
+    }
+
+    // ============Utilitaire /
+    private List<RelExerciseMuscle> buildRelExerciseMuscles(Exercise exercise,
+            List<MuscleInsertExercice> relExerciseMuscles) {
+
+        Map<Long, Muscle> muscleMap = musclePort.getAll().stream()
+                .collect(Collectors.toMap(Muscle::getId, m -> m));
+
+        Map<Long, Boolean> musclePrincipalMap = new HashMap<>();
+        List<RelExerciseMuscle> relations = new ArrayList<>();
+        int principalCount = 0;
+
+        for (MuscleInsertExercice muscleInfo : relExerciseMuscles) {
+            Long muscleId = muscleInfo.getIdMuscle();
+            Boolean existingPrincipal = musclePrincipalMap.get(muscleId);
+
+            if (existingPrincipal != null && !existingPrincipal.equals(muscleInfo.isPrincipal())) {
+                throw new ExerciseCreationException(
+                        "Le muscle " + muscleId + " ne peut pas être à la fois principal et non principal");
+            }
+
+            if (existingPrincipal == null) {
+                Muscle muscle = muscleMap.get(muscleId);
+                if (muscle == null)
+                    throw new ExerciseCreationException("muscle Not found with id " + muscleId);
+
+                relations.add(new RelExerciseMuscle(muscle, exercise, muscleInfo.isPrincipal()));
+                musclePrincipalMap.put(muscleId, muscleInfo.isPrincipal());
+
+                if (muscleInfo.isPrincipal())
+                    principalCount++;
+            }
+        }
+        if (principalCount != 1)
+            throw new ExerciseCreationException("Il doit y avoir 1 muscle principal");
+
+        return relations;
     }
 
 }

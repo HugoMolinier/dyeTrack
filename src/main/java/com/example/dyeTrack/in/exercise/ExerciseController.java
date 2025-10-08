@@ -68,28 +68,11 @@ public class ExerciseController {
             return exercicesOut;
         }
 
-        List<ExerciceDetailReturnDTO> exercicesOut = new ArrayList<>();
-
-        for (Exercise exercice : exercises) {
-            List<MuscleInfo> muscles = new ArrayList<>();
-            IDNameValue mainFocusGroup = null;
-
-            for (RelExerciseMuscle rem : exercice.getRelExerciseMuscles()) {
-                if (showMuscles) {
-                    muscles.add(new MuscleInfo(rem.getMuscle().getId(), rem.isPrincipal(), rem.getMuscle().getNameFR(),
-                            rem.getMuscle().getNameEN()));
-                }
-                if (showMainFocusMuscularGroup && rem.isPrincipal() && mainFocusGroup == null) {
-                    GroupeMusculaire gm = rem.getMuscle().getGroupeMusculaire();
-                    if (gm != null) {
-                        mainFocusGroup = new IDNameValue(gm.getId(), gm.getNomFR(), gm.getNomEN());
-                    }
-                }
-            }
-            exercicesOut.add(new ExerciceDetailReturnDTO(exercice, muscles, mainFocusGroup));
+        List<ExerciceDetailReturnDTO> result = new ArrayList<>();
+        for (Exercise e : exercises) {
+            result.add(buildDetailDTO(e, showMuscles, showMainFocusMuscularGroup));
         }
-
-        return exercicesOut;
+        return result;
     }
 
     @GetMapping("/getById/{id}")
@@ -105,27 +88,7 @@ public class ExerciseController {
             return new ExerciceLightReturnDTO(exercice);
         }
 
-        List<MuscleInfo> muscles = new ArrayList<>();
-        IDNameValue mainFocusGroup = null;
-
-        for (RelExerciseMuscle rem : exercice.getRelExerciseMuscles()) {
-            if (showMuscles) {
-                muscles.add(new MuscleInfo(rem.getMuscle().getId(), rem.isPrincipal(), rem.getMuscle().getNameFR(),
-                        rem.getMuscle().getNameEN()));
-            }
-            if (showMainFocusMuscularGroup && rem.isPrincipal() && mainFocusGroup == null) {
-                GroupeMusculaire gm = rem.getMuscle().getGroupeMusculaire();
-                if (gm != null) {
-                    mainFocusGroup = new IDNameValue(gm.getId(), gm.getNomFR(), gm.getNomEN());
-                }
-            }
-        }
-        if (exercice.getRelExerciseMuscles() == null || exercice.getRelExerciseMuscles().isEmpty()) {
-            throw new ResponseStatusException(HttpStatus.BAD_REQUEST,
-                    "Cet exercice n'a aucun muscle associé.");
-        }
-
-        return new ExerciceDetailReturnDTO(exercice, muscles, mainFocusGroup);
+        return buildDetailDTO(exercice, showMuscles, showMainFocusMuscularGroup);
     }
 
     @PostMapping("/create")
@@ -141,22 +104,7 @@ public class ExerciseController {
                 idTokenUser,
                 exercisedto.getRelExerciseMuscles());
 
-        List<MuscleInfo> muscles = new ArrayList<>();
-        IDNameValue mainFocusGroup = null;
-
-        for (RelExerciseMuscle rem : exercice.getRelExerciseMuscles()) {
-            muscles.add(new MuscleInfo(rem.getMuscle().getId(), rem.isPrincipal(),
-                    rem.getMuscle().getNameFR(), rem.getMuscle().getNameEN()));
-
-            if (rem.isPrincipal() && mainFocusGroup == null) {
-                GroupeMusculaire gm = rem.getMuscle().getGroupeMusculaire();
-                if (gm != null) {
-                    mainFocusGroup = new IDNameValue(gm.getId(), gm.getNomFR(), gm.getNomEN());
-                }
-            }
-        }
-
-        return new ExerciceDetailReturnDTO(exercice, muscles, mainFocusGroup);
+        return buildDetailDTO(exercice, true, true);
     }
 
     @Transactional
@@ -184,26 +132,10 @@ public class ExerciseController {
             HttpServletRequest request,
             @RequestBody @Valid ExerciseCreateDTO dto) {
         Long idTokenUser = SecurityUtil.getUserIdFromContext();
-        Exercise exercice = exerciseService.update(id, idTokenUser, dto.getNameFR(), dto.getDescription(),
+        Exercise updatedExercise = exerciseService.update(id, idTokenUser, dto.getNameFR(), dto.getDescription(),
                 dto.getLinkVideo(),
                 dto.getRelExerciseMuscles());
-
-        List<MuscleInfo> muscles = new ArrayList<>();
-        IDNameValue mainFocusGroup = null;
-
-        for (RelExerciseMuscle rem : exercice.getRelExerciseMuscles()) {
-            muscles.add(new MuscleInfo(rem.getMuscle().getId(), rem.isPrincipal(),
-                    rem.getMuscle().getNameFR(), rem.getMuscle().getNameEN()));
-
-            if (rem.isPrincipal() && mainFocusGroup == null) {
-                GroupeMusculaire gm = rem.getMuscle().getGroupeMusculaire();
-                if (gm != null) {
-                    mainFocusGroup = new IDNameValue(gm.getId(), gm.getNomFR(), gm.getNomEN());
-                }
-            }
-        }
-
-        return new ExerciceDetailReturnDTO(exercice, muscles, mainFocusGroup);
+        return buildDetailDTO(updatedExercise, true, true);
 
     }
 
@@ -215,6 +147,32 @@ public class ExerciseController {
         Long idTokenUser = SecurityUtil.getUserIdFromContext();
         exerciseService.delete(id, idTokenUser);
         return ResponseEntity.ok("Exercise deleted successfully");
+    }
+
+    // Helper
+    private ExerciceDetailReturnDTO buildDetailDTO(Exercise exercise, boolean includeMuscles,
+            boolean includeMainGroup) {
+        List<MuscleInfo> muscles = new ArrayList<>();
+        IDNameValue mainFocusGroup = null;
+
+        for (RelExerciseMuscle rel : exercise.getRelExerciseMuscles()) {
+            if (includeMuscles) {
+                muscles.add(new MuscleInfo(
+                        rel.getMuscle().getId(),
+                        rel.isPrincipal(),
+                        rel.getMuscle().getNameFR(),
+                        rel.getMuscle().getNameEN()));
+            }
+
+            if (includeMainGroup && rel.isPrincipal() && mainFocusGroup == null) {
+                GroupeMusculaire gm = rel.getMuscle().getGroupeMusculaire();
+                if (gm != null) {
+                    mainFocusGroup = new IDNameValue(gm.getId(), gm.getNomFR(), gm.getNomEN());
+                }
+            }
+        }
+
+        return new ExerciceDetailReturnDTO(exercise, muscles, mainFocusGroup);
     }
 
 }

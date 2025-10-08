@@ -17,7 +17,6 @@ import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.transaction.annotation.Transactional;
 
-import com.example.dyeTrack.core.entity.Muscle;
 import com.example.dyeTrack.core.valueobject.MuscleInfo;
 import com.example.dyeTrack.core.valueobject.MuscleInsertExercice;
 import com.example.dyeTrack.in.exercise.dto.ExerciceDetailReturnDTO;
@@ -54,18 +53,9 @@ public class ExerciceControllerTest {
 
         }
 
-        private ExerciseCreateDTO buildExercise(String name, String desc, List<MuscleInsertExercice> muscles) {
-                ExerciseCreateDTO dto = new ExerciseCreateDTO();
-                dto.setNameFR(name);
-                dto.setDescription(desc);
-                dto.setRelExerciseMuscles(muscles);
-                dto.setLinkVideo("http://youtube.com/xxx");
-                return dto;
-        }
-
         @Test
         void testCreateExercice_success() throws Exception {
-                ExerciseCreateDTO dto = buildExercise("Pompes", "Exercice pectoraux",
+                ExerciseCreateDTO dto = TestUtils.buildExercise("Pompes", "Exercice pectoraux",
                                 List.of(new MuscleInsertExercice(1L, true), new MuscleInsertExercice(2L, false)));
 
                 ExerciceDetailReturnDTO created = TestUtils.createExercice(mockMvc, objectMapper, tokenUser1, dto);
@@ -83,7 +73,7 @@ public class ExerciceControllerTest {
 
         @Test
         void testCreateExercice_invalidMuscle() throws Exception {
-                ExerciseCreateDTO dto = buildExercise("Pompes", "Exercice pectoraux",
+                ExerciseCreateDTO dto = TestUtils.buildExercise("Pompes", "Exercice pectoraux",
                                 List.of(new MuscleInsertExercice(115L, true), new MuscleInsertExercice(2L, false)));
 
                 mockMvc.perform(post("/api/Exercise/create")
@@ -95,7 +85,7 @@ public class ExerciceControllerTest {
 
         @Test
         void testCreateExercice_noPrincipal() throws Exception {
-                ExerciseCreateDTO dto = buildExercise("Pompes", "Exercice pectoraux",
+                ExerciseCreateDTO dto = TestUtils.buildExercise("Pompes", "Exercice pectoraux",
                                 List.of(new MuscleInsertExercice(1L, false), new MuscleInsertExercice(2L, false)));
 
                 mockMvc.perform(post("/api/Exercise/create")
@@ -107,7 +97,7 @@ public class ExerciceControllerTest {
 
         @Test
         void testCreateExercice_badToken() throws Exception {
-                ExerciseCreateDTO dto = buildExercise("Pompes", "Exercice pectoraux",
+                ExerciseCreateDTO dto = TestUtils.buildExercise("Pompes", "Exercice pectoraux",
                                 List.of(new MuscleInsertExercice(1L, true), new MuscleInsertExercice(2L, false)));
 
                 mockMvc.perform(post("/api/exercise/create")
@@ -131,9 +121,9 @@ public class ExerciceControllerTest {
 
         @Test
         void testCreateMultipleExercices_success() throws Exception {
-                ExerciseCreateDTO ex1 = buildExercise("Pompes", "Exercice pectoraux",
+                ExerciseCreateDTO ex1 = TestUtils.buildExercise("Pompes", "Exercice pectoraux",
                                 List.of(new MuscleInsertExercice(1L, true), new MuscleInsertExercice(2L, false)));
-                ExerciseCreateDTO ex2 = buildExercise("Tractions", "Exercice dos",
+                ExerciseCreateDTO ex2 = TestUtils.buildExercise("Tractions", "Exercice dos",
                                 List.of(new MuscleInsertExercice(1L, true), new MuscleInsertExercice(2L, false)));
 
                 String response = mockMvc.perform(post("/api/Exercise/createMultiple")
@@ -153,7 +143,7 @@ public class ExerciceControllerTest {
 
         @Test
         void testUpdateExercise_withValidAndInvalidToken() throws Exception {
-                ExerciseCreateDTO ex1 = buildExercise("Pompes", "Exercice pectoraux",
+                ExerciseCreateDTO ex1 = TestUtils.buildExercise("Pompes", "Exercice pectoraux",
                                 List.of(new MuscleInsertExercice(1L, true), new MuscleInsertExercice(2L, false),
                                                 new MuscleInsertExercice(3L, false)));
 
@@ -222,14 +212,14 @@ public class ExerciceControllerTest {
 
         @Test
         void testGetById_variants() throws Exception {
-                ExerciseCreateDTO ex1 = buildExercise("Pompes", "Exercice pectoraux",
+                ExerciseCreateDTO ex1 = TestUtils.buildExercise("Pompes", "Exercice pectoraux",
                                 List.of(new MuscleInsertExercice(1L, true), new MuscleInsertExercice(2L, false)));
 
                 ExerciceDetailReturnDTO created = TestUtils.createExercice(mockMvc, objectMapper, tokenUser1, ex1);
 
                 Long id = created.getIdExercice();
 
-                // 1️⃣ showMuscles = false -> ExerciceLightReturnDTO
+                // 1️ showMuscles = false -> ExerciceLightReturnDTO
                 String lightResp = mockMvc.perform(org.springframework.test.web.servlet.request.MockMvcRequestBuilders
                                 .get("/api/Exercise/getById/" + id)
                                 .param("showMuscles", "false")
@@ -240,7 +230,7 @@ public class ExerciceControllerTest {
                 ExerciceLightReturnDTO lightDTO = objectMapper.readValue(lightResp, ExerciceLightReturnDTO.class);
                 assertThat(lightDTO.getNameFR()).isEqualTo(ex1.getNameFR());
 
-                // 2️⃣ showMuscles = true -> ExerciceDetailReturnDTO avec muscles
+                // 2️ showMuscles = true -> ExerciceDetailReturnDTO avec muscles
                 String detailResp = mockMvc.perform(org.springframework.test.web.servlet.request.MockMvcRequestBuilders
                                 .get("/api/Exercise/getById/" + id)
                                 .param("showMuscles", "true")
@@ -253,7 +243,7 @@ public class ExerciceControllerTest {
                 assertThat(detailDTO.getMuscleInfos()).isNotEmpty();
                 assertThat(detailDTO.getMuscleInfos()).hasSize(1);
 
-                // 3️⃣ showMainFocusMuscularGroup = true -> mainFocusGroup non null
+                // 3️ showMainFocusMuscularGroup = true -> mainFocusGroup non null
                 String focusResp = mockMvc.perform(org.springframework.test.web.servlet.request.MockMvcRequestBuilders
                                 .get("/api/Exercise/getById/" + id)
                                 .param("showMuscles", "true")
@@ -265,7 +255,6 @@ public class ExerciceControllerTest {
                 ExerciceDetailReturnDTO focusDTO = objectMapper.readValue(focusResp, ExerciceDetailReturnDTO.class);
                 assertThat(focusDTO.getMainFocusGroup()).isNotNull();
 
-                // 4️⃣ onlyPrincipalMuscle = true -> seuls les muscles principaux sont inclus
                 String principalResp = mockMvc
                                 .perform(org.springframework.test.web.servlet.request.MockMvcRequestBuilders
                                                 .get("/api/Exercise/getById/" + id)
@@ -278,6 +267,53 @@ public class ExerciceControllerTest {
                 ExerciceDetailReturnDTO principalDTO = objectMapper.readValue(principalResp,
                                 ExerciceDetailReturnDTO.class);
                 assertThat(principalDTO.getMuscleInfos()).allMatch(MuscleInfo::isPrincipal);
+        }
+
+        @Test
+        void testDeleteExercise_successAndFailures() throws Exception {
+                // 1️ Création d’un exercice par user1
+                ExerciseCreateDTO dto = TestUtils.buildExercise("Pompes", "Exercice pectoraux",
+                                List.of(new MuscleInsertExercice(1L, true), new MuscleInsertExercice(2L, false)));
+
+                ExerciceLightReturnDTO created = TestUtils.createExercice(mockMvc, objectMapper, tokenUser1, dto);
+                Long idExercice = created.getIdExercice();
+
+                // Vérifie que l'exercice existe bien en base
+                assertThat(exerciseRepository.findById(idExercice)).isPresent();
+
+                // 2️ Suppression par le bon utilisateur
+                mockMvc.perform(org.springframework.test.web.servlet.request.MockMvcRequestBuilders
+                                .delete("/api/Exercise/delete/" + idExercice)
+                                .header("Authorization", "Bearer " + tokenUser1))
+                                .andExpect(status().isOk())
+                                .andExpect(content().string("Exercise deleted successfully"));
+
+                // Vérifie que l'exercice n’existe plus
+                assertThat(exerciseRepository.findById(idExercice)).isEmpty();
+
+                // 3️ Tentative de suppression d’un exercice inexistant
+                mockMvc.perform(org.springframework.test.web.servlet.request.MockMvcRequestBuilders
+                                .delete("/api/Exercise/delete/999999")
+                                .header("Authorization", "Bearer " + tokenUser1))
+                                .andExpect(status().isBadRequest())
+                                .andExpect(jsonPath("$.error").value("exercise Not found with id 999999"));
+
+                // 4️ Recréation d’un exercice par user1
+                ExerciceLightReturnDTO created2 = TestUtils.createExercice(mockMvc, objectMapper, tokenUser1, dto);
+
+                // Tentative de suppression par un autre utilisateur
+                mockMvc.perform(org.springframework.test.web.servlet.request.MockMvcRequestBuilders
+                                .delete("/api/Exercise/delete/" + created2.getIdExercice())
+                                .header("Authorization", "Bearer " + tokenUser2))
+                                .andExpect(status().isBadRequest())
+                                .andExpect(jsonPath("$.error")
+                                                .value("Cet utilisateur ne peut pas delete cet exercice"));
+
+                // Vérifie qu’il existe toujours après la tentative échouée
+                assertThat(exerciseRepository.findById(created2.getIdExercice())).isPresent();
+                mockMvc.perform(org.springframework.test.web.servlet.request.MockMvcRequestBuilders
+                                .delete("/api/Exercise/delete/" + created2.getIdExercice()))
+                                .andExpect(status().isBadRequest());
         }
 
 }
