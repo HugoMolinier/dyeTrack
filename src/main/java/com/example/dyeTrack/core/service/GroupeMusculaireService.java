@@ -11,7 +11,7 @@ import com.example.dyeTrack.core.port.out.GroupeMusculairePort;
 @Service
 public class GroupeMusculaireService implements GroupeMusculaireUseCase {
 
-    private GroupeMusculairePort groupePort;
+    private final GroupeMusculairePort groupePort;
 
     public GroupeMusculaireService(GroupeMusculairePort groupePort) {
         this.groupePort = groupePort;

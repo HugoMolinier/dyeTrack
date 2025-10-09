@@ -1,8 +1,12 @@
 package com.example.dyeTrack.core.entity;
 
 import java.sql.Date;
+import java.util.ArrayList;
 import java.util.List;
 
+import com.example.dyeTrack.core.entity.infoExerciceUser.InfoExerciceUser;
+
+import jakarta.persistence.CascadeType;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
@@ -36,6 +40,18 @@ public class User {
 
     @OneToMany(mappedBy = "user")
     private List<PresetSeance> presets;
+
+    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<InfoExerciceUser> relRecensementExercices = new ArrayList<>();
+
+    // Getter et Setter
+    public List<InfoExerciceUser> getRelRecensementExercices() {
+        return relRecensementExercices;
+    }
+
+    public void setRelRecensementExercices(List<InfoExerciceUser> relRecensementExercices) {
+        this.relRecensementExercices = relRecensementExercices;
+    }
 
     // --- Constructeurs ---
     public User() {

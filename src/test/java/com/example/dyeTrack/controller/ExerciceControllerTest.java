@@ -80,7 +80,7 @@ public class ExerciceControllerTest {
                                 .header("Authorization", "Bearer " + tokenUser1)
                                 .contentType(MediaType.APPLICATION_JSON)
                                 .content(TestUtils.toJson(objectMapper, dto)))
-                                .andExpect(status().isBadRequest());
+                                .andExpect(status().is(404));
         }
 
         @Test
@@ -196,7 +196,7 @@ public class ExerciceControllerTest {
                                 .contentType(MediaType.APPLICATION_JSON)
                                 .content(TestUtils.toJson(objectMapper, updateDTO)))
                                 .andExpect(status().isBadRequest())
-                                .andExpect(jsonPath("$.error").value("Il doit y avoir 1 muscle principal"));
+                                .andExpect(jsonPath("$.message").value("Il doit y avoir 1 muscle principal"));
 
                 ExerciseCreateDTO updateByOtherUser = new ExerciseCreateDTO();
                 updateByOtherUser.setNameFR("Pompes déclinées");
@@ -207,7 +207,7 @@ public class ExerciceControllerTest {
                                 .header("Authorization", "Bearer " + tokenUser2)
                                 .contentType(MediaType.APPLICATION_JSON)
                                 .content(TestUtils.toJson(objectMapper, updateByOtherUser)))
-                                .andExpect(status().isBadRequest());
+                                .andExpect(status().isForbidden());
         }
 
         @Test
@@ -267,6 +267,16 @@ public class ExerciceControllerTest {
                 ExerciceDetailReturnDTO principalDTO = objectMapper.readValue(principalResp,
                                 ExerciceDetailReturnDTO.class);
                 assertThat(principalDTO.getMuscleInfos()).allMatch(MuscleInfo::isPrincipal);
+
+                // Wrong Id
+
+                mockMvc.perform(org.springframework.test.web.servlet.request.MockMvcRequestBuilders
+                                .get("/api/Exercise/getById/" + "999999")
+                                .param("showMuscles", "true")
+                                .param("onlyPrincipalMuscle", "true")
+                                .header("Authorization", "Bearer " + tokenUser1))
+                                .andExpect(status().isNotFound());
+
         }
 
         @Test
@@ -295,8 +305,8 @@ public class ExerciceControllerTest {
                 mockMvc.perform(org.springframework.test.web.servlet.request.MockMvcRequestBuilders
                                 .delete("/api/Exercise/delete/999999")
                                 .header("Authorization", "Bearer " + tokenUser1))
-                                .andExpect(status().isBadRequest())
-                                .andExpect(jsonPath("$.error").value("exercise Not found with id 999999"));
+                                .andExpect(status().isNotFound())
+                                .andExpect(jsonPath("$.message").value("Exercise not found with id 999999"));
 
                 // 4️ Recréation d’un exercice par user1
                 ExerciceLightReturnDTO created2 = TestUtils.createExercice(mockMvc, objectMapper, tokenUser1, dto);
@@ -305,15 +315,17 @@ public class ExerciceControllerTest {
                 mockMvc.perform(org.springframework.test.web.servlet.request.MockMvcRequestBuilders
                                 .delete("/api/Exercise/delete/" + created2.getIdExercice())
                                 .header("Authorization", "Bearer " + tokenUser2))
-                                .andExpect(status().isBadRequest())
-                                .andExpect(jsonPath("$.error")
+                                .andExpect(status().isForbidden())
+                                .andExpect(jsonPath("$.message")
                                                 .value("Cet utilisateur ne peut pas delete cet exercice"));
 
                 // Vérifie qu’il existe toujours après la tentative échouée
                 assertThat(exerciseRepository.findById(created2.getIdExercice())).isPresent();
+
+                // No token
                 mockMvc.perform(org.springframework.test.web.servlet.request.MockMvcRequestBuilders
                                 .delete("/api/Exercise/delete/" + created2.getIdExercice()))
-                                .andExpect(status().isBadRequest());
+                                .andExpect(status().isForbidden());
         }
 
 }

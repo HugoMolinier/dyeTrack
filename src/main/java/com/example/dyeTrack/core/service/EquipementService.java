@@ -11,7 +11,7 @@ import com.example.dyeTrack.core.port.out.EquipementPort;
 @Service
 public class EquipementService implements EquipementUseCase {
 
-    private EquipementPort equipementPort;
+    private final EquipementPort equipementPort;
 
     public EquipementService(EquipementPort equipementPort) {
         this.equipementPort = equipementPort;

@@ -12,11 +12,13 @@ import com.example.dyeTrack.core.entity.Exercise;
 import com.example.dyeTrack.core.entity.Muscle;
 import com.example.dyeTrack.core.entity.User;
 import com.example.dyeTrack.core.entity.RelExerciseMuscle.RelExerciseMuscle;
-import com.example.dyeTrack.core.exception.ExerciseCreationException;
+import com.example.dyeTrack.core.exception.EntityNotFoundException;
+import com.example.dyeTrack.core.exception.ForbiddenException;
 import com.example.dyeTrack.core.port.in.ExerciseUseCase;
 import com.example.dyeTrack.core.port.out.ExercisePort;
 import com.example.dyeTrack.core.port.out.MusclePort;
 import com.example.dyeTrack.core.port.out.UserPort;
+import com.example.dyeTrack.core.util.EntityUtils;
 import com.example.dyeTrack.core.valueobject.MuscleInsertExercice;
 
 import jakarta.transaction.Transactional;
@@ -35,7 +37,7 @@ public class ExerciseService implements ExerciseUseCase {
     }
 
     public Exercise getByIdExercise(Long idExercise, Boolean onlyPrincipalMuscle) {
-        Exercise e = exercisePort.getByIdExercise(idExercise);
+        Exercise e = EntityUtils.getExerciseOrThrow(idExercise, exercisePort);
         e.getRelExerciseMuscles().removeIf(rem -> !rem.isPrincipal());
         return e;
     }
@@ -53,15 +55,13 @@ public class ExerciseService implements ExerciseUseCase {
     public Exercise create(String nameFR, String description, String linkVideo, Long idUser,
             List<MuscleInsertExercice> relExerciseMuscles) {
         if (nameFR == null)
-            throw new ExerciseCreationException("nameFR empty");
+            throw new IllegalArgumentException("nameFR empty");
         if (idUser == null)
-            throw new ExerciseCreationException("idUser empty");
+            throw new IllegalArgumentException("idUser empty");
         if (relExerciseMuscles == null || relExerciseMuscles.isEmpty())
-            throw new ExerciseCreationException("La liste des muscles ne peut pas être vide");
+            throw new IllegalArgumentException("La liste des muscles ne peut pas être vide");
 
-        User user = userPort.get(idUser);
-        if (user == null)
-            throw new ExerciseCreationException("user Not found with id " + idUser);
+        User user = EntityUtils.getUserOrThrow(idUser, userPort);
 
         Exercise exercise = new Exercise(nameFR, description, linkVideo, user);
         List<RelExerciseMuscle> relations = buildRelExerciseMuscles(exercise, relExerciseMuscles);
@@ -73,16 +73,12 @@ public class ExerciseService implements ExerciseUseCase {
     @Transactional
     public Exercise update(Long idExercice, Long idUserQuiModifie, String nameFR, String description, String linkVideo,
             List<MuscleInsertExercice> relExerciseMuscles) {
-        if (idExercice == null)
-            throw new ExerciseCreationException("idExercice empty");
 
-        Exercise exercise = exercisePort.getByIdExercise(idExercice);
-        if (exercise == null)
-            throw new ExerciseCreationException("exercise Not found with id " + idExercice);
+        Exercise exercise = EntityUtils.getExerciseOrThrow(idExercice, exercisePort);
         if (exercise.getUser() == null)
-            throw new ExerciseCreationException("Impossible de modifier un exercice officiel");
+            throw new ForbiddenException("Impossible de modifier un exercice officiel");
         if (!exercise.getUser().getId().equals(idUserQuiModifie))
-            throw new ExerciseCreationException("Cet utilisateur ne peut pas modifier cet exercice");
+            throw new ForbiddenException("Cet utilisateur ne peut pas modifier cet exercice");
 
         if (nameFR != null || description != null || linkVideo != null) {
             exercise.setNameFR(nameFR);
@@ -101,16 +97,12 @@ public class ExerciseService implements ExerciseUseCase {
 
     @Transactional
     public void delete(Long idExercice, Long idUserQuiDelete) {
-        if (idExercice == null)
-            throw new ExerciseCreationException("idExercice empty");
 
-        Exercise exercise = exercisePort.getByIdExercise(idExercice);
-        if (exercise == null)
-            throw new ExerciseCreationException("exercise Not found with id " + idExercice);
+        Exercise exercise = EntityUtils.getExerciseOrThrow(idExercice, exercisePort);
         if (exercise.getUser() == null)
-            throw new ExerciseCreationException("Impossible de delete un exercice officiel");
+            throw new ForbiddenException("Impossible de delete un exercice officiel");
         if (!exercise.getUser().getId().equals(idUserQuiDelete))
-            throw new ExerciseCreationException("Cet utilisateur ne peut pas delete cet exercice");
+            throw new ForbiddenException("Cet utilisateur ne peut pas delete cet exercice");
         exercisePort.delete(exercise);
     }
 
@@ -130,14 +122,14 @@ public class ExerciseService implements ExerciseUseCase {
             Boolean existingPrincipal = musclePrincipalMap.get(muscleId);
 
             if (existingPrincipal != null && !existingPrincipal.equals(muscleInfo.isPrincipal())) {
-                throw new ExerciseCreationException(
+                throw new IllegalArgumentException(
                         "Le muscle " + muscleId + " ne peut pas être à la fois principal et non principal");
             }
 
             if (existingPrincipal == null) {
                 Muscle muscle = muscleMap.get(muscleId);
                 if (muscle == null)
-                    throw new ExerciseCreationException("muscle Not found with id " + muscleId);
+                    throw new EntityNotFoundException("muscle Not found with id " + muscleId);
 
                 relations.add(new RelExerciseMuscle(muscle, exercise, muscleInfo.isPrincipal()));
                 musclePrincipalMap.put(muscleId, muscleInfo.isPrincipal());
@@ -147,7 +139,7 @@ public class ExerciseService implements ExerciseUseCase {
             }
         }
         if (principalCount != 1)
-            throw new ExerciseCreationException("Il doit y avoir 1 muscle principal");
+            throw new IllegalArgumentException("Il doit y avoir 1 muscle principal");
 
         return relations;
     }

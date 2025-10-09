@@ -15,7 +15,7 @@ import com.example.dyeTrack.core.port.out.UserPort;
 import com.example.dyeTrack.core.util.HashUtil;
 import com.example.dyeTrack.core.valueobject.AuthValue;
 import com.example.dyeTrack.out.security.JWTService;
-
+import com.example.dyeTrack.core.util.EntityUtils;
 import jakarta.transaction.Transactional;
 
 @Service
@@ -37,7 +37,7 @@ public class UserService implements UserUseCase {
 
     @Override
     public User get(Long id) {
-        return userPort.get(id);
+        return EntityUtils.getUserOrThrow(id, userPort);
     }
 
     @Transactional
@@ -48,7 +48,7 @@ public class UserService implements UserUseCase {
 
         String hashedEmail = HashUtil.hashEmail(email, emailSecretKey);
         if (userPort.findByMailHashed(hashedEmail) != null) {
-            throw new ForbiddenException("Email déjà utilisé : " + email);
+            throw new IllegalArgumentException("Email déjà utilisé : " + email);
         }
 
         User user = new User(
@@ -68,7 +68,7 @@ public class UserService implements UserUseCase {
     @Override
     public AuthValue login(String email, String password) {
         if (isBlank(email) || isBlank(password)) {
-            throw new ForbiddenException("Email ou mot de passe vide");
+            throw new IllegalArgumentException("Email ou mot de passe vide");
         }
 
         String hashedEmail = HashUtil.hashEmail(email, emailSecretKey);
@@ -90,7 +90,7 @@ public class UserService implements UserUseCase {
             throw new ForbiddenException("Not same user");
         }
 
-        User user = userPort.get(idUser);
+        User user = EntityUtils.getUserOrThrow(idUser, userPort);
 
         if (!isBlank(pseudo))
             user.setPseudo(pseudo);
@@ -114,11 +114,11 @@ public class UserService implements UserUseCase {
 
     private void validateNewUserInputs(String pseudo, String email, String password, Integer taille) {
         if (isBlank(pseudo))
-            throw new ForbiddenException("Pseudo vide");
+            throw new IllegalArgumentException("Pseudo vide");
         if (isBlank(email))
-            throw new ForbiddenException("Email vide");
+            throw new IllegalArgumentException("Email vide");
         if (isBlank(password))
-            throw new ForbiddenException("Mot de passe vide");
+            throw new IllegalArgumentException("Mot de passe vide");
         validateEmailFormat(email);
         if (taille != null)
             validateTaille(taille);
@@ -127,12 +127,12 @@ public class UserService implements UserUseCase {
     private void validateEmailFormat(String email) {
         String regex = "^[A-Za-z0-9+_.-]+@[A-Za-z0-9.-]+$";
         if (!Pattern.matches(regex, email))
-            throw new ForbiddenException("Email format invalid");
+            throw new IllegalArgumentException("Email format invalid");
     }
 
     private void validateTaille(Integer taille) {
         if (taille < 50 || taille > 300)
-            throw new ForbiddenException("Taille non réaliste");
+            throw new IllegalArgumentException("Taille non réaliste");
     }
 
     private boolean isBlank(String str) {

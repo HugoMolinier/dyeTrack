@@ -2,6 +2,7 @@ package com.example.dyeTrack.core.service;
 
 import java.util.ArrayList;
 import java.util.List;
+
 import org.springframework.stereotype.Service;
 
 import com.example.dyeTrack.core.entity.Equipement;
@@ -10,15 +11,15 @@ import com.example.dyeTrack.core.entity.Lateralite;
 import com.example.dyeTrack.core.entity.PresetSeance;
 import com.example.dyeTrack.core.entity.User;
 import com.example.dyeTrack.core.entity.PresetSeanceExercice.PresetSeanceExercice;
-import com.example.dyeTrack.core.exception.ExerciseCreationException;
+import com.example.dyeTrack.core.exception.EntityNotFoundException;
 import com.example.dyeTrack.core.exception.ForbiddenException;
 import com.example.dyeTrack.core.port.in.PresetSeanceUseCase;
 import com.example.dyeTrack.core.port.out.EquipementPort;
 import com.example.dyeTrack.core.port.out.ExercisePort;
 import com.example.dyeTrack.core.port.out.LateralitePort;
-import com.example.dyeTrack.core.port.out.PresetSeanceExercicePort;
 import com.example.dyeTrack.core.port.out.PresetSeancePort;
 import com.example.dyeTrack.core.port.out.UserPort;
+import com.example.dyeTrack.core.util.EntityUtils;
 import com.example.dyeTrack.core.valueobject.PresetSeanceExerciceVO;
 
 import jakarta.transaction.Transactional;
@@ -26,31 +27,26 @@ import jakarta.transaction.Transactional;
 @Service
 public class PresetSeanceService implements PresetSeanceUseCase {
 
-    private PresetSeancePort presetSeancePort;
-    private UserPort userPort;
-    private LateralitePort lateralitePort;
-    private EquipementPort equipementPort;
-    private ExercisePort exercisePort;
-    private PresetSeanceExercicePort presetSeanceExercicePort;
+    private final PresetSeancePort presetSeancePort;
+    private final UserPort userPort;
+    private final LateralitePort lateralitePort;
+    private final EquipementPort equipementPort;
+    private final ExercisePort exercisePort;
 
     public PresetSeanceService(PresetSeancePort presetSeancePort, UserPort userPort, LateralitePort lateralitePort,
-            EquipementPort equipementPort, ExercisePort exercisePort,
-            PresetSeanceExercicePort presetSeanceExercicePort) {
+            EquipementPort equipementPort, ExercisePort exercisePort) {
         this.presetSeancePort = presetSeancePort;
         this.userPort = userPort;
         this.equipementPort = equipementPort;
         this.lateralitePort = lateralitePort;
         this.exercisePort = exercisePort;
-        this.presetSeanceExercicePort = presetSeanceExercicePort;
     }
 
     @Transactional
     public PresetSeance save(String name, Long idUserWhoAdd, List<PresetSeanceExerciceVO> presetSeanceExercice) {
         if (name == null)
-            throw new ExerciseCreationException("name cannot be empty");
-        User user = userPort.get(idUserWhoAdd);
-        if (user == null)
-            throw new ExerciseCreationException("user Not found with id " + idUserWhoAdd);
+            throw new IllegalArgumentException("name cannot be empty");
+        User user = EntityUtils.getUserOrThrow(idUserWhoAdd, userPort);
         PresetSeance presetSeance = new PresetSeance(name, user);
 
         // do relExerciceMuscle
@@ -65,10 +61,7 @@ public class PresetSeanceService implements PresetSeanceUseCase {
                 Long idLateralite = presetSeanceExerciceVO.getIdLateralite();
                 Long idEquipement = presetSeanceExerciceVO.getIdEquipement();
 
-                Exercise exercice = exercisePort.getByIdExercise(idExercice);
-                if (exercice == null) {
-                    throw new IllegalArgumentException("Exercice ID " + idExercice + " invalide");
-                }
+                Exercise exercice = EntityUtils.getExerciseOrThrow(idExercice, exercisePort);
 
                 Lateralite lateralite = lateralites.stream()
                         .filter(l -> l.getId().equals(idLateralite))
@@ -105,9 +98,10 @@ public class PresetSeanceService implements PresetSeanceUseCase {
 
     public PresetSeance getById(Long idPreset, Long idUser) {
         PresetSeance presetSeance = presetSeancePort.getById(idPreset);
-        if (!presetSeance.getUser().getId().equals(idUser)) {
+        if (presetSeance == null)
+            throw new EntityNotFoundException("Preset not found with id " + idPreset);
+        if (!presetSeance.getUser().getId().equals(idUser))
             throw new ForbiddenException("Accès interdit");
-        }
         return presetSeance;
     }
 
@@ -116,11 +110,11 @@ public class PresetSeanceService implements PresetSeanceUseCase {
             List<PresetSeanceExerciceVO> presetSeanceExerciceVOs) {
 
         if (idPreset == null)
-            throw new ForbiddenException("idPreset empty");
+            throw new IllegalArgumentException("idPreset empty");
 
         PresetSeance presetSeance = presetSeancePort.getById(idPreset);
         if (presetSeance == null)
-            throw new ForbiddenException("Preset Not found with id " + idPreset);
+            throw new EntityNotFoundException("Preset Not found with id " + idPreset);
         if (!presetSeance.getUser().getId().equals(idUserQuiModifie))
             throw new ForbiddenException("Cet utilisateur ne peut pas modifier ce preset");
 
@@ -138,10 +132,7 @@ public class PresetSeanceService implements PresetSeanceUseCase {
             int index = 1;
 
             for (PresetSeanceExerciceVO vo : presetSeanceExerciceVOs) {
-                Exercise exercice = exercisePort.getByIdExercise(vo.getIdExercice());
-                if (exercice == null) {
-                    throw new IllegalArgumentException("Exercice ID " + vo.getIdExercice() + " invalide");
-                }
+                Exercise exercice = EntityUtils.getExerciseOrThrow(vo.getIdExercice(), exercisePort);
 
                 Lateralite lateralite = lateralites.stream()
                         .filter(l -> l.getId().equals(vo.getIdLateralite()))
@@ -177,10 +168,12 @@ public class PresetSeanceService implements PresetSeanceUseCase {
 
     public void delete(Long idpresetSeance, Long idUserQuiModifie) {
         if (idpresetSeance == null)
-            throw new ForbiddenException("idPreset empty");
+            throw new IllegalArgumentException("idPreset cannot be null");
+
         PresetSeance presetSeance = presetSeancePort.getById(idpresetSeance);
         if (presetSeance == null)
-            throw new ForbiddenException("Preset Not found with id " + idpresetSeance);
+            throw new EntityNotFoundException("Preset not found with id " + idpresetSeance);
+
         if (!presetSeance.getUser().getId().equals(idUserQuiModifie))
             throw new ForbiddenException("Cet utilisateur ne peut pas delete ce preset");
 

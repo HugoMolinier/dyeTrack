@@ -126,7 +126,7 @@ class UserControllerIntegrationTest {
             mockMvc.perform(post("/api/user/login")
                     .contentType("application/json")
                     .content(TestUtils.toJson(objectMapper, dto)))
-                    .andExpect(status().isBadRequest());
+                    .andExpect(status().isForbidden());
         }
     }
 

@@ -293,7 +293,7 @@ public class PresetSeanceControllerTest {
                                 .header("Authorization", "Bearer " + tokenUser2)
                                 .contentType(MediaType.APPLICATION_JSON)
                                 .content(TestUtils.toJson(objectMapper, modifPreset)))
-                                .andExpect(status().isBadRequest());
+                                .andExpect(status().isForbidden());
         }
 
         @Test
@@ -356,7 +356,12 @@ public class PresetSeanceControllerTest {
                 mockMvc.perform(org.springframework.test.web.servlet.request.MockMvcRequestBuilders
                                 .get("/api/preset-seances/getById/" + createdPreset.getIdPreset())
                                 .header("Authorization", "Bearer " + tokenUser2))
-                                .andExpect(status().isBadRequest());
+                                .andExpect(status().isForbidden());
+
+                mockMvc.perform(org.springframework.test.web.servlet.request.MockMvcRequestBuilders
+                                .get("/api/preset-seances/getById/" + "898998594")
+                                .header("Authorization", "Bearer " + tokenUser1))
+                                .andExpect(status().isNotFound());
         }
 
         @Test
@@ -402,8 +407,8 @@ public class PresetSeanceControllerTest {
                 mockMvc.perform(org.springframework.test.web.servlet.request.MockMvcRequestBuilders
                                 .delete("/api/preset-seances/delete/999999")
                                 .header("Authorization", "Bearer " + tokenUser1))
-                                .andExpect(status().isBadRequest())
-                                .andExpect(jsonPath("$.error").value("Preset Not found with id 999999"));
+                                .andExpect(status().isNotFound())
+                                .andExpect(jsonPath("$.message").value("Preset not found with id 999999"));
 
                 // 4️ Recréation d’un preset par user1
 
@@ -426,7 +431,7 @@ public class PresetSeanceControllerTest {
                 mockMvc.perform(org.springframework.test.web.servlet.request.MockMvcRequestBuilders
                                 .delete("/api/preset-seances/delete/" + createdPreset2.getIdPreset())
                                 .header("Authorization", "Bearer " + tokenUser2))
-                                .andExpect(status().isBadRequest());
+                                .andExpect(status().isForbidden());
 
                 // Vérifie que le preset existe toujours
                 assertThat(presetSeanceRepository.findById(createdPreset2.getIdPreset())).isPresent();

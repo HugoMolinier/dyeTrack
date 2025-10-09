@@ -11,7 +11,7 @@ import com.example.dyeTrack.core.port.out.LateralitePort;
 @Service
 public class LateraliteService implements LateraliteUseCase {
 
-    private LateralitePort lateralitePort;
+    private final LateralitePort lateralitePort;
 
     public LateraliteService(LateralitePort lateralitePort) {
         this.lateralitePort = lateralitePort;

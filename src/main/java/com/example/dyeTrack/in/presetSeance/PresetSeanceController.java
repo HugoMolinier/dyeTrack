@@ -3,7 +3,6 @@ package com.example.dyeTrack.in.presetSeance;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -16,24 +15,16 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.example.dyeTrack.core.entity.PresetSeance;
-import com.example.dyeTrack.core.entity.PresetSeanceExercice.PresetSeanceExercice;
-import com.example.dyeTrack.core.entity.RelExerciseMuscle.RelExerciseMuscle;
+
 import com.example.dyeTrack.core.service.PresetSeanceService;
-import com.example.dyeTrack.core.valueobject.IDNameValue;
-import com.example.dyeTrack.core.valueobject.MuscleInfo;
-import com.example.dyeTrack.core.valueobject.PresetSeanceExerciceVO;
-import com.example.dyeTrack.in.exercise.dto.ExerciceDetailReturnDTO;
 import com.example.dyeTrack.in.exercise.dto.ExerciceUltraLightReturnDTO;
 import com.example.dyeTrack.in.presetSeance.dto.PresetDetailReturnDTO;
-import com.example.dyeTrack.in.presetSeance.dto.PresetLightReturnDTO;
-import com.example.dyeTrack.in.presetSeance.dto.PresetReturnDTO;
 import com.example.dyeTrack.in.presetSeance.dto.PresetSeanceCreateRequestDTO;
 import com.example.dyeTrack.in.presetSeance.dto.PresetSeanceExerciceVODTO;
 import com.example.dyeTrack.in.utils.SecurityUtil;
 
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.security.SecurityRequirement;
-import jakarta.servlet.http.HttpServletRequest;
 import jakarta.validation.Valid;
 
 @RestController
@@ -49,8 +40,7 @@ public class PresetSeanceController {
 
     @PostMapping("/create")
     @Operation(summary = "Create Preset attribuate to a user", description = "Accessible only if a valid JWT is provided and corresponds to the user")
-    public PresetDetailReturnDTO create(@RequestBody @Valid PresetSeanceCreateRequestDTO presetSeanceCreateRequestDTO,
-            HttpServletRequest request) {
+    public PresetDetailReturnDTO create(@RequestBody @Valid PresetSeanceCreateRequestDTO presetSeanceCreateRequestDTO) {
         Long idTokenUser = SecurityUtil.getUserIdFromContext();
 
         return buildDetailDTO(presetSeanceService.save(presetSeanceCreateRequestDTO.getName(), idTokenUser,
@@ -61,8 +51,7 @@ public class PresetSeanceController {
     @GetMapping("/getAll")
     @Operation(summary = "Get All Preset of user", description = "Accessible only if a valid JWT is provided and corresponds to the user")
     public List<PresetDetailReturnDTO> findAllOfUser(
-            @RequestParam(required = false) String name,
-            HttpServletRequest request) {
+            @RequestParam(required = false) String name) {
         Long idTokenUser = SecurityUtil.getUserIdFromContext();
 
         List<PresetSeance> presetSeances = presetSeanceService.getAllPresetOfUser(idTokenUser, name);
@@ -78,8 +67,7 @@ public class PresetSeanceController {
     @PutMapping("/update/{id}")
     @Operation(summary = "Update a Preset of user", description = "Accessible only if a valid JWT is provided and corresponds to the user")
     public PresetDetailReturnDTO update(@PathVariable Long id,
-            @RequestBody PresetSeanceCreateRequestDTO presetSeanceCreateRequestDTO,
-            HttpServletRequest request) {
+            @RequestBody PresetSeanceCreateRequestDTO presetSeanceCreateRequestDTO) {
         Long idTokenUser = SecurityUtil.getUserIdFromContext();
         return buildDetailDTO(presetSeanceService.update(id, idTokenUser, presetSeanceCreateRequestDTO.getName(),
                 presetSeanceCreateRequestDTO.getPresetSeanceExerciceVOs()));
@@ -88,8 +76,7 @@ public class PresetSeanceController {
 
     @DeleteMapping("/delete/{id}")
     @Operation(summary = "Delelte a Preset of user", description = "Accessible only if a valid JWT is provided and corresponds to the user", security = @SecurityRequirement(name = "bearerAuth"))
-    public ResponseEntity<String> delete(@PathVariable Long id,
-            HttpServletRequest request) {
+    public ResponseEntity<String> delete(@PathVariable Long id) {
 
         Long idTokenUser = SecurityUtil.getUserIdFromContext();
 
@@ -100,8 +87,7 @@ public class PresetSeanceController {
     @GetMapping("/getById/{id}")
     @Operation(summary = "GetByID a Preset of user", description = "Accessible only if a valid JWT is provided and corresponds to the user")
     public PresetDetailReturnDTO getById(
-            @PathVariable Long id,
-            HttpServletRequest request) {
+            @PathVariable Long id) {
         Long idTokenUser = SecurityUtil.getUserIdFromContext();
 
         return buildDetailDTO(presetSeanceService.getById(id, idTokenUser));

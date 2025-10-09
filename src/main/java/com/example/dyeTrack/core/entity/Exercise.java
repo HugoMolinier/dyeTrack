@@ -5,6 +5,7 @@ import java.util.List;
 
 import com.example.dyeTrack.core.entity.PresetSeanceExercice.PresetSeanceExercice;
 import com.example.dyeTrack.core.entity.RelExerciseMuscle.RelExerciseMuscle;
+import com.example.dyeTrack.core.entity.infoExerciceUser.InfoExerciceUser;
 
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
@@ -43,6 +44,17 @@ public class Exercise {
 
     @OneToMany(mappedBy = "exercice", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<PresetSeanceExercice> presetSeanceExercices = new ArrayList<>();
+
+    @OneToMany(mappedBy = "exercice", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<InfoExerciceUser> relRecensementExercices = new ArrayList<>();
+
+    public List<InfoExerciceUser> getRelRecensementExercices() {
+        return relRecensementExercices;
+    }
+
+    public void setRelRecensementExercices(List<InfoExerciceUser> relRecensementExercices) {
+        this.relRecensementExercices = relRecensementExercices;
+    }
 
     public List<RelExerciseMuscle> getRelExerciseMuscles() {
         return relExerciseMuscles;

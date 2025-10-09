@@ -6,10 +6,11 @@ import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 
 import com.example.dyeTrack.core.entity.PresetSeanceExercice.PresetSeanceExercice;
+import com.example.dyeTrack.core.entity.PresetSeanceExercice.PresetSeanceExerciceId;
 
 import jakarta.transaction.Transactional;
 
-public interface PresetSeanceExerciceRepository extends JpaRepository<PresetSeanceExercice, Long> {
+public interface PresetSeanceExerciceRepository extends JpaRepository<PresetSeanceExercice, PresetSeanceExerciceId> {
 
     @Modifying
     @Transactional

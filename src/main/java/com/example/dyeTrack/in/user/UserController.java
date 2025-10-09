@@ -10,7 +10,6 @@ import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import org.springframework.web.bind.annotation.RequestBody;
 
-import jakarta.servlet.http.HttpServletRequest;
 import jakarta.validation.Valid;
 
 import com.example.dyeTrack.in.user.dto.LoginUserDTO;
@@ -34,7 +33,7 @@ public class UserController {
 
     @GetMapping("/getUserConnected")
     @Operation(summary = "Get connected user information", description = "Accessible only if a valid JWT is provided and corresponds to the user", security = @SecurityRequirement(name = "bearerAuth"))
-    public UserDTO getUser(HttpServletRequest request) {
+    public UserDTO getUser() {
         Long idTokenUser = SecurityUtil.getUserIdFromContext();
         if (idTokenUser == null)
             return null;

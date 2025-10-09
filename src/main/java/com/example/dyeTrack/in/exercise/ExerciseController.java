@@ -3,7 +3,6 @@ package com.example.dyeTrack.in.exercise;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
-import org.springframework.web.server.ResponseStatusException;
 
 import com.example.dyeTrack.core.entity.Exercise;
 import com.example.dyeTrack.core.entity.GroupeMusculaire;
@@ -19,7 +18,6 @@ import com.example.dyeTrack.in.utils.SecurityUtil;
 
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.security.SecurityRequirement;
-import jakarta.servlet.http.HttpServletRequest;
 import jakarta.transaction.Transactional;
 import jakarta.validation.Valid;
 
@@ -28,7 +26,6 @@ import org.springframework.web.bind.annotation.RequestBody;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -93,8 +90,7 @@ public class ExerciseController {
 
     @PostMapping("/create")
     @Operation(summary = "Create Exercice information", description = "Accessible only if a valid JWT is provided and corresponds to the user", security = @SecurityRequirement(name = "bearerAuth"))
-    public ExerciceDetailReturnDTO create(@RequestBody @Valid ExerciseCreateDTO exercisedto,
-            HttpServletRequest request) {
+    public ExerciceDetailReturnDTO create(@RequestBody @Valid ExerciseCreateDTO exercisedto) {
 
         Long idTokenUser = SecurityUtil.getUserIdFromContext();
         Exercise exercice = exerciseService.create(
@@ -111,8 +107,7 @@ public class ExerciseController {
     @PostMapping("/createMultiple")
     @Operation(summary = "Create Multiple Exercice information", description = "Accessible only if a valid JWT is provided and corresponds to the user", security = @SecurityRequirement(name = "bearerAuth"))
 
-    public List<ExerciceLightReturnDTO> createMultiple(@RequestBody List<ExerciseCreateDTO> exercises,
-            HttpServletRequest request) {
+    public List<ExerciceLightReturnDTO> createMultiple(@RequestBody List<ExerciseCreateDTO> exercises) {
         Long idTokenUser = SecurityUtil.getUserIdFromContext();
         List<ExerciceLightReturnDTO> exercicesOut = new ArrayList<>();
         for (ExerciseCreateDTO ex : exercises) {
@@ -129,7 +124,6 @@ public class ExerciseController {
     @PutMapping("/update/{id}")
     @Operation(summary = "Update Exercice information", description = "Accessible only if a valid JWT is provided and corresponds to the user", security = @SecurityRequirement(name = "bearerAuth"))
     public ExerciceDetailReturnDTO update(@PathVariable Long id,
-            HttpServletRequest request,
             @RequestBody @Valid ExerciseCreateDTO dto) {
         Long idTokenUser = SecurityUtil.getUserIdFromContext();
         Exercise updatedExercise = exerciseService.update(id, idTokenUser, dto.getNameFR(), dto.getDescription(),
@@ -142,8 +136,7 @@ public class ExerciseController {
     @DeleteMapping("/delete/{id}")
     @Operation(summary = "Delete Exercice information", description = "Accessible only if a valid JWT is provided and corresponds to the user", security = @SecurityRequirement(name = "bearerAuth"))
 
-    public ResponseEntity<String> delete(@PathVariable Long id,
-            HttpServletRequest request) {
+    public ResponseEntity<String> delete(@PathVariable Long id) {
         Long idTokenUser = SecurityUtil.getUserIdFromContext();
         exerciseService.delete(id, idTokenUser);
         return ResponseEntity.ok("Exercise deleted successfully");
