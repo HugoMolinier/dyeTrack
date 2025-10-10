@@ -46,6 +46,7 @@ class UserControllerIntegrationTest {
     void testRegister_returnsCreatedUser() throws Exception {
         ReturnUserTokenDTO returned = TestUtils.registerUser(mockMvc, objectMapper, "Hugo", "hugo@test.com",
                 "password");
+
         TestUtils.assertUserToken(returned, "hugo@test.com", "Hugo", userRepository, jwtService, emailSecretKey);
     }
 
@@ -97,9 +98,14 @@ class UserControllerIntegrationTest {
         String response = mockMvc.perform(post("/api/user/login")
                 .contentType("application/json")
                 .content(TestUtils.toJson(objectMapper, loginDto)))
+                .andExpect(status().isOk())
                 .andReturn().getResponse().getContentAsString();
 
-        ReturnUserTokenDTO returned = objectMapper.readValue(response, ReturnUserTokenDTO.class);
+        ReturnUserTokenDTO returned = TestUtils.assertAndExtractData(
+                response,
+                "Connexion réussie",
+                objectMapper,
+                ReturnUserTokenDTO.class);
         TestUtils.assertUserToken(returned, "hugo@test.com", "Hugo", userRepository, jwtService, emailSecretKey);
     }
 
@@ -140,7 +146,11 @@ class UserControllerIntegrationTest {
                 .andExpect(status().isOk())
                 .andReturn().getResponse().getContentAsString();
 
-        UserDTO userDTO = objectMapper.readValue(response, UserDTO.class);
+        UserDTO userDTO = TestUtils.assertAndExtractData(
+                response,
+                "Utilisateur récupéré avec succès",
+                objectMapper,
+                UserDTO.class);
         assertThat(userDTO.getPseudo()).isEqualTo("Hugo");
     }
 

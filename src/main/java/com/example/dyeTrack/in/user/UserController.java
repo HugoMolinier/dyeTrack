@@ -1,25 +1,17 @@
 package com.example.dyeTrack.in.user;
 
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.*;
 
 import com.example.dyeTrack.core.entity.User;
 import com.example.dyeTrack.core.service.UserService;
+import com.example.dyeTrack.in.user.dto.*;
+import com.example.dyeTrack.in.utils.SecurityUtil;
+import com.example.dyeTrack.in.utils.ResponseBuilder;
 
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.security.SecurityRequirement;
-import org.springframework.web.bind.annotation.RequestBody;
-
 import jakarta.validation.Valid;
-
-import com.example.dyeTrack.in.user.dto.LoginUserDTO;
-import com.example.dyeTrack.in.user.dto.RegisterUserDTO;
-import com.example.dyeTrack.in.user.dto.ReturnUserTokenDTO;
-import com.example.dyeTrack.in.user.dto.UserDTO;
-import com.example.dyeTrack.in.utils.SecurityUtil;
-
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
 
 @RestController
 @RequestMapping("/api/user")
@@ -31,37 +23,46 @@ public class UserController {
         this.service = service;
     }
 
+    /* --- Récupération de l'utilisateur connecté --- */
     @GetMapping("/getUserConnected")
     @Operation(summary = "Get connected user information", description = "Accessible only if a valid JWT is provided and corresponds to the user", security = @SecurityRequirement(name = "bearerAuth"))
-    public UserDTO getUser() {
+    public ResponseEntity<ResponseBuilder.ResponseDTO<UserDTO>> getUser() {
         Long idTokenUser = SecurityUtil.getUserIdFromContext();
-        if (idTokenUser == null)
-            return null;
         User user = service.get(idTokenUser);
-        return user == null ? null
-                : new UserDTO(
-                        user.getId(),
-                        user.getPseudo(),
-                        user.getDateRegister(),
-                        user.getDateNaissance(),
-                        user.getTaille(),
-                        user.getSexeMale());
+
+        UserDTO dto = new UserDTO(
+                user.getId(),
+                user.getPseudo(),
+                user.getDateRegister(),
+                user.getDateNaissance(),
+                user.getTaille(),
+                user.getSexeMale());
+
+        return ResponseBuilder.success(dto, "Utilisateur récupéré avec succès");
     }
 
+    /* --- Connexion d'un utilisateur --- */
     @PostMapping("/login")
     @Operation(summary = "User login", description = "Allows an existing user to log in and receive a JWT token")
-    public ReturnUserTokenDTO login(
-            @RequestBody LoginUserDTO dto) {
-        return new ReturnUserTokenDTO(service.login(dto.getEmail(), dto.getPassword()));
+    public ResponseEntity<ResponseBuilder.ResponseDTO<ReturnUserTokenDTO>> login(@RequestBody LoginUserDTO dto) {
+        ReturnUserTokenDTO response = new ReturnUserTokenDTO(
+                service.login(dto.getEmail(), dto.getPassword()));
+        return ResponseBuilder.success(response, "Connexion réussie");
     }
 
+    /* --- Inscription d'un nouvel utilisateur --- */
     @PostMapping("/register")
     @Operation(summary = "User registration", description = "Allows a new user to register and receive a JWT token")
-    public ReturnUserTokenDTO register(@RequestBody @Valid RegisterUserDTO dto) {
-
-        return new ReturnUserTokenDTO(service.save(dto.getPseudo(), dto.getEmail(), dto.getPassword(),
-                dto.getDateNaissance(), dto.getTaille(), dto.getSexeMale()));
-
+    public ResponseEntity<ResponseBuilder.ResponseDTO<ReturnUserTokenDTO>> register(
+            @RequestBody @Valid RegisterUserDTO dto) {
+        ReturnUserTokenDTO response = new ReturnUserTokenDTO(
+                service.save(
+                        dto.getPseudo(),
+                        dto.getEmail(),
+                        dto.getPassword(),
+                        dto.getDateNaissance(),
+                        dto.getTaille(),
+                        dto.getSexeMale()));
+        return ResponseBuilder.created(response, "Utilisateur créé avec succès");
     }
-
 }

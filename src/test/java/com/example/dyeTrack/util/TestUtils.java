@@ -4,15 +4,20 @@ import com.example.dyeTrack.core.util.HashUtil;
 import com.example.dyeTrack.core.valueobject.MuscleInsertExercice;
 import com.example.dyeTrack.in.exercise.dto.ExerciceDetailReturnDTO;
 import com.example.dyeTrack.in.exercise.dto.ExerciseCreateDTO;
+import com.example.dyeTrack.in.presetSeance.dto.PresetDetailReturnDTO;
+import com.example.dyeTrack.in.presetSeance.dto.PresetSeanceCreateRequestDTO;
 import com.example.dyeTrack.in.user.dto.RegisterUserDTO;
 import com.example.dyeTrack.in.user.dto.ReturnUserTokenDTO;
+import com.example.dyeTrack.in.utils.ResponseBuilder;
 import com.example.dyeTrack.out.security.JWTService;
 import com.example.dyeTrack.out.user.UserRepository;
+import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.springframework.test.web.servlet.MockMvc;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 import java.util.List;
 
@@ -38,12 +43,8 @@ public class TestUtils {
      * @return ReturnUserTokenDTO {User + Token}
      * @throws Exception
      */
-    public static ReturnUserTokenDTO registerUser(
-            MockMvc mockMvc,
-            ObjectMapper objectMapper,
-            String pseudo,
-            String email,
-            String password) throws Exception {
+    public static ReturnUserTokenDTO registerUser(MockMvc mockMvc, ObjectMapper objectMapper,
+            String pseudo, String email, String password) throws Exception {
         RegisterUserDTO dto = new RegisterUserDTO();
         dto.setPseudo(pseudo);
         dto.setEmail(email);
@@ -52,11 +53,52 @@ public class TestUtils {
         String response = mockMvc.perform(post("/api/user/register")
                 .contentType(MediaType.APPLICATION_JSON)
                 .content(toJson(objectMapper, dto)))
+                .andExpect(status().isCreated())
                 .andReturn()
                 .getResponse()
                 .getContentAsString();
 
-        return objectMapper.readValue(response, ReturnUserTokenDTO.class);
+        return assertAndExtractData(response, "Utilisateur créé avec succès", objectMapper, ReturnUserTokenDTO.class);
+    }
+
+    public static PresetDetailReturnDTO createPreset(MockMvc mockMvc, ObjectMapper objectMapper,
+            String token, PresetSeanceCreateRequestDTO presetDTO) throws Exception {
+
+        String response = mockMvc.perform(post("/api/preset-seances/create")
+                .header("Authorization", "Bearer " + token)
+                .contentType(MediaType.APPLICATION_JSON)
+                .content(TestUtils.toJson(objectMapper, presetDTO)))
+                .andExpect(status().isCreated())
+                .andReturn().getResponse().getContentAsString();
+
+        return TestUtils.assertAndExtractData(response, "Preset créé avec succès", objectMapper,
+                PresetDetailReturnDTO.class);
+    }
+
+    public static <T> T assertAndExtractData(String response, String messageToAssert, ObjectMapper objectMapper,
+            Class<T> clazz) throws Exception {
+        // Parse JSON
+        JsonNode root = objectMapper.readTree(response);
+
+        // Vérifie le message si fourni
+        if (messageToAssert != null) {
+            String actualMessage = root.get("message").asText();
+            assertThat(actualMessage).isEqualTo(messageToAssert);
+        }
+        JsonNode dataNode = root.get("data");
+        assertThat(dataNode).isNotNull();
+        return objectMapper.treeToValue(dataNode, clazz);
+    }
+
+    public static <T> List<T> assertAndExtractDataList(String response, String expectedMessage,
+            ObjectMapper objectMapper, Class<T> elementType) throws Exception {
+        ResponseBuilder.ResponseDTO<List<T>> resp = objectMapper.readValue(response,
+                objectMapper.getTypeFactory().constructParametricType(ResponseBuilder.ResponseDTO.class,
+                        objectMapper.getTypeFactory().constructCollectionType(List.class, elementType)));
+
+        assertThat(resp.getMessage()).isEqualTo(expectedMessage);
+
+        return resp.getData();
     }
 
     public static ExerciceDetailReturnDTO createExercice(
@@ -69,15 +111,14 @@ public class TestUtils {
                 .header("Authorization", "Bearer " + token)
                 .contentType(MediaType.APPLICATION_JSON)
                 .content(toJson(objectMapper, dto)))
+                .andExpect(status().isCreated())
                 .andReturn()
                 .getResponse()
                 .getContentAsString();
 
-        ExerciceDetailReturnDTO created = objectMapper.readValue(response, ExerciceDetailReturnDTO.class);
-        if (created.getIdExercice() == null) {
-            throw new RuntimeException("L'ID de l'exercice créé est null !");
-        }
-        return created;
+        return assertAndExtractData(response, "Exercice créé avec succès", objectMapper,
+                ExerciceDetailReturnDTO.class);
+
     }
 
     public static ExerciseCreateDTO buildExercise(String name, String desc, List<MuscleInsertExercice> muscles) {

@@ -1,16 +1,15 @@
 package com.example.dyeTrack.core.entity;
 
 import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotNull;
 
 @Entity
 public class Equipement {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @NotNull
     private Long id;
 
     @NotBlank
@@ -19,7 +18,8 @@ public class Equipement {
     @NotBlank
     private String nomEN;
 
-    public Equipement(String nomFR, String nomEN) {
+    public Equipement(Long id, String nomFR, String nomEN) {
+        this.id = id;
         this.nomFR = nomFR;
         this.nomEN = nomEN;
     }

@@ -21,6 +21,7 @@ import com.example.dyeTrack.in.exercise.dto.ExerciceUltraLightReturnDTO;
 import com.example.dyeTrack.in.presetSeance.dto.PresetDetailReturnDTO;
 import com.example.dyeTrack.in.presetSeance.dto.PresetSeanceCreateRequestDTO;
 import com.example.dyeTrack.in.presetSeance.dto.PresetSeanceExerciceVODTO;
+import com.example.dyeTrack.in.utils.ResponseBuilder;
 import com.example.dyeTrack.in.utils.SecurityUtil;
 
 import io.swagger.v3.oas.annotations.Operation;
@@ -40,17 +41,19 @@ public class PresetSeanceController {
 
     @PostMapping("/create")
     @Operation(summary = "Create Preset attribuate to a user", description = "Accessible only if a valid JWT is provided and corresponds to the user")
-    public PresetDetailReturnDTO create(@RequestBody @Valid PresetSeanceCreateRequestDTO presetSeanceCreateRequestDTO) {
+    public ResponseEntity<ResponseBuilder.ResponseDTO<PresetDetailReturnDTO>> create(
+            @RequestBody @Valid PresetSeanceCreateRequestDTO presetSeanceCreateRequestDTO) {
         Long idTokenUser = SecurityUtil.getUserIdFromContext();
 
-        return buildDetailDTO(presetSeanceService.save(presetSeanceCreateRequestDTO.getName(), idTokenUser,
-                presetSeanceCreateRequestDTO.getPresetSeanceExerciceVOs()));
+        return ResponseBuilder
+                .created(buildDetailDTO(presetSeanceService.save(presetSeanceCreateRequestDTO.getName(), idTokenUser,
+                        presetSeanceCreateRequestDTO.getPresetSeanceExerciceVOs())), "Preset créé avec succès");
 
     }
 
     @GetMapping("/getAll")
     @Operation(summary = "Get All Preset of user", description = "Accessible only if a valid JWT is provided and corresponds to the user")
-    public List<PresetDetailReturnDTO> findAllOfUser(
+    public ResponseEntity<ResponseBuilder.ResponseDTO<List<PresetDetailReturnDTO>>> findAllOfUser(
             @RequestParam(required = false) String name) {
         Long idTokenUser = SecurityUtil.getUserIdFromContext();
 
@@ -61,36 +64,41 @@ public class PresetSeanceController {
             presetOut.add(buildDetailDTO(presetSeance));
         }
 
-        return presetOut;
+        return ResponseBuilder.success(presetOut, "Liste des presets récupérée avec succès");
     }
 
     @PutMapping("/update/{id}")
     @Operation(summary = "Update a Preset of user", description = "Accessible only if a valid JWT is provided and corresponds to the user")
-    public PresetDetailReturnDTO update(@PathVariable Long id,
+    public ResponseEntity<ResponseBuilder.ResponseDTO<PresetDetailReturnDTO>> update(@PathVariable Long id,
             @RequestBody PresetSeanceCreateRequestDTO presetSeanceCreateRequestDTO) {
         Long idTokenUser = SecurityUtil.getUserIdFromContext();
-        return buildDetailDTO(presetSeanceService.update(id, idTokenUser, presetSeanceCreateRequestDTO.getName(),
-                presetSeanceCreateRequestDTO.getPresetSeanceExerciceVOs()));
+        return ResponseBuilder
+                .success(
+                        buildDetailDTO(
+                                presetSeanceService.update(id, idTokenUser, presetSeanceCreateRequestDTO.getName(),
+                                        presetSeanceCreateRequestDTO.getPresetSeanceExerciceVOs())),
+                        "Preset mis à jour avec succès");
 
     }
 
     @DeleteMapping("/delete/{id}")
     @Operation(summary = "Delelte a Preset of user", description = "Accessible only if a valid JWT is provided and corresponds to the user", security = @SecurityRequirement(name = "bearerAuth"))
-    public ResponseEntity<String> delete(@PathVariable Long id) {
+    public ResponseEntity<ResponseBuilder.ResponseDTO<String>> delete(@PathVariable Long id) {
 
         Long idTokenUser = SecurityUtil.getUserIdFromContext();
 
         presetSeanceService.delete(id, idTokenUser);
-        return ResponseEntity.ok("Preset deleted successfully");
+        return ResponseBuilder.success(null, "Preset supprimé avec succès");
     }
 
     @GetMapping("/getById/{id}")
     @Operation(summary = "GetByID a Preset of user", description = "Accessible only if a valid JWT is provided and corresponds to the user")
-    public PresetDetailReturnDTO getById(
+    public ResponseEntity<ResponseBuilder.ResponseDTO<PresetDetailReturnDTO>> getById(
             @PathVariable Long id) {
         Long idTokenUser = SecurityUtil.getUserIdFromContext();
 
-        return buildDetailDTO(presetSeanceService.getById(id, idTokenUser));
+        return ResponseBuilder.success(buildDetailDTO(presetSeanceService.getById(id, idTokenUser)),
+                "Preset récupéré avec succès");
 
     }
 

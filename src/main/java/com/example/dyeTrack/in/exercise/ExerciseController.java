@@ -14,6 +14,7 @@ import com.example.dyeTrack.in.exercise.dto.ExerciceDetailReturnDTO;
 import com.example.dyeTrack.in.exercise.dto.ExerciceLightReturnDTO;
 import com.example.dyeTrack.in.exercise.dto.ExerciceReturnDTO;
 import com.example.dyeTrack.in.exercise.dto.ExerciseCreateDTO;
+import com.example.dyeTrack.in.utils.ResponseBuilder;
 import com.example.dyeTrack.in.utils.SecurityUtil;
 
 import io.swagger.v3.oas.annotations.Operation;
@@ -43,7 +44,7 @@ public class ExerciseController {
     }
 
     @GetMapping("/getAll")
-    public List<? extends ExerciceLightReturnDTO> getAll(
+    public ResponseEntity<ResponseBuilder.ResponseDTO<List<? extends ExerciceReturnDTO>>> getAll(
             @RequestParam(defaultValue = "false") boolean showMuscles,
             @RequestParam(required = false) String name,
             @RequestParam(defaultValue = "false") Boolean officialExercise,
@@ -62,18 +63,19 @@ public class ExerciseController {
             for (Exercise exercice : exercises) {
                 exercicesOut.add(new ExerciceLightReturnDTO(exercice));
             }
-            return exercicesOut;
+            return ResponseBuilder.success(exercicesOut, "Liste des exercices récupérée avec succès");
         }
 
         List<ExerciceDetailReturnDTO> result = new ArrayList<>();
         for (Exercise e : exercises) {
             result.add(buildDetailDTO(e, showMuscles, showMainFocusMuscularGroup));
         }
-        return result;
+        return ResponseBuilder.success(result, "Liste des exercices récupérée avec succès");
+
     }
 
     @GetMapping("/getById/{id}")
-    public ExerciceReturnDTO getById(
+    public ResponseEntity<ResponseBuilder.ResponseDTO<ExerciceReturnDTO>> getById(
             @PathVariable Long id,
             @RequestParam(defaultValue = "false") boolean showMuscles,
             @RequestParam(defaultValue = "false") Boolean showMainFocusMuscularGroup,
@@ -82,15 +84,18 @@ public class ExerciseController {
         Exercise exercice = exerciseService.getByIdExercise(id, onlyPrincipalMuscle);
 
         if (!showMuscles) {
-            return new ExerciceLightReturnDTO(exercice);
+            return ResponseBuilder.success(new ExerciceLightReturnDTO(exercice),
+                    "Exercice récupérée avec succès");
         }
 
-        return buildDetailDTO(exercice, showMuscles, showMainFocusMuscularGroup);
+        return ResponseBuilder.success(buildDetailDTO(exercice, showMuscles, showMainFocusMuscularGroup),
+                "Exercice récupérée avec succès");
     }
 
     @PostMapping("/create")
     @Operation(summary = "Create Exercice information", description = "Accessible only if a valid JWT is provided and corresponds to the user", security = @SecurityRequirement(name = "bearerAuth"))
-    public ExerciceDetailReturnDTO create(@RequestBody @Valid ExerciseCreateDTO exercisedto) {
+    public ResponseEntity<ResponseBuilder.ResponseDTO<ExerciceDetailReturnDTO>> create(
+            @RequestBody @Valid ExerciseCreateDTO exercisedto) {
 
         Long idTokenUser = SecurityUtil.getUserIdFromContext();
         Exercise exercice = exerciseService.create(
@@ -100,14 +105,15 @@ public class ExerciseController {
                 idTokenUser,
                 exercisedto.getRelExerciseMuscles());
 
-        return buildDetailDTO(exercice, true, true);
+        return ResponseBuilder.created(buildDetailDTO(exercice, true, true), "Exercice créé avec succès");
     }
 
     @Transactional
     @PostMapping("/createMultiple")
     @Operation(summary = "Create Multiple Exercice information", description = "Accessible only if a valid JWT is provided and corresponds to the user", security = @SecurityRequirement(name = "bearerAuth"))
 
-    public List<ExerciceLightReturnDTO> createMultiple(@RequestBody List<ExerciseCreateDTO> exercises) {
+    public ResponseEntity<ResponseBuilder.ResponseDTO<List<ExerciceLightReturnDTO>>> createMultiple(
+            @RequestBody List<ExerciseCreateDTO> exercises) {
         Long idTokenUser = SecurityUtil.getUserIdFromContext();
         List<ExerciceLightReturnDTO> exercicesOut = new ArrayList<>();
         for (ExerciseCreateDTO ex : exercises) {
@@ -118,28 +124,28 @@ public class ExerciseController {
                     idTokenUser,
                     ex.getRelExerciseMuscles())));
         }
-        return exercicesOut;
+        return ResponseBuilder.created(exercicesOut, "Exercices créés avec succès");
     }
 
     @PutMapping("/update/{id}")
     @Operation(summary = "Update Exercice information", description = "Accessible only if a valid JWT is provided and corresponds to the user", security = @SecurityRequirement(name = "bearerAuth"))
-    public ExerciceDetailReturnDTO update(@PathVariable Long id,
+    public ResponseEntity<ResponseBuilder.ResponseDTO<ExerciceDetailReturnDTO>> update(@PathVariable Long id,
             @RequestBody @Valid ExerciseCreateDTO dto) {
         Long idTokenUser = SecurityUtil.getUserIdFromContext();
         Exercise updatedExercise = exerciseService.update(id, idTokenUser, dto.getNameFR(), dto.getDescription(),
                 dto.getLinkVideo(),
                 dto.getRelExerciseMuscles());
-        return buildDetailDTO(updatedExercise, true, true);
+        return ResponseBuilder.success(buildDetailDTO(updatedExercise, true, true), "Exercice mis à jour avec succès");
 
     }
 
     @DeleteMapping("/delete/{id}")
     @Operation(summary = "Delete Exercice information", description = "Accessible only if a valid JWT is provided and corresponds to the user", security = @SecurityRequirement(name = "bearerAuth"))
-
-    public ResponseEntity<String> delete(@PathVariable Long id) {
+    public ResponseEntity<ResponseBuilder.ResponseDTO<String>> delete(@PathVariable Long id) {
         Long idTokenUser = SecurityUtil.getUserIdFromContext();
         exerciseService.delete(id, idTokenUser);
-        return ResponseEntity.ok("Exercise deleted successfully");
+        return ResponseBuilder.success("Exercise deleted successfully", "Suppression réussie");
+
     }
 
     // Helper

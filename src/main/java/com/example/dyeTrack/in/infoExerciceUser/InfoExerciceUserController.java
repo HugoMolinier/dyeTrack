@@ -2,6 +2,7 @@ package com.example.dyeTrack.in.infoExerciceUser;
 
 import java.util.List;
 
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -13,6 +14,7 @@ import com.example.dyeTrack.core.entity.infoExerciceUser.InfoExerciceUser;
 import com.example.dyeTrack.core.service.InfoExerciceUserService;
 import com.example.dyeTrack.in.infoExerciceUser.dto.UpdateInfoExerciceUserDTO;
 import com.example.dyeTrack.in.infoExerciceUser.dto.out.ReturnInfoExerciceUserDTO;
+import com.example.dyeTrack.in.utils.ResponseBuilder;
 import com.example.dyeTrack.in.utils.SecurityUtil;
 
 import io.swagger.v3.oas.annotations.Operation;
@@ -33,19 +35,21 @@ public class InfoExerciceUserController {
 
     @GetMapping("/getAll")
     @Operation(summary = "Get All Register Exercice of user", description = "Accessible only if a valid JWT is provided and corresponds to the user")
-    public List<ReturnInfoExerciceUserDTO> findAllOfUser(
+    public ResponseEntity<ResponseBuilder.ResponseDTO<List<ReturnInfoExerciceUserDTO>>> findAllOfUser(
             @RequestParam(defaultValue = "false") Boolean favorite,
             @RequestParam(defaultValue = "false") Boolean withNote) {
         Long idTokenUser = SecurityUtil.getUserIdFromContext();
         List<InfoExerciceUser> infoExerciceUsers = infoExerciceUserService.getAll(favorite, withNote, idTokenUser);
-        return infoExerciceUsers.stream()
-                .map(this::buildDto)
-                .toList();
+        return ResponseBuilder.success(
+                infoExerciceUsers.stream()
+                        .map(this::buildDto)
+                        .toList(),
+                "Liste des exercices utilisateur récupérée avec succès");
     }
 
     @PostMapping("/{id}")
     @Operation(summary = "Create or update exercise info for the authenticated user")
-    public ReturnInfoExerciceUserDTO updateInfo(
+    public ResponseEntity<ResponseBuilder.ResponseDTO<ReturnInfoExerciceUserDTO>> updateInfo(
             @PathVariable Long id,
             @RequestBody @Valid UpdateInfoExerciceUserDTO body) {
 
@@ -58,9 +62,10 @@ public class InfoExerciceUserController {
                 body.getNote());
 
         if (updated == null)
-            return new ReturnInfoExerciceUserDTO(id, null, false);
+            return ResponseBuilder.success(null,
+                    "Exercice delete avec succès");
 
-        return buildDto(updated);
+        return ResponseBuilder.success(buildDto(updated), "Exercice mis à jour avec succès");
     }
 
     private ReturnInfoExerciceUserDTO buildDto(InfoExerciceUser infoExerciceUser) {

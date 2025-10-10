@@ -3,7 +3,6 @@ package com.example.dyeTrack.controller;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 
 import java.util.List;
@@ -25,7 +24,6 @@ import com.example.dyeTrack.in.exercise.dto.ExerciseCreateDTO;
 import com.example.dyeTrack.out.exercise.ExerciseRepository;
 import com.example.dyeTrack.out.user.UserRepository;
 import com.example.dyeTrack.util.TestUtils;
-import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
 @SpringBootTest(properties = "spring.profiles.active=test")
@@ -130,11 +128,12 @@ public class ExerciceControllerTest {
                                 .header("Authorization", "Bearer " + tokenUser1)
                                 .contentType(MediaType.APPLICATION_JSON)
                                 .content(objectMapper.writeValueAsString(List.of(ex1, ex2))))
+                                .andExpect(status().isCreated())
                                 .andReturn().getResponse().getContentAsString();
 
-                List<ExerciceLightReturnDTO> createds = objectMapper.readValue(response,
-                                new TypeReference<List<ExerciceLightReturnDTO>>() {
-                                });
+                List<ExerciceLightReturnDTO> createds = TestUtils.assertAndExtractDataList(response,
+                                "Exercices créés avec succès", objectMapper,
+                                ExerciceLightReturnDTO.class);
 
                 assertThat(createds).hasSize(2);
                 assertThat(createds.get(0).getNameFR()).isEqualTo(ex1.getNameFR());
@@ -162,7 +161,8 @@ public class ExerciceControllerTest {
                                                 .content(TestUtils.toJson(objectMapper, updateDTO)))
                                 .andReturn().getResponse().getContentAsString();
 
-                ExerciceDetailReturnDTO updatedExercise = objectMapper.readValue(response,
+                ExerciceDetailReturnDTO updatedExercise = TestUtils.assertAndExtractData(response,
+                                "Exercice mis à jour avec succès", objectMapper,
                                 ExerciceDetailReturnDTO.class);
 
                 assertThat(updatedExercise.getNameFR()).isEqualTo("Pompes inclinées");
@@ -179,7 +179,8 @@ public class ExerciceControllerTest {
                                                 .content(TestUtils.toJson(objectMapper, updateDTO)))
                                 .andReturn().getResponse().getContentAsString();
 
-                ExerciceDetailReturnDTO updatedExercise2 = objectMapper.readValue(responseafterModif,
+                ExerciceDetailReturnDTO updatedExercise2 = TestUtils.assertAndExtractData(responseafterModif,
+                                "Exercice mis à jour avec succès", objectMapper,
                                 ExerciceDetailReturnDTO.class);
 
                 assertThat(updatedExercise2.getNameFR()).isEqualTo("Pompes inclinées");
@@ -227,7 +228,9 @@ public class ExerciceControllerTest {
                                 .andExpect(status().isOk())
                                 .andReturn().getResponse().getContentAsString();
 
-                ExerciceLightReturnDTO lightDTO = objectMapper.readValue(lightResp, ExerciceLightReturnDTO.class);
+                ExerciceLightReturnDTO lightDTO = TestUtils.assertAndExtractData(lightResp,
+                                "Exercice récupérée avec succès", objectMapper,
+                                ExerciceLightReturnDTO.class);
                 assertThat(lightDTO.getNameFR()).isEqualTo(ex1.getNameFR());
 
                 // 2️ showMuscles = true -> ExerciceDetailReturnDTO avec muscles
@@ -238,7 +241,9 @@ public class ExerciceControllerTest {
                                 .andExpect(status().isOk())
                                 .andReturn().getResponse().getContentAsString();
 
-                ExerciceDetailReturnDTO detailDTO = objectMapper.readValue(detailResp, ExerciceDetailReturnDTO.class);
+                ExerciceDetailReturnDTO detailDTO = TestUtils.assertAndExtractData(detailResp,
+                                "Exercice récupérée avec succès", objectMapper,
+                                ExerciceDetailReturnDTO.class);
 
                 assertThat(detailDTO.getMuscleInfos()).isNotEmpty();
                 assertThat(detailDTO.getMuscleInfos()).hasSize(1);
@@ -251,8 +256,9 @@ public class ExerciceControllerTest {
                                 .header("Authorization", "Bearer " + tokenUser1))
                                 .andExpect(status().isOk())
                                 .andReturn().getResponse().getContentAsString();
-
-                ExerciceDetailReturnDTO focusDTO = objectMapper.readValue(focusResp, ExerciceDetailReturnDTO.class);
+                ExerciceDetailReturnDTO focusDTO = TestUtils.assertAndExtractData(focusResp,
+                                "Exercice récupérée avec succès", objectMapper,
+                                ExerciceDetailReturnDTO.class);
                 assertThat(focusDTO.getMainFocusGroup()).isNotNull();
 
                 String principalResp = mockMvc
@@ -264,7 +270,8 @@ public class ExerciceControllerTest {
                                 .andExpect(status().isOk())
                                 .andReturn().getResponse().getContentAsString();
 
-                ExerciceDetailReturnDTO principalDTO = objectMapper.readValue(principalResp,
+                ExerciceDetailReturnDTO principalDTO = TestUtils.assertAndExtractData(principalResp,
+                                "Exercice récupérée avec succès", objectMapper,
                                 ExerciceDetailReturnDTO.class);
                 assertThat(principalDTO.getMuscleInfos()).allMatch(MuscleInfo::isPrincipal);
 
@@ -295,8 +302,7 @@ public class ExerciceControllerTest {
                 mockMvc.perform(org.springframework.test.web.servlet.request.MockMvcRequestBuilders
                                 .delete("/api/Exercise/delete/" + idExercice)
                                 .header("Authorization", "Bearer " + tokenUser1))
-                                .andExpect(status().isOk())
-                                .andExpect(content().string("Exercise deleted successfully"));
+                                .andExpect(status().isOk());
 
                 // Vérifie que l'exercice n’existe plus
                 assertThat(exerciseRepository.findById(idExercice)).isEmpty();

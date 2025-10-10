@@ -43,79 +43,85 @@ public class DataLoader implements CommandLineRunner {
 
     private void addData() {
 
-        doTheSaveLateralite("Bilatéral", "Bilateral");
-        doTheSaveLateralite("Unilatéral", "Unilateral");
-        doTheSaveLateralite("Alterné", "Alternated");
+        doTheSaveLateralite("Bilatéral", "Bilateral", 1L);
+        doTheSaveLateralite("Unilatéral", "Unilateral", 2L);
+        doTheSaveLateralite("Alterné", "Alternated", 3L);
 
-        doTheSaveEquipement("Haltère", "Dumbbell");
-        doTheSaveEquipement("Barre", "Bar");
-        doTheSaveEquipement("Élastique", "Elastic Band");
-        doTheSaveEquipement("Poids du corps", "Bodyweight");
-        doTheSaveEquipement("Poulie", "Cable Machine");
-        doTheSaveEquipement("Smith machine", "Smith Machine");
+        // Equipements
+        doTheSaveEquipement("Haltère", "Dumbbell", 1L);
+        doTheSaveEquipement("Barre", "Bar", 2L);
+        doTheSaveEquipement("Élastique", "Elastic Band", 3L);
+        doTheSaveEquipement("Poids du corps", "Bodyweight", 4L);
+        doTheSaveEquipement("Poulie", "Cable Machine", 5L);
+        doTheSaveEquipement("Smith machine", "Smith Machine", 6L);
     }
 
     private void saveGroupeEtMuscles() {
-        doTheSaveGroupeEtMuscles("Bras", "Arms", List.of(
-                List.of("Triceps", "Triceps"),
-                List.of("Biceps", "Biceps"),
-                List.of("Brachialis", "Brachialis"),
-                List.of("Avant Bras", "Forearm")));
+        doTheSaveGroupeEtMuscles(1L, "Bras", "Arms", List.of(
+                List.of(1L, "Triceps", "Triceps"),
+                List.of(2L, "Biceps", "Biceps"),
+                List.of(3L, "Brachialis", "Brachialis"),
+                List.of(4L, "Avant Bras", "Forearm")));
 
-        doTheSaveGroupeEtMuscles("Épaules", "Shoulder", List.of(
-                List.of("Épaule", "Shoulder"),
-                List.of("Infra-épineux", "Infraspinatus")));
+        doTheSaveGroupeEtMuscles(2L, "Épaules", "Shoulder", List.of(
+                List.of(5L, "Épaule", "Shoulder"),
+                List.of(6L, "Infra-épineux", "Infraspinatus")));
 
-        doTheSaveGroupeEtMuscles("Pectoraux", "Chest", List.of(
-                List.of("Pectoraux", "Pectorals")));
+        doTheSaveGroupeEtMuscles(3L, "Pectoraux", "Chest", List.of(
+                List.of(7L, "Pectoraux", "Pectorals")));
 
-        doTheSaveGroupeEtMuscles("Dos", "Back", List.of(
-                List.of("Trapèzes", "Trapezius"),
-                List.of("Dorsaux", "Lats"),
-                List.of("Lombaires", "Lower Back"),
-                List.of("Grand Rond", "Teres Major")));
+        doTheSaveGroupeEtMuscles(4L, "Dos", "Back", List.of(
+                List.of(8L, "Trapèzes", "Trapezius"),
+                List.of(9L, "Dorsaux", "Lats"),
+                List.of(10L, "Lombaires", "Lower Back"),
+                List.of(11L, "Grand Rond", "Teres Major")));
 
-        doTheSaveGroupeEtMuscles("Jambes", "Leg", List.of(
-                List.of("Quadriceps", "Quadriceps"),
-                List.of("Ischio-jambiers", "Hamstrings"),
-                List.of("Mollets", "Calves"),
-                List.of("Fessiers", "Glutes")));
+        doTheSaveGroupeEtMuscles(5L, "Jambes", "Leg", List.of(
+                List.of(12L, "Quadriceps", "Quadriceps"),
+                List.of(13L, "Ischio-jambiers", "Hamstrings"),
+                List.of(14L, "Mollets", "Calves"),
+                List.of(15L, "Fessiers", "Glutes")));
 
-        doTheSaveGroupeEtMuscles("Autre", "Other", List.of(
-                List.of("Abdominaux", "Abs"),
-                List.of("Cou", "Neck")));
+        doTheSaveGroupeEtMuscles(6L, "Autre", "Other", List.of(
+                List.of(16L, "Abdominaux", "Abs"),
+                List.of(17L, "Cou", "Neck")));
 
-        doTheSaveGroupeEtMuscles("Cardio", "Cardio", List.of(
-                List.of("Coeur", "Heart")));
+        doTheSaveGroupeEtMuscles(7L, "Cardio", "Cardio", List.of(
+                List.of(18L, "Coeur", "Heart")));
 
         System.out.println("✅ Muscles insérés ou vérifiés en base !");
 
     }
 
-    private void doTheSaveGroupeEtMuscles(String nomFr, String nomEn, List<List<String>> muscles) {
+    private void doTheSaveGroupeEtMuscles(Long groupeId, String nomFr, String nomEn, List<List<Object>> muscles) {
         GroupeMusculaire groupe = groupeMusculaireRepository.findOneByNomFRAndNomEN(nomFr, nomEn);
         if (groupe == null) {
-            groupe = groupeMusculaireRepository.save(new GroupeMusculaire(nomFr, nomEn));
+            groupe = groupeMusculaireRepository.save(new GroupeMusculaire(groupeId, nomFr, nomEn));
         }
 
-        for (List<String> muscleNom : muscles) {
-            if (muscleRepository.findByName(nomFr).isEmpty()) {
-                muscleRepository.save(new Muscle(muscleNom.get(0), muscleNom.get(1), groupe));
+        for (List<Object> muscleNom : muscles) {
+            Long id = (Long) muscleNom.get(0);
+            String nomMuscleFR = (String) muscleNom.get(1);
+            String nomMuscleEN = (String) muscleNom.get(2);
+
+            // vérifie si le muscle existe déjà
+            if (muscleRepository.findByName(nomMuscleFR).isEmpty()) {
+                muscleRepository.save(new Muscle(id, nomMuscleFR, nomMuscleEN, groupe));
             }
         }
     }
 
-    private void doTheSaveLateralite(String nomFr, String nomEn) {
+    private void doTheSaveLateralite(String nomFr, String nomEn, Long id) {
         Lateralite lat = lateraliteRepository.findOneByNomFRAndNomEN(nomFr, nomEn);
         if (lat == null) {
-            lateraliteRepository.save(new Lateralite(nomFr, nomEn));
+            lateraliteRepository.save(new Lateralite(id, nomFr, nomEn));
         }
     }
 
-    private void doTheSaveEquipement(String nomFr, String nomEn) {
+    private void doTheSaveEquipement(String nomFr, String nomEn, Long id) {
         Equipement lat = equipementRepository.findOneByNomFRAndNomEN(nomFr, nomEn);
         if (lat == null) {
-            equipementRepository.save(new Equipement(nomFr, nomEn));
+            equipementRepository.save(new Equipement(id, nomFr, nomEn));
         }
     }
 

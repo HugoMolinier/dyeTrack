@@ -13,6 +13,7 @@ public interface MuscleRepository extends JpaRepository<Muscle, Long> {
     @Query("SELECT m FROM Muscle m WHERE m.groupeMusculaire.id IN :ids")
     List<Muscle> findByGroupeMusculaireIds(@Param("ids") List<Integer> ids);
 
-    @Query("SELECT m FROM Muscle m WHERE :name LIKE nameFR OR :name LIKE nameEN")
-    List<Muscle> findByName(@Param("name") String ids);
+    @Query("SELECT m FROM Muscle m WHERE LOWER(m.nameFR) LIKE LOWER(CONCAT('%', :name, '%')) " +
+            "OR LOWER(m.nameEN) LIKE LOWER(CONCAT('%', :name, '%'))")
+    List<Muscle> findByName(@Param("name") String name);
 }

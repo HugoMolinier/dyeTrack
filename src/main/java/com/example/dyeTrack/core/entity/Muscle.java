@@ -1,17 +1,16 @@
 package com.example.dyeTrack.core.entity;
 
 import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
 import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotNull;
 
 @Entity
 public class Muscle {
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @NotNull
     private Long id;
 
     @NotBlank
@@ -25,8 +24,9 @@ public class Muscle {
     @JoinColumn(name = "groupe_musculaire_id", nullable = false)
     private GroupeMusculaire groupeMusculaire;
 
-    public Muscle(String nameFR, String nameEN, GroupeMusculaire groupeMusculaire) {
+    public Muscle(Long id, String nameFR, String nameEN, GroupeMusculaire groupeMusculaire) {
         this.nameFR = nameFR;
+        this.id = id;
         this.nameEN = nameEN;
         this.groupeMusculaire = groupeMusculaire;
     }
