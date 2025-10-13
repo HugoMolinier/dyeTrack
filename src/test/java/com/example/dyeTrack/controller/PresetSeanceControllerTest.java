@@ -15,11 +15,11 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.MockMvc;
 
-import com.example.dyeTrack.core.valueobject.MuscleInsertExercice;
-import com.example.dyeTrack.core.valueobject.PresetSeanceExerciceVO;
-import com.example.dyeTrack.in.exercise.dto.ExerciceDetailReturnDTO;
+import com.example.dyeTrack.core.valueobject.MuscleInfo;
+import com.example.dyeTrack.core.valueobject.PresetSeanceExerciseVO;
+import com.example.dyeTrack.in.exercise.dto.ExerciseDetailReturnDTO;
 import com.example.dyeTrack.in.exercise.dto.ExerciseCreateDTO;
-import com.example.dyeTrack.in.presetSeance.dto.PresetDetailReturnDTO;
+import com.example.dyeTrack.in.presetSeance.dto.PresetSeanceReturnDTO;
 import com.example.dyeTrack.in.presetSeance.dto.PresetSeanceCreateRequestDTO;
 import com.example.dyeTrack.out.presetSeance.PresetSeanceRepository;
 import com.example.dyeTrack.out.user.UserRepository;
@@ -53,38 +53,38 @@ public class PresetSeanceControllerTest {
 
         @Test
         void testCreatePreset_success() throws Exception {
-                ExerciceDetailReturnDTO createdexe = createSampleExercise("pompe");
+                ExerciseDetailReturnDTO createdexe = createSampleExercise("pompe");
 
                 PresetSeanceCreateRequestDTO presetSeance = new PresetSeanceCreateRequestDTO("Push Day",
-                                List.of(new PresetSeanceExerciceVO(createdexe.getIdExercice(), "5 reps", 10, 15, 1L,
+                                List.of(new PresetSeanceExerciseVO(createdexe.getIdExercise(), "5 reps", 10, 15, 1L,
                                                 1L)));
 
-                PresetDetailReturnDTO presetSeanceex = TestUtils.createPreset(mockMvc, objectMapper, tokenUser1,
+                PresetSeanceReturnDTO presetSeanceex = TestUtils.createPreset(mockMvc, objectMapper, tokenUser1,
                                 presetSeance);
 
                 assertThat(presetSeanceex).isNotNull();
                 assertThat(presetSeanceex.getName()).isEqualTo(presetSeance.getName());
-                assertThat(presetSeanceex.getPresetSeanceExerciceVODTO()).hasSize(1);
-                assertThat(presetSeanceex.getPresetSeanceExerciceVODTO().get(0).getExercice().getIdExercice())
-                                .isEqualTo(createdexe.getIdExercice());
+                assertThat(presetSeanceex.getPresetSeanceExerciseVODTO()).hasSize(1);
+                assertThat(presetSeanceex.getPresetSeanceExerciseVODTO().get(0).getExercise().getIdExercise())
+                                .isEqualTo(createdexe.getIdExercise());
 
-                assertThat(presetSeanceex.getPresetSeanceExerciceVODTO().get(0).getExercice().getNameFR())
+                assertThat(presetSeanceex.getPresetSeanceExerciseVODTO().get(0).getExercise().getNameFR())
                                 .isEqualTo(createdexe.getNameFR());
 
-                assertThat(presetSeanceex.getPresetSeanceExerciceVODTO().get(0).getLateralite().getNomFR())
-                                .isEqualTo("Bilatéral");
-                assertThat(presetSeanceex.getPresetSeanceExerciceVODTO().get(0).getEquipement().getNomFR())
-                                .isEqualTo("Haltère");
+                assertThat(presetSeanceex.getPresetSeanceExerciseVODTO().get(0).getIdLateralite())
+                                .isEqualTo(1L);
+                assertThat(presetSeanceex.getPresetSeanceExerciseVODTO().get(0).getIdEquipment())
+                                .isEqualTo(1L);
         }
 
         @Test
         void testUpdatePreset_success() throws Exception {
-                ExerciceDetailReturnDTO createdexe = createSampleExercise("pompe");
+                ExerciseDetailReturnDTO createdexe = createSampleExercise("pompe");
 
                 PresetSeanceCreateRequestDTO presetSeance = new PresetSeanceCreateRequestDTO("Push Day",
-                                List.of(new PresetSeanceExerciceVO(createdexe.getIdExercice(), "5 reps", 10, 15, 1L,
+                                List.of(new PresetSeanceExerciseVO(createdexe.getIdExercise(), "5 reps", 10, 15, 1L,
                                                 1L)));
-                PresetDetailReturnDTO presetSeanceex = TestUtils.createPreset(mockMvc, objectMapper, tokenUser1,
+                PresetSeanceReturnDTO presetSeanceex = TestUtils.createPreset(mockMvc, objectMapper, tokenUser1,
                                 presetSeance);
                 PresetSeanceCreateRequestDTO presetSeanceAfterModif = new PresetSeanceCreateRequestDTO("Pull");
 
@@ -97,32 +97,32 @@ public class PresetSeanceControllerTest {
                                 .andExpect(status().isOk())
                                 .andReturn().getResponse().getContentAsString();
 
-                PresetDetailReturnDTO presetSeanceex1 = TestUtils.assertAndExtractData(responseupdate2,
+                PresetSeanceReturnDTO presetSeanceex1 = TestUtils.assertAndExtractData(responseupdate2,
                                 "Preset mis à jour avec succès", objectMapper,
-                                PresetDetailReturnDTO.class);
+                                PresetSeanceReturnDTO.class);
 
                 assertThat(presetSeanceex1).isNotNull();
                 assertThat(presetSeanceex1.getName()).isEqualTo(presetSeanceAfterModif.getName());
-                assertThat(presetSeanceex1.getPresetSeanceExerciceVODTO()).hasSize(1);
-                assertThat(presetSeanceex1.getPresetSeanceExerciceVODTO().get(0).getExercice().getIdExercice())
-                                .isEqualTo(createdexe.getIdExercice());
+                assertThat(presetSeanceex1.getPresetSeanceExerciseVODTO()).hasSize(1);
+                assertThat(presetSeanceex1.getPresetSeanceExerciseVODTO().get(0).getExercise().getIdExercise())
+                                .isEqualTo(createdexe.getIdExercise());
 
                 assertThat(presetSeanceex1.getName())
                                 .isEqualTo(presetSeanceAfterModif.getName());
 
-                assertThat(presetSeanceex1.getPresetSeanceExerciceVODTO().get(0).getLateralite().getNomFR())
-                                .isEqualTo("Bilatéral");
-                assertThat(presetSeanceex1.getPresetSeanceExerciceVODTO().get(0).getEquipement().getNomFR())
-                                .isEqualTo("Haltère");
+                assertThat(presetSeanceex1.getPresetSeanceExerciseVODTO().get(0).getIdLateralite())
+                                .isEqualTo(1L);
+                assertThat(presetSeanceex1.getPresetSeanceExerciseVODTO().get(0).getIdEquipment())
+                                .isEqualTo(1L);
 
                 // ====
 
-                ExerciceDetailReturnDTO createdexe2 = createSampleExercise("traction");
+                ExerciseDetailReturnDTO createdexe2 = createSampleExercise("traction");
 
                 PresetSeanceCreateRequestDTO presetSeanceAfterModif2 = new PresetSeanceCreateRequestDTO("Push",
-                                List.of(new PresetSeanceExerciceVO(createdexe2.getIdExercice(), "6 hauteur", 9, 14, 1L,
+                                List.of(new PresetSeanceExerciseVO(createdexe2.getIdExercise(), "6 hauteur", 9, 14, 1L,
                                                 1L),
-                                                new PresetSeanceExerciceVO(createdexe.getIdExercice(), "3 hauteur", 7,
+                                                new PresetSeanceExerciseVO(createdexe.getIdExercise(), "3 hauteur", 7,
                                                                 12, 2L,
                                                                 2L)));
 
@@ -135,47 +135,47 @@ public class PresetSeanceControllerTest {
                                 .andExpect(status().isOk())
                                 .andReturn().getResponse().getContentAsString();
 
-                PresetDetailReturnDTO presetSeanceex2 = TestUtils.assertAndExtractData(responseupdate3,
+                PresetSeanceReturnDTO presetSeanceex2 = TestUtils.assertAndExtractData(responseupdate3,
                                 "Preset mis à jour avec succès", objectMapper,
-                                PresetDetailReturnDTO.class);
+                                PresetSeanceReturnDTO.class);
 
                 assertThat(presetSeanceex2).isNotNull();
                 assertThat(presetSeanceex2.getName()).isEqualTo(presetSeanceAfterModif2.getName());
-                assertThat(presetSeanceex2.getPresetSeanceExerciceVODTO()).hasSize(2);
-                assertThat(presetSeanceex2.getPresetSeanceExerciceVODTO().get(0).getExercice().getIdExercice())
-                                .isEqualTo(createdexe2.getIdExercice());
+                assertThat(presetSeanceex2.getPresetSeanceExerciseVODTO()).hasSize(2);
+                assertThat(presetSeanceex2.getPresetSeanceExerciseVODTO().get(0).getExercise().getIdExercise())
+                                .isEqualTo(createdexe2.getIdExercise());
 
-                assertThat(presetSeanceex2.getPresetSeanceExerciceVODTO().get(1).getExercice().getIdExercice())
-                                .isEqualTo(createdexe.getIdExercice());
+                assertThat(presetSeanceex2.getPresetSeanceExerciseVODTO().get(1).getExercise().getIdExercise())
+                                .isEqualTo(createdexe.getIdExercise());
 
-                assertThat(presetSeanceex2.getPresetSeanceExerciceVODTO().get(0).getOrdreExercise())
+                assertThat(presetSeanceex2.getPresetSeanceExerciseVODTO().get(0).getOrdreExercise())
                                 .isEqualTo(1);
-                assertThat(presetSeanceex2.getPresetSeanceExerciceVODTO().get(1).getOrdreExercise())
+                assertThat(presetSeanceex2.getPresetSeanceExerciseVODTO().get(1).getOrdreExercise())
                                 .isEqualTo(2);
 
-                assertThat(presetSeanceex2.getPresetSeanceExerciceVODTO().get(0).getParameter())
+                assertThat(presetSeanceex2.getPresetSeanceExerciseVODTO().get(0).getParameter())
                                 .isEqualTo("6 hauteur");
-                assertThat(presetSeanceex2.getPresetSeanceExerciceVODTO().get(0).getRangeRepInf())
+                assertThat(presetSeanceex2.getPresetSeanceExerciseVODTO().get(0).getRangeRepInf())
                                 .isEqualTo(9);
-                assertThat(presetSeanceex2.getPresetSeanceExerciceVODTO().get(0).getRangeRepSup())
+                assertThat(presetSeanceex2.getPresetSeanceExerciseVODTO().get(0).getRangeRepSup())
                                 .isEqualTo(14);
 
-                assertThat(presetSeanceex2.getPresetSeanceExerciceVODTO().get(0).getLateralite().getNomFR())
-                                .isEqualTo("Bilatéral");
-                assertThat(presetSeanceex2.getPresetSeanceExerciceVODTO().get(0).getEquipement().getNomFR())
-                                .isEqualTo("Haltère");
+                assertThat(presetSeanceex2.getPresetSeanceExerciseVODTO().get(0).getIdLateralite())
+                                .isEqualTo(1L);
+                assertThat(presetSeanceex2.getPresetSeanceExerciseVODTO().get(0).getIdEquipment())
+                                .isEqualTo(1L);
 
         }
 
         @Test
         void testGet_success() throws Exception {
-                ExerciceDetailReturnDTO createdexe = createSampleExercise("pompe");
+                ExerciseDetailReturnDTO createdexe = createSampleExercise("pompe");
 
                 PresetSeanceCreateRequestDTO presetSeance = new PresetSeanceCreateRequestDTO("Push Day",
-                                List.of(new PresetSeanceExerciceVO(createdexe.getIdExercice(), "5 reps", 10, 15, 1L,
+                                List.of(new PresetSeanceExerciseVO(createdexe.getIdExercise(), "5 reps", 10, 15, 1L,
                                                 1L)));
 
-                PresetDetailReturnDTO createPreset = TestUtils.createPreset(mockMvc, objectMapper, tokenUser1,
+                PresetSeanceReturnDTO createPreset = TestUtils.createPreset(mockMvc, objectMapper, tokenUser1,
                                 presetSeance);
 
                 String focusResp = mockMvc.perform(org.springframework.test.web.servlet.request.MockMvcRequestBuilders
@@ -184,34 +184,34 @@ public class PresetSeanceControllerTest {
                                 .andExpect(status().isOk())
                                 .andReturn().getResponse().getContentAsString();
 
-                PresetDetailReturnDTO getPreset = TestUtils.assertAndExtractData(focusResp,
+                PresetSeanceReturnDTO getPreset = TestUtils.assertAndExtractData(focusResp,
                                 "Preset récupéré avec succès", objectMapper,
-                                PresetDetailReturnDTO.class);
+                                PresetSeanceReturnDTO.class);
                 assertThat(focusResp).isNotNull();
                 assertThat(getPreset.getName()).isEqualTo(createPreset.getName());
-                assertThat(getPreset.getPresetSeanceExerciceVODTO()).hasSize(1);
-                assertThat(getPreset.getPresetSeanceExerciceVODTO().get(0).getExercice().getIdExercice())
-                                .isEqualTo(createdexe.getIdExercice());
+                assertThat(getPreset.getPresetSeanceExerciseVODTO()).hasSize(1);
+                assertThat(getPreset.getPresetSeanceExerciseVODTO().get(0).getExercise().getIdExercise())
+                                .isEqualTo(createdexe.getIdExercise());
 
                 assertThat(getPreset.getName())
                                 .isEqualTo(createPreset.getName());
 
-                assertThat(getPreset.getPresetSeanceExerciceVODTO().get(0).getLateralite().getNomFR())
-                                .isEqualTo("Bilatéral");
-                assertThat(getPreset.getPresetSeanceExerciceVODTO().get(0).getEquipement().getNomFR())
-                                .isEqualTo("Haltère");
+                assertThat(getPreset.getPresetSeanceExerciseVODTO().get(0).getIdLateralite())
+                                .isEqualTo(1L);
+                assertThat(getPreset.getPresetSeanceExerciseVODTO().get(0).getIdEquipment())
+                                .isEqualTo(1L);
 
         }
 
         @Test
         void testCreatePreset_invalidToken_shouldFail() throws Exception {
-                ExerciseCreateDTO dto = TestUtils.buildExercise("Pompes", "Exercice pectoraux",
-                                List.of(new MuscleInsertExercice(1L, true), new MuscleInsertExercice(2L, false)));
+                ExerciseCreateDTO dto = TestUtils.buildExercise("Pompes", "Exercise pectoraux",
+                                List.of(new MuscleInfo(1L, true), new MuscleInfo(2L, false)));
 
-                ExerciceDetailReturnDTO createdexe = TestUtils.createExercice(mockMvc, objectMapper, tokenUser1, dto);
+                ExerciseDetailReturnDTO createdexe = TestUtils.createExercise(mockMvc, objectMapper, tokenUser1, dto);
 
                 PresetSeanceCreateRequestDTO presetSeance = new PresetSeanceCreateRequestDTO("Pull",
-                                List.of(new PresetSeanceExerciceVO(createdexe.getIdExercice(), "5 hauteur", 7, 12, 1L,
+                                List.of(new PresetSeanceExerciseVO(createdexe.getIdExercise(), "5 hauteur", 7, 12, 1L,
                                                 1L)));
 
                 // Token invalide
@@ -224,13 +224,13 @@ public class PresetSeanceControllerTest {
 
         @Test
         void testCreatePreset_otherUserToken_shouldFail() throws Exception {
-                ExerciceDetailReturnDTO createdexe = createSampleExercise("pompe");
+                ExerciseDetailReturnDTO createdexe = createSampleExercise("pompe");
 
                 PresetSeanceCreateRequestDTO presetSeance = new PresetSeanceCreateRequestDTO("Push Day",
-                                List.of(new PresetSeanceExerciceVO(createdexe.getIdExercice(), "5 reps", 10, 15, 1L,
+                                List.of(new PresetSeanceExerciseVO(createdexe.getIdExercise(), "5 reps", 10, 15, 1L,
                                                 1L)));
 
-                PresetDetailReturnDTO createdPreset = TestUtils.createPreset(mockMvc, objectMapper, tokenUser1,
+                PresetSeanceReturnDTO createdPreset = TestUtils.createPreset(mockMvc, objectMapper, tokenUser1,
                                 presetSeance);
 
                 // Création d’un autre utilisateur
@@ -249,13 +249,13 @@ public class PresetSeanceControllerTest {
 
         @Test
         void testGetPreset_invalidToken_shouldFail() throws Exception {
-                ExerciceDetailReturnDTO createdexe = createSampleExercise("pompe");
+                ExerciseDetailReturnDTO createdexe = createSampleExercise("pompe");
 
                 PresetSeanceCreateRequestDTO presetSeance = new PresetSeanceCreateRequestDTO("Push Day",
-                                List.of(new PresetSeanceExerciceVO(createdexe.getIdExercice(), "5 reps", 10, 15, 1L,
+                                List.of(new PresetSeanceExerciseVO(createdexe.getIdExercise(), "5 reps", 10, 15, 1L,
                                                 1L)));
 
-                PresetDetailReturnDTO createdPreset = TestUtils.createPreset(mockMvc, objectMapper, tokenUser1,
+                PresetSeanceReturnDTO createdPreset = TestUtils.createPreset(mockMvc, objectMapper, tokenUser1,
                                 presetSeance);
                 // Requête avec mauvais token
                 mockMvc.perform(org.springframework.test.web.servlet.request.MockMvcRequestBuilders
@@ -266,13 +266,13 @@ public class PresetSeanceControllerTest {
 
         @Test
         void testGetPreset_otherUserToken_shouldFail() throws Exception {
-                ExerciceDetailReturnDTO createdexe = createSampleExercise("pompe");
+                ExerciseDetailReturnDTO createdexe = createSampleExercise("pompe");
 
                 PresetSeanceCreateRequestDTO presetSeance = new PresetSeanceCreateRequestDTO("Push Day",
-                                List.of(new PresetSeanceExerciceVO(createdexe.getIdExercice(), "5 reps", 10, 15, 1L,
+                                List.of(new PresetSeanceExerciseVO(createdexe.getIdExercise(), "5 reps", 10, 15, 1L,
                                                 1L)));
 
-                PresetDetailReturnDTO createdPreset = TestUtils.createPreset(mockMvc, objectMapper, tokenUser1,
+                PresetSeanceReturnDTO createdPreset = TestUtils.createPreset(mockMvc, objectMapper, tokenUser1,
                                 presetSeance);
 
                 // Autre utilisateur
@@ -291,13 +291,13 @@ public class PresetSeanceControllerTest {
 
         @Test
         void testDeletePreset_successAndFailures() throws Exception {
-                ExerciceDetailReturnDTO createdexe = createSampleExercise("pompe");
+                ExerciseDetailReturnDTO createdexe = createSampleExercise("pompe");
 
                 PresetSeanceCreateRequestDTO presetSeance = new PresetSeanceCreateRequestDTO("Push Day",
-                                List.of(new PresetSeanceExerciceVO(createdexe.getIdExercice(), "5 reps", 10, 15, 1L,
+                                List.of(new PresetSeanceExerciseVO(createdexe.getIdExercise(), "5 reps", 10, 15, 1L,
                                                 1L)));
 
-                PresetDetailReturnDTO createdPreset = TestUtils.createPreset(mockMvc, objectMapper, tokenUser1,
+                PresetSeanceReturnDTO createdPreset = TestUtils.createPreset(mockMvc, objectMapper, tokenUser1,
                                 presetSeance);
                 Long idPreset = createdPreset.getIdPreset();
 
@@ -323,7 +323,7 @@ public class PresetSeanceControllerTest {
 
                 // 4️ Recréation d’un preset par user1
 
-                PresetDetailReturnDTO createdPreset2 = TestUtils.createPreset(mockMvc, objectMapper, tokenUser1,
+                PresetSeanceReturnDTO createdPreset2 = TestUtils.createPreset(mockMvc, objectMapper, tokenUser1,
                                 presetSeance);
                 String tokenUser2 = TestUtils.registerAndGetToken(mockMvc, objectMapper, "userB");
 
@@ -345,15 +345,15 @@ public class PresetSeanceControllerTest {
         @Test
         void testGetAllOfUser_success() throws Exception {
                 // 1️⃣ Création de 2 presets pour user1
-                ExerciseCreateDTO dto = TestUtils.buildExercise("Pompes", "Exercice pectoraux",
-                                List.of(new MuscleInsertExercice(1L, true), new MuscleInsertExercice(2L, false)));
-                ExerciceDetailReturnDTO createdExe = TestUtils.createExercice(mockMvc, objectMapper, tokenUser1, dto);
+                ExerciseCreateDTO dto = TestUtils.buildExercise("Pompes", "Exercise pectoraux",
+                                List.of(new MuscleInfo(1L, true), new MuscleInfo(2L, false)));
+                ExerciseDetailReturnDTO createdExe = TestUtils.createExercise(mockMvc, objectMapper, tokenUser1, dto);
 
                 PresetSeanceCreateRequestDTO preset1 = new PresetSeanceCreateRequestDTO("Push Day",
-                                List.of(new PresetSeanceExerciceVO(createdExe.getIdExercice(), "5 reps", 10, 15, 1L,
+                                List.of(new PresetSeanceExerciseVO(createdExe.getIdExercise(), "5 reps", 10, 15, 1L,
                                                 1L)));
                 PresetSeanceCreateRequestDTO preset2 = new PresetSeanceCreateRequestDTO("Pull Day",
-                                List.of(new PresetSeanceExerciceVO(createdExe.getIdExercice(), "5 reps", 10, 15, 1L,
+                                List.of(new PresetSeanceExerciseVO(createdExe.getIdExercise(), "5 reps", 10, 15, 1L,
                                                 1L)));
 
                 // Création des presets via POST
@@ -376,12 +376,12 @@ public class PresetSeanceControllerTest {
                                 .andExpect(status().isOk())
                                 .andReturn().getResponse().getContentAsString();
 
-                List<PresetDetailReturnDTO> presets = TestUtils.assertAndExtractDataList(response,
+                List<PresetSeanceReturnDTO> presets = TestUtils.assertAndExtractDataList(response,
                                 "Liste des presets récupérée avec succès", objectMapper,
-                                PresetDetailReturnDTO.class);
+                                PresetSeanceReturnDTO.class);
 
                 assertThat(presets).hasSize(2);
-                assertThat(presets.stream().map(PresetDetailReturnDTO::getName))
+                assertThat(presets.stream().map(PresetSeanceReturnDTO::getName))
                                 .containsExactlyInAnyOrder("Push Day", "Pull Day");
 
                 String tokenUser2 = TestUtils.registerAndGetToken(mockMvc, objectMapper, "userB");
@@ -392,24 +392,24 @@ public class PresetSeanceControllerTest {
                                 .andExpect(status().isOk())
                                 .andReturn().getResponse().getContentAsString();
 
-                List<PresetDetailReturnDTO> presets2 = TestUtils.assertAndExtractDataList(responseuser2,
+                List<PresetSeanceReturnDTO> presets2 = TestUtils.assertAndExtractDataList(responseuser2,
                                 "Liste des presets récupérée avec succès", objectMapper,
-                                PresetDetailReturnDTO.class);
+                                PresetSeanceReturnDTO.class);
                 assertThat(presets2).hasSize(0);
         }
 
         @Test
         void testGetAllOfUser_withNameFilter() throws Exception {
                 // Création de presets
-                ExerciseCreateDTO dto = TestUtils.buildExercise("Pompes", "Exercice pectoraux",
-                                List.of(new MuscleInsertExercice(1L, true), new MuscleInsertExercice(2L, false)));
-                ExerciceDetailReturnDTO createdExe = TestUtils.createExercice(mockMvc, objectMapper, tokenUser1, dto);
+                ExerciseCreateDTO dto = TestUtils.buildExercise("Pompes", "Exercise pectoraux",
+                                List.of(new MuscleInfo(1L, true), new MuscleInfo(2L, false)));
+                ExerciseDetailReturnDTO createdExe = TestUtils.createExercise(mockMvc, objectMapper, tokenUser1, dto);
 
                 PresetSeanceCreateRequestDTO preset1 = new PresetSeanceCreateRequestDTO("Push Day",
-                                List.of(new PresetSeanceExerciceVO(createdExe.getIdExercice(), "5 reps", 10, 15, 1L,
+                                List.of(new PresetSeanceExerciseVO(createdExe.getIdExercise(), "5 reps", 10, 15, 1L,
                                                 1L)));
                 PresetSeanceCreateRequestDTO preset2 = new PresetSeanceCreateRequestDTO("Pull Day",
-                                List.of(new PresetSeanceExerciceVO(createdExe.getIdExercice(), "5 reps", 10, 15, 1L,
+                                List.of(new PresetSeanceExerciseVO(createdExe.getIdExercise(), "5 reps", 10, 15, 1L,
                                                 1L)));
 
                 mockMvc.perform(post("/api/preset-seances/create")
@@ -432,19 +432,19 @@ public class PresetSeanceControllerTest {
                                 .andExpect(status().isOk())
                                 .andReturn().getResponse().getContentAsString();
 
-                List<PresetDetailReturnDTO> presets = TestUtils.assertAndExtractDataList(response,
+                List<PresetSeanceReturnDTO> presets = TestUtils.assertAndExtractDataList(response,
                                 "Liste des presets récupérée avec succès", objectMapper,
-                                PresetDetailReturnDTO.class);
+                                PresetSeanceReturnDTO.class);
 
                 assertThat(presets).hasSize(1);
                 assertThat(presets.get(0).getName()).isEqualTo("Push Day");
         }
 
-        private ExerciceDetailReturnDTO createSampleExercise(String name) throws Exception {
-                return TestUtils.createExercice(mockMvc, objectMapper, tokenUser1,
-                                TestUtils.buildExercise(name, "Exercice pectoraux",
-                                                List.of(new MuscleInsertExercice(1L, true),
-                                                                new MuscleInsertExercice(2L, false))));
+        private ExerciseDetailReturnDTO createSampleExercise(String name) throws Exception {
+                return TestUtils.createExercise(mockMvc, objectMapper, tokenUser1,
+                                TestUtils.buildExercise(name, "Exercise pectoraux",
+                                                List.of(new MuscleInfo(1L, true),
+                                                                new MuscleInfo(2L, false))));
         }
 
 }

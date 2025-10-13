@@ -3,9 +3,9 @@ package com.example.dyeTrack.core.entity;
 import java.util.ArrayList;
 import java.util.List;
 
-import com.example.dyeTrack.core.entity.PresetSeanceExercice.PresetSeanceExercice;
+import com.example.dyeTrack.core.entity.PresetSeanceExercise.PresetSeanceExercise;
 import com.example.dyeTrack.core.entity.RelExerciseMuscle.RelExerciseMuscle;
-import com.example.dyeTrack.core.entity.infoExerciceUser.InfoExerciceUser;
+import com.example.dyeTrack.core.entity.infoExerciseUser.InfoExerciseUser;
 
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
@@ -36,24 +36,24 @@ public class Exercise {
     private String linkVideo;
 
     @ManyToOne
-    @JoinColumn(name = "idCreator", nullable = true) // si null c'est que c'est admin add
+    @JoinColumn(name = "idCreator", nullable = true)
     private User user;
 
-    @OneToMany(mappedBy = "exercice", cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.LAZY)
+    @OneToMany(mappedBy = "exercise", cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.LAZY)
     private List<RelExerciseMuscle> relExerciseMuscles = new ArrayList<>();
 
-    @OneToMany(mappedBy = "exercice", cascade = CascadeType.ALL, orphanRemoval = true)
-    private List<PresetSeanceExercice> presetSeanceExercices = new ArrayList<>();
+    @OneToMany(mappedBy = "exercise", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<PresetSeanceExercise> presetSeanceExercises = new ArrayList<>();
 
-    @OneToMany(mappedBy = "exercice", cascade = CascadeType.ALL, orphanRemoval = true)
-    private List<InfoExerciceUser> relRecensementExercices = new ArrayList<>();
+    @OneToMany(mappedBy = "exercise", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<InfoExerciseUser> relRecensementExercises = new ArrayList<>();
 
-    public List<InfoExerciceUser> getRelRecensementExercices() {
-        return relRecensementExercices;
+    public List<InfoExerciseUser> getRelRecensementExercises() {
+        return relRecensementExercises;
     }
 
-    public void setRelRecensementExercices(List<InfoExerciceUser> relRecensementExercices) {
-        this.relRecensementExercices = relRecensementExercices;
+    public void setRelRecensementExercises(List<InfoExerciseUser> relRecensementExercises) {
+        this.relRecensementExercises = relRecensementExercises;
     }
 
     public List<RelExerciseMuscle> getRelExerciseMuscles() {

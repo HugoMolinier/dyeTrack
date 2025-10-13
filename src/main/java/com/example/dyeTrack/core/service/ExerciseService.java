@@ -19,7 +19,7 @@ import com.example.dyeTrack.core.port.out.ExercisePort;
 import com.example.dyeTrack.core.port.out.MusclePort;
 import com.example.dyeTrack.core.port.out.UserPort;
 import com.example.dyeTrack.core.util.EntityUtils;
-import com.example.dyeTrack.core.valueobject.MuscleInsertExercice;
+import com.example.dyeTrack.core.valueobject.MuscleInfo;
 
 import jakarta.transaction.Transactional;
 
@@ -44,16 +44,16 @@ public class ExerciseService implements ExerciseUseCase {
 
     public List<Exercise> getAll(String name, Boolean officialExercise, Long idUser, Boolean onlyPrincipalMuscle,
             Boolean showMainFocusMuscularGroup, List<Integer> idsGroupeMuscle, List<Integer> idMuscle,
-            List<Long> idsExercice) {
+            List<Long> idsExercise) {
         return (showMainFocusMuscularGroup || idsGroupeMuscle != null)
                 ? exercisePort.getAllWithShowGroupe(name, officialExercise, idUser, onlyPrincipalMuscle,
-                        idsGroupeMuscle, idMuscle, idsExercice)
-                : exercisePort.getAll(name, officialExercise, idUser, onlyPrincipalMuscle, idMuscle, idsExercice);
+                        idsGroupeMuscle, idMuscle, idsExercise)
+                : exercisePort.getAll(name, officialExercise, idUser, onlyPrincipalMuscle, idMuscle, idsExercise);
     }
 
     @Transactional
     public Exercise create(String nameFR, String description, String linkVideo, Long idUser,
-            List<MuscleInsertExercice> relExerciseMuscles) {
+            List<MuscleInfo> relExerciseMuscles) {
         if (nameFR == null)
             throw new IllegalArgumentException("nameFR empty");
         if (idUser == null)
@@ -71,14 +71,14 @@ public class ExerciseService implements ExerciseUseCase {
     }
 
     @Transactional
-    public Exercise update(Long idExercice, Long idUserQuiModifie, String nameFR, String description, String linkVideo,
-            List<MuscleInsertExercice> relExerciseMuscles) {
+    public Exercise update(Long idExercise, Long idUserQuiModifie, String nameFR, String description, String linkVideo,
+            List<MuscleInfo> relExerciseMuscles) {
 
-        Exercise exercise = EntityUtils.getExerciseOrThrow(idExercice, exercisePort);
+        Exercise exercise = EntityUtils.getExerciseOrThrow(idExercise, exercisePort);
         if (exercise.getUser() == null)
-            throw new ForbiddenException("Impossible de modifier un exercice officiel");
+            throw new ForbiddenException("Impossible de modifier un exercise officiel");
         if (!exercise.getUser().getId().equals(idUserQuiModifie))
-            throw new ForbiddenException("Cet utilisateur ne peut pas modifier cet exercice");
+            throw new ForbiddenException("Cet utilisateur ne peut pas modifier cet exercise");
 
         if (nameFR != null || description != null || linkVideo != null) {
             exercise.setNameFR(nameFR);
@@ -96,19 +96,19 @@ public class ExerciseService implements ExerciseUseCase {
     }
 
     @Transactional
-    public void delete(Long idExercice, Long idUserQuiDelete) {
+    public void delete(Long idExercise, Long idUserQuiDelete) {
 
-        Exercise exercise = EntityUtils.getExerciseOrThrow(idExercice, exercisePort);
+        Exercise exercise = EntityUtils.getExerciseOrThrow(idExercise, exercisePort);
         if (exercise.getUser() == null)
-            throw new ForbiddenException("Impossible de delete un exercice officiel");
+            throw new ForbiddenException("Impossible de delete un exercise officiel");
         if (!exercise.getUser().getId().equals(idUserQuiDelete))
-            throw new ForbiddenException("Cet utilisateur ne peut pas delete cet exercice");
+            throw new ForbiddenException("Cet utilisateur ne peut pas delete cet exercise");
         exercisePort.delete(exercise);
     }
 
     // ============Utilitaire /
     private List<RelExerciseMuscle> buildRelExerciseMuscles(Exercise exercise,
-            List<MuscleInsertExercice> relExerciseMuscles) {
+            List<MuscleInfo> relExerciseMuscles) {
 
         Map<Long, Muscle> muscleMap = musclePort.getAll().stream()
                 .collect(Collectors.toMap(Muscle::getId, m -> m));
@@ -117,7 +117,7 @@ public class ExerciseService implements ExerciseUseCase {
         List<RelExerciseMuscle> relations = new ArrayList<>();
         int principalCount = 0;
 
-        for (MuscleInsertExercice muscleInfo : relExerciseMuscles) {
+        for (MuscleInfo muscleInfo : relExerciseMuscles) {
             Long muscleId = muscleInfo.getIdMuscle();
             Boolean existingPrincipal = musclePrincipalMap.get(muscleId);
 

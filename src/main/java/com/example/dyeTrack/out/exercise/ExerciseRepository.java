@@ -22,13 +22,13 @@ public interface ExerciseRepository extends JpaRepository<Exercise, Long> {
                         +
                         "AND (:onlyPrincipalMuscle = FALSE OR rem.principal = TRUE)" +
                         "AND (:idsMuscle IS NULL OR rem.muscle.id IN :idsMuscle)" +
-                        "AND (:idsExercices IS NULL OR e.idExercise IN :idsExercices)")
+                        "AND (:idsExercises IS NULL OR e.idExercise IN :idsExercises)")
         List<Exercise> findAllFiltered(@Param("name") String name,
                         @Param("officialExercise") Boolean officialExercise,
                         @Param("idUser") Long idUser,
                         @Param("onlyPrincipalMuscle") Boolean onlyPrincipalMuscle,
                         @Param("idsMuscle") List<Integer> idsMuscle,
-                        @Param("idsExercices") List<Long> idsExercices);
+                        @Param("idsExercises") List<Long> idsExercises);
 
         // Avec groupe musculaire
         @Query("SELECT DISTINCT e FROM Exercise e " +
@@ -41,7 +41,7 @@ public interface ExerciseRepository extends JpaRepository<Exercise, Long> {
                         "AND (:onlyPrincipalMuscle = FALSE OR rem.principal = TRUE)" +
                         "AND (:idsGroupesMusculaire IS NULL OR g.id IN :idsGroupesMusculaire)" +
                         "AND (:idsMuscle IS NULL OR m.id IN :idsMuscle)" +
-                        "AND (:idsExercices IS NULL OR e.idExercise IN :idsExercices)")
+                        "AND (:idsExercises IS NULL OR e.idExercise IN :idsExercises)")
         List<Exercise> findAllFilteredWithGroup(
                         @Param("name") String name,
                         @Param("officialExercise") Boolean officialExercise,
@@ -49,6 +49,6 @@ public interface ExerciseRepository extends JpaRepository<Exercise, Long> {
                         @Param("onlyPrincipalMuscle") Boolean onlyPrincipalMuscle,
                         @Param("idsGroupesMusculaire") List<Integer> idsGroupesMusculaire,
                         @Param("idsMuscle") List<Integer> idsMuscle,
-                        @Param("idsExercices") List<Long> idsExercice);
+                        @Param("idsExercises") List<Long> idsExercise);
 
 }

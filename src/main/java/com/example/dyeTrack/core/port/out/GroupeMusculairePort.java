@@ -2,11 +2,11 @@ package com.example.dyeTrack.core.port.out;
 
 import java.util.List;
 
-import com.example.dyeTrack.core.entity.GroupeMusculaire;
+import com.example.dyeTrack.core.entity.MuscleGroup;
 
 public interface GroupeMusculairePort {
-    List<GroupeMusculaire> getAll();
+    List<MuscleGroup> getAll();
 
-    void save(GroupeMusculaire nomGroupeMusculaire);
+    void save(MuscleGroup nameGroupeMusculaire);
 
 }

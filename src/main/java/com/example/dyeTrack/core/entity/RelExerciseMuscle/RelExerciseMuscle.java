@@ -17,19 +17,19 @@ public class RelExerciseMuscle {
     private Muscle muscle;
 
     @ManyToOne
-    @MapsId("exerciceId")
-    @JoinColumn(name = "exercice_id")
-    private Exercise exercice;
+    @MapsId("exerciseId")
+    @JoinColumn(name = "exercise_id")
+    private Exercise exercise;
 
     private boolean principal;
 
     public RelExerciseMuscle() {
     }
 
-    public RelExerciseMuscle(Muscle muscle, Exercise exercice, boolean principal) {
+    public RelExerciseMuscle(Muscle muscle, Exercise exercise, boolean principal) {
         this.muscle = muscle;
-        this.exercice = exercice;
-        this.id = new RelExerciseMuscleId(muscle.getId(), exercice.getIdExercise());
+        this.exercise = exercise;
+        this.id = new RelExerciseMuscleId(muscle.getId(), exercise.getIdExercise());
         this.principal = principal;
     }
 
@@ -50,12 +50,12 @@ public class RelExerciseMuscle {
         this.muscle = muscle;
     }
 
-    public Exercise getExercice() {
-        return exercice;
+    public Exercise getExercise() {
+        return exercise;
     }
 
-    public void setExercice(Exercise exercice) {
-        this.exercice = exercice;
+    public void setExercise(Exercise exercise) {
+        this.exercise = exercise;
     }
 
     public boolean isPrincipal() {
@@ -69,7 +69,7 @@ public class RelExerciseMuscle {
     public String toString() {
         return "RelExerciseMuscleId" + this.id +
                 " : muscle (" + this.muscle + ")" +
-                ", exercice(" + this.exercice + ")" +
+                ", exercise(" + this.exercise + ")" +
                 ", principal " + this.principal;
     }
 }

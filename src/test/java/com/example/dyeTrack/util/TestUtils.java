@@ -1,10 +1,12 @@
 package com.example.dyeTrack.util;
 
 import com.example.dyeTrack.core.util.HashUtil;
-import com.example.dyeTrack.core.valueobject.MuscleInsertExercice;
-import com.example.dyeTrack.in.exercise.dto.ExerciceDetailReturnDTO;
+import com.example.dyeTrack.core.valueobject.DayDataOfUserVO;
+import com.example.dyeTrack.core.valueobject.MuscleInfo;
+import com.example.dyeTrack.in.exercise.dto.ExerciseDetailReturnDTO;
+import com.example.dyeTrack.in.dayDataOfUser.dto.returnDTO.DayDataOfUserReturnDTO;
 import com.example.dyeTrack.in.exercise.dto.ExerciseCreateDTO;
-import com.example.dyeTrack.in.presetSeance.dto.PresetDetailReturnDTO;
+import com.example.dyeTrack.in.presetSeance.dto.PresetSeanceReturnDTO;
 import com.example.dyeTrack.in.presetSeance.dto.PresetSeanceCreateRequestDTO;
 import com.example.dyeTrack.in.user.dto.RegisterUserDTO;
 import com.example.dyeTrack.in.user.dto.ReturnUserTokenDTO;
@@ -61,7 +63,7 @@ public class TestUtils {
         return assertAndExtractData(response, "Utilisateur créé avec succès", objectMapper, ReturnUserTokenDTO.class);
     }
 
-    public static PresetDetailReturnDTO createPreset(MockMvc mockMvc, ObjectMapper objectMapper,
+    public static PresetSeanceReturnDTO createPreset(MockMvc mockMvc, ObjectMapper objectMapper,
             String token, PresetSeanceCreateRequestDTO presetDTO) throws Exception {
 
         String response = mockMvc.perform(post("/api/preset-seances/create")
@@ -72,7 +74,7 @@ public class TestUtils {
                 .andReturn().getResponse().getContentAsString();
 
         return TestUtils.assertAndExtractData(response, "Preset créé avec succès", objectMapper,
-                PresetDetailReturnDTO.class);
+                PresetSeanceReturnDTO.class);
     }
 
     public static <T> T assertAndExtractData(String response, String messageToAssert, ObjectMapper objectMapper,
@@ -101,7 +103,7 @@ public class TestUtils {
         return resp.getData();
     }
 
-    public static ExerciceDetailReturnDTO createExercice(
+    public static ExerciseDetailReturnDTO createExercise(
             MockMvc mockMvc,
             ObjectMapper objectMapper,
             String token,
@@ -116,12 +118,12 @@ public class TestUtils {
                 .getResponse()
                 .getContentAsString();
 
-        return assertAndExtractData(response, "Exercice créé avec succès", objectMapper,
-                ExerciceDetailReturnDTO.class);
+        return assertAndExtractData(response, "Exercise créé avec succès", objectMapper,
+                ExerciseDetailReturnDTO.class);
 
     }
 
-    public static ExerciseCreateDTO buildExercise(String name, String desc, List<MuscleInsertExercice> muscles) {
+    public static ExerciseCreateDTO buildExercise(String name, String desc, List<MuscleInfo> muscles) {
         ExerciseCreateDTO dto = new ExerciseCreateDTO();
         dto.setNameFR(name);
         dto.setDescription(desc);
@@ -175,7 +177,25 @@ public class TestUtils {
         assertThat(extractedUserId).isEqualTo(user.getId());
         assertThat(returned.getUserDTO().getPseudo()).isEqualTo(pseudo);
         assertThat(user.getPseudo()).isEqualTo(pseudo);
-        assertThat(returned.getUserDTO().getDateNaissance()).isNull();
-        assertThat(user.getDateNaissance()).isNull();
+        assertThat(returned.getUserDTO().getBirthdate()).isNull();
+        assertThat(user.getBirthdate()).isNull();
+    }
+
+    public static DayDataOfUserReturnDTO createDayData(
+            MockMvc mockMvc,
+            ObjectMapper objectMapper,
+            String token,
+            DayDataOfUserVO request) throws Exception {
+
+        String response = mockMvc.perform(post("/api/daydata/save")
+                .header("Authorization", "Bearer " + token)
+                .contentType("application/json")
+                .content(toJson(objectMapper, request)))
+                .andExpect(status().isCreated())
+                .andReturn()
+                .getResponse()
+                .getContentAsString();
+
+        return assertAndExtractData(response, "DataDay update Info", objectMapper, DayDataOfUserReturnDTO.class);
     }
 }

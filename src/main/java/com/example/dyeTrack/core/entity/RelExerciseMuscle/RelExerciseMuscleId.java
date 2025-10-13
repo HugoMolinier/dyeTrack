@@ -8,14 +8,14 @@ import java.util.Objects;
 public class RelExerciseMuscleId implements Serializable {
 
     private Long muscleId;
-    private Long exerciceId;
+    private Long exerciseId;
 
     public RelExerciseMuscleId() {
     }
 
-    public RelExerciseMuscleId(Long muscleId, Long exerciceId) {
+    public RelExerciseMuscleId(Long muscleId, Long exerciseId) {
         this.muscleId = muscleId;
-        this.exerciceId = exerciceId;
+        this.exerciseId = exerciseId;
     }
 
     // getters et setters
@@ -27,12 +27,12 @@ public class RelExerciseMuscleId implements Serializable {
         this.muscleId = muscleId;
     }
 
-    public Long getExerciceId() {
-        return exerciceId;
+    public Long getExerciseId() {
+        return exerciseId;
     }
 
-    public void setExerciceId(Long exerciceId) {
-        this.exerciceId = exerciceId;
+    public void setExerciseId(Long exerciseId) {
+        this.exerciseId = exerciseId;
     }
 
     @Override
@@ -43,11 +43,11 @@ public class RelExerciseMuscleId implements Serializable {
             return false;
         RelExerciseMuscleId that = (RelExerciseMuscleId) o;
         return Objects.equals(muscleId, that.muscleId) &&
-                Objects.equals(exerciceId, that.exerciceId);
+                Objects.equals(exerciseId, that.exerciseId);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(muscleId, exerciceId);
+        return Objects.hash(muscleId, exerciseId);
     }
 }

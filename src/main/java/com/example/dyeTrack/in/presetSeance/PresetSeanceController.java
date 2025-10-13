@@ -17,10 +17,10 @@ import org.springframework.web.bind.annotation.RestController;
 import com.example.dyeTrack.core.entity.PresetSeance;
 
 import com.example.dyeTrack.core.service.PresetSeanceService;
-import com.example.dyeTrack.in.exercise.dto.ExerciceUltraLightReturnDTO;
-import com.example.dyeTrack.in.presetSeance.dto.PresetDetailReturnDTO;
+import com.example.dyeTrack.in.exercise.dto.ExerciseUltraLightReturnDTO;
+import com.example.dyeTrack.in.presetSeance.dto.PresetSeanceReturnDTO;
 import com.example.dyeTrack.in.presetSeance.dto.PresetSeanceCreateRequestDTO;
-import com.example.dyeTrack.in.presetSeance.dto.PresetSeanceExerciceVODTO;
+import com.example.dyeTrack.in.presetSeance.dto.PresetSeanceExerciseVODTO;
 import com.example.dyeTrack.in.utils.ResponseBuilder;
 import com.example.dyeTrack.in.utils.SecurityUtil;
 
@@ -41,25 +41,25 @@ public class PresetSeanceController {
 
     @PostMapping("/create")
     @Operation(summary = "Create Preset attribuate to a user", description = "Accessible only if a valid JWT is provided and corresponds to the user")
-    public ResponseEntity<ResponseBuilder.ResponseDTO<PresetDetailReturnDTO>> create(
+    public ResponseEntity<ResponseBuilder.ResponseDTO<PresetSeanceReturnDTO>> create(
             @RequestBody @Valid PresetSeanceCreateRequestDTO presetSeanceCreateRequestDTO) {
         Long idTokenUser = SecurityUtil.getUserIdFromContext();
 
         return ResponseBuilder
                 .created(buildDetailDTO(presetSeanceService.save(presetSeanceCreateRequestDTO.getName(), idTokenUser,
-                        presetSeanceCreateRequestDTO.getPresetSeanceExerciceVOs())), "Preset créé avec succès");
+                        presetSeanceCreateRequestDTO.getPresetSeanceExerciseVOs())), "Preset créé avec succès");
 
     }
 
     @GetMapping("/getAll")
     @Operation(summary = "Get All Preset of user", description = "Accessible only if a valid JWT is provided and corresponds to the user")
-    public ResponseEntity<ResponseBuilder.ResponseDTO<List<PresetDetailReturnDTO>>> findAllOfUser(
+    public ResponseEntity<ResponseBuilder.ResponseDTO<List<PresetSeanceReturnDTO>>> findAllOfUser(
             @RequestParam(required = false) String name) {
         Long idTokenUser = SecurityUtil.getUserIdFromContext();
 
         List<PresetSeance> presetSeances = presetSeanceService.getAllPresetOfUser(idTokenUser, name);
 
-        List<PresetDetailReturnDTO> presetOut = new ArrayList<>();
+        List<PresetSeanceReturnDTO> presetOut = new ArrayList<>();
         for (PresetSeance presetSeance : presetSeances) {
             presetOut.add(buildDetailDTO(presetSeance));
         }
@@ -69,14 +69,14 @@ public class PresetSeanceController {
 
     @PutMapping("/update/{id}")
     @Operation(summary = "Update a Preset of user", description = "Accessible only if a valid JWT is provided and corresponds to the user")
-    public ResponseEntity<ResponseBuilder.ResponseDTO<PresetDetailReturnDTO>> update(@PathVariable Long id,
+    public ResponseEntity<ResponseBuilder.ResponseDTO<PresetSeanceReturnDTO>> update(@PathVariable Long id,
             @RequestBody PresetSeanceCreateRequestDTO presetSeanceCreateRequestDTO) {
         Long idTokenUser = SecurityUtil.getUserIdFromContext();
         return ResponseBuilder
                 .success(
                         buildDetailDTO(
                                 presetSeanceService.update(id, idTokenUser, presetSeanceCreateRequestDTO.getName(),
-                                        presetSeanceCreateRequestDTO.getPresetSeanceExerciceVOs())),
+                                        presetSeanceCreateRequestDTO.getPresetSeanceExerciseVOs())),
                         "Preset mis à jour avec succès");
 
     }
@@ -93,7 +93,7 @@ public class PresetSeanceController {
 
     @GetMapping("/getById/{id}")
     @Operation(summary = "GetByID a Preset of user", description = "Accessible only if a valid JWT is provided and corresponds to the user")
-    public ResponseEntity<ResponseBuilder.ResponseDTO<PresetDetailReturnDTO>> getById(
+    public ResponseEntity<ResponseBuilder.ResponseDTO<PresetSeanceReturnDTO>> getById(
             @PathVariable Long id) {
         Long idTokenUser = SecurityUtil.getUserIdFromContext();
 
@@ -103,20 +103,20 @@ public class PresetSeanceController {
     }
 
     // Helper
-    private PresetDetailReturnDTO buildDetailDTO(PresetSeance presetSeance) {
+    private PresetSeanceReturnDTO buildDetailDTO(PresetSeance presetSeance) {
 
-        List<PresetSeanceExerciceVODTO> voList = presetSeance.getPresetSeanceExercice().stream()
-                .map(pse -> new PresetSeanceExerciceVODTO(
-                        new ExerciceUltraLightReturnDTO(pse.getExercice()),
+        List<PresetSeanceExerciseVODTO> voList = presetSeance.getPresetSeanceExercise().stream()
+                .map(pse -> new PresetSeanceExerciseVODTO(
+                        new ExerciseUltraLightReturnDTO(pse.getExercise()),
                         pse.getParameter(),
                         pse.getRangeRepInf(),
                         pse.getRangeRepSup(),
-                        pse.getOrderExercice(),
-                        pse.getLateralite(),
-                        pse.getEquipement()))
+                        pse.getOrderExercise(),
+                        pse.getLateralite().getId(),
+                        pse.getEquipment().getId()))
                 .toList();
 
-        return new PresetDetailReturnDTO(presetSeance, voList);
+        return new PresetSeanceReturnDTO(presetSeance, voList);
     }
 
 }

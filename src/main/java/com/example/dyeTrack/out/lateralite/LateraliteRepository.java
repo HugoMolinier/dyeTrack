@@ -5,5 +5,5 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import com.example.dyeTrack.core.entity.Lateralite;
 
 public interface LateraliteRepository extends JpaRepository<Lateralite, Long> {
-    Lateralite findOneByNomFRAndNomEN(String nomFR, String nomEN);
+    Lateralite findOneByNameFRAndNameEN(String nameFR, String nameEN);
 }

@@ -1,9 +1,11 @@
 package com.example.dyeTrack.core.util;
 
 import com.example.dyeTrack.core.entity.Exercise;
+import com.example.dyeTrack.core.entity.Lateralite;
 import com.example.dyeTrack.core.entity.User;
 import com.example.dyeTrack.core.exception.EntityNotFoundException;
 import com.example.dyeTrack.core.port.out.ExercisePort;
+import com.example.dyeTrack.core.port.out.LateralitePort;
 import com.example.dyeTrack.core.port.out.UserPort;
 
 public final class EntityUtils {
@@ -22,14 +24,15 @@ public final class EntityUtils {
         return user;
     }
 
-    public static Exercise getExerciseOrThrow(Long exerciceId, ExercisePort exercisePort) {
-        if (exerciceId == null || exerciceId <= 0)
+    public static Exercise getExerciseOrThrow(Long exerciseId, ExercisePort exercisePort) {
+        if (exerciseId == null || exerciseId <= 0)
             throw new IllegalArgumentException("Exercise ID must be provided and positive");
 
-        Exercise exercise = exercisePort.getByIdExercise(exerciceId);
+        Exercise exercise = exercisePort.getByIdExercise(exerciseId);
         if (exercise == null)
-            throw new EntityNotFoundException("Exercise not found with id " + exerciceId);
+            throw new EntityNotFoundException("Exercise not found with id " + exerciseId);
 
         return exercise;
     }
+
 }

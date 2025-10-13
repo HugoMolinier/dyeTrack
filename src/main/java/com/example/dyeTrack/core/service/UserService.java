@@ -42,9 +42,9 @@ public class UserService implements UserUseCase {
 
     @Transactional
     @Override
-    public AuthValue save(String pseudo, String email, String password, LocalDate dateNaissance,
-            Integer taille, Boolean sexeMale) {
-        validateNewUserInputs(pseudo, email, password, taille);
+    public AuthValue save(String pseudo, String email, String password, LocalDate birthdate,
+            Integer height, Boolean sexeMale) {
+        validateNewUserInputs(pseudo, email, password, height);
 
         String hashedEmail = HashUtil.hashEmail(email, emailSecretKey);
         if (userPort.findByMailHashed(hashedEmail) != null) {
@@ -56,8 +56,8 @@ public class UserService implements UserUseCase {
                 hashedEmail,
                 passwordEncoder.encode(password),
                 new Date(System.currentTimeMillis()),
-                dateNaissance != null ? Date.valueOf(dateNaissance) : null,
-                taille,
+                birthdate != null ? Date.valueOf(birthdate) : null,
+                height,
                 sexeMale);
 
         user = userPort.save(user);
@@ -84,7 +84,7 @@ public class UserService implements UserUseCase {
     @Transactional
     @Override
     public User update(Long idTokenUser, Long idUser, String pseudo, String password,
-            LocalDate dateNaissance, Integer taille, Boolean sexeMale) {
+            LocalDate birthdate, Integer height, Boolean sexeMale) {
 
         if (!idTokenUser.equals(idUser)) {
             throw new ForbiddenException("Not same user");
@@ -96,12 +96,12 @@ public class UserService implements UserUseCase {
             user.setPseudo(pseudo);
         if (!isBlank(password))
             user.setPassword(passwordEncoder.encode(password));
-        if (dateNaissance != null)
-            user.setDateNaissance(Date.valueOf(dateNaissance));
+        if (birthdate != null)
+            user.setBirthdate(Date.valueOf(birthdate));
 
-        if (taille != null) {
-            validateTaille(taille);
-            user.setTaille(taille);
+        if (height != null) {
+            validateHeight(height);
+            user.setHeight(height);
         }
 
         if (sexeMale != null)
@@ -112,7 +112,7 @@ public class UserService implements UserUseCase {
 
     /* --- Private helpers --- */
 
-    private void validateNewUserInputs(String pseudo, String email, String password, Integer taille) {
+    private void validateNewUserInputs(String pseudo, String email, String password, Integer height) {
         if (isBlank(pseudo))
             throw new IllegalArgumentException("Pseudo vide");
         if (isBlank(email))
@@ -120,8 +120,8 @@ public class UserService implements UserUseCase {
         if (isBlank(password))
             throw new IllegalArgumentException("Mot de passe vide");
         validateEmailFormat(email);
-        if (taille != null)
-            validateTaille(taille);
+        if (height != null)
+            validateHeight(height);
     }
 
     private void validateEmailFormat(String email) {
@@ -130,9 +130,9 @@ public class UserService implements UserUseCase {
             throw new IllegalArgumentException("Email format invalid");
     }
 
-    private void validateTaille(Integer taille) {
-        if (taille < 50 || taille > 300)
-            throw new IllegalArgumentException("Taille non réaliste");
+    private void validateHeight(Integer height) {
+        if (height < 50 || height > 300)
+            throw new IllegalArgumentException("Height non réaliste");
     }
 
     private boolean isBlank(String str) {

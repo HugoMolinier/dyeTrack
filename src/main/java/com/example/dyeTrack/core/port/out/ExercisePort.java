@@ -8,13 +8,13 @@ public interface ExercisePort {
         Exercise getByIdExercise(Long idExercise);
 
         List<Exercise> getAll(String name, Boolean officialExercise, Long idUser, Boolean onlyPrincipalMuscle,
-                        List<Integer> idsMuscle, List<Long> idsExercices);
+                        List<Integer> idsMuscle, List<Long> idsExercises);
 
         Exercise create(Exercise exercise);
 
         List<Exercise> getAllWithShowGroupe(String name, Boolean officialExercise, Long idUser,
                         Boolean onlyPrincipalMuscle,
-                        List<Integer> idsGroupesMusculaire, List<Integer> idsMuscle, List<Long> idsExercices);
+                        List<Integer> idsGroupesMusculaire, List<Integer> idsMuscle, List<Long> idsExercises);
 
         Exercise update(Exercise exercise);
 

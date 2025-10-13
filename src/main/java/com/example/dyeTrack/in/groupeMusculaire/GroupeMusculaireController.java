@@ -7,12 +7,12 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.example.dyeTrack.core.entity.GroupeMusculaire;
+import com.example.dyeTrack.core.entity.MuscleGroup;
 import com.example.dyeTrack.core.service.GroupeMusculaireService;
 import com.example.dyeTrack.in.utils.ResponseBuilder;
 
 @RestController
-@RequestMapping("/api/GroupeMusculaire")
+@RequestMapping("/api/MuscleGroup")
 public class GroupeMusculaireController {
     private GroupeMusculaireService service;
 
@@ -21,7 +21,7 @@ public class GroupeMusculaireController {
     }
 
     @GetMapping("/")
-    public ResponseEntity<ResponseBuilder.ResponseDTO<List<GroupeMusculaire>>> getAll() {
+    public ResponseEntity<ResponseBuilder.ResponseDTO<List<MuscleGroup>>> getAll() {
         return ResponseBuilder.success(service.getAll(), "Liste des groupes musculaires récupérée avec succès");
     }
 }

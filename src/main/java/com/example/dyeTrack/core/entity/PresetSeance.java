@@ -3,7 +3,7 @@ package com.example.dyeTrack.core.entity;
 import java.util.ArrayList;
 import java.util.List;
 
-import com.example.dyeTrack.core.entity.PresetSeanceExercice.PresetSeanceExercice;
+import com.example.dyeTrack.core.entity.PresetSeanceExercise.PresetSeanceExercise;
 
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Entity;
@@ -30,14 +30,14 @@ public class PresetSeance {
     private User user;
 
     @OneToMany(mappedBy = "presetSeance", cascade = CascadeType.ALL, orphanRemoval = true)
-    private List<PresetSeanceExercice> presetSeanceExercices = new ArrayList<>();
+    private List<PresetSeanceExercise> presetSeanceExercises = new ArrayList<>();
 
-    public List<PresetSeanceExercice> getPresetSeanceExercice() {
-        return presetSeanceExercices;
+    public List<PresetSeanceExercise> getPresetSeanceExercise() {
+        return presetSeanceExercises;
     }
 
-    public void setPresetSeanceExercice(List<PresetSeanceExercice> presetSeanceExercices) {
-        this.presetSeanceExercices = presetSeanceExercices;
+    public void setPresetSeanceExercise(List<PresetSeanceExercise> presetSeanceExercises) {
+        this.presetSeanceExercises = presetSeanceExercises;
     }
 
     public PresetSeance() {

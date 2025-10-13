@@ -8,7 +8,7 @@ public class ErrorResponseDTO {
     @Schema(description = "Code HTTP de l'erreur", example = "404")
     private int status;
 
-    @Schema(description = "Nom de l'erreur", example = "Not Found")
+    @Schema(description = "Name de l'erreur", example = "Not Found")
     private String error;
 
     @Schema(description = "Message détaillé", example = "Utilisateur introuvable")

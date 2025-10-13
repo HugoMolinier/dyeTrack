@@ -4,7 +4,7 @@ import java.util.List;
 
 import org.springframework.stereotype.Service;
 
-import com.example.dyeTrack.core.entity.GroupeMusculaire;
+import com.example.dyeTrack.core.entity.MuscleGroup;
 import com.example.dyeTrack.core.port.in.GroupeMusculaireUseCase;
 import com.example.dyeTrack.core.port.out.GroupeMusculairePort;
 
@@ -17,7 +17,7 @@ public class GroupeMusculaireService implements GroupeMusculaireUseCase {
         this.groupePort = groupePort;
     }
 
-    public List<GroupeMusculaire> getAll() {
+    public List<MuscleGroup> getAll() {
         return groupePort.getAll();
     }
 

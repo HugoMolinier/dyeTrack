@@ -13,6 +13,6 @@ public interface RelExerciseMuscleRepository extends JpaRepository<RelExerciseMu
 
     @Modifying
     @Transactional
-    @Query("DELETE FROM RelExerciseMuscle rem WHERE rem.exercice.id = :exerciseId")
+    @Query("DELETE FROM RelExerciseMuscle rem WHERE rem.exercise.id = :exerciseId")
     void deleteByExerciseId(@Param("exerciseId") Long exerciseId);
 }

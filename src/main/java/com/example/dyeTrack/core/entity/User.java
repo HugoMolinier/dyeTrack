@@ -4,7 +4,7 @@ import java.sql.Date;
 import java.util.ArrayList;
 import java.util.List;
 
-import com.example.dyeTrack.core.entity.infoExerciceUser.InfoExerciceUser;
+import com.example.dyeTrack.core.entity.infoExerciseUser.InfoExerciseUser;
 
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Entity;
@@ -33,24 +33,35 @@ public class User {
 
     private Date dateRegister;
 
-    private Date dateNaissance;
+    private Date birthdate;
 
-    private Integer taille;
+    private Integer height;
     private Boolean sexeMale;
 
     @OneToMany(mappedBy = "user")
     private List<PresetSeance> presets;
 
     @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true)
-    private List<InfoExerciceUser> relRecensementExercices = new ArrayList<>();
+    private List<InfoExerciseUser> relRecensementExercises = new ArrayList<>();
+
+    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<DayDataOfUser> dataOfUsers = new ArrayList<>();
 
     // Getter et Setter
-    public List<InfoExerciceUser> getRelRecensementExercices() {
-        return relRecensementExercices;
+    public List<InfoExerciseUser> getRelRecensementExercises() {
+        return relRecensementExercises;
     }
 
-    public void setRelRecensementExercices(List<InfoExerciceUser> relRecensementExercices) {
-        this.relRecensementExercices = relRecensementExercices;
+    public void setRelRecensementExercises(List<InfoExerciseUser> relRecensementExercises) {
+        this.relRecensementExercises = relRecensementExercises;
+    }
+
+    public List<DayDataOfUser> getDayDataOfUser() {
+        return dataOfUsers;
+    }
+
+    public void setDayDataOfUser(List<DayDataOfUser> dataOfUsers) {
+        this.dataOfUsers = dataOfUsers;
     }
 
     // --- Constructeurs ---
@@ -63,14 +74,14 @@ public class User {
         this.password = password;
     }
 
-    public User(String pseudo, String email, String password, Date dateRegister, Date dateNaissance, Integer taille,
+    public User(String pseudo, String email, String password, Date dateRegister, Date birthdate, Integer height,
             Boolean sexeMale) {
         this.pseudo = pseudo;
         this.email = email;
         this.password = password;
         this.dateRegister = dateRegister;
-        this.dateNaissance = dateNaissance;
-        this.taille = taille;
+        this.birthdate = birthdate;
+        this.height = height;
         this.sexeMale = sexeMale;
     }
 
@@ -95,12 +106,12 @@ public class User {
         return dateRegister;
     }
 
-    public Date getDateNaissance() {
-        return dateNaissance;
+    public Date getBirthdate() {
+        return birthdate;
     }
 
-    public Integer getTaille() {
-        return taille;
+    public Integer getHeight() {
+        return height;
     }
 
     public Boolean getSexeMale() {
@@ -132,12 +143,12 @@ public class User {
         this.dateRegister = dateRegister;
     }
 
-    public void setDateNaissance(Date dateNaissance) {
-        this.dateNaissance = dateNaissance;
+    public void setBirthdate(Date birthdate) {
+        this.birthdate = birthdate;
     }
 
-    public void setTaille(Integer taille) {
-        this.taille = taille;
+    public void setHeight(Integer height) {
+        this.height = height;
     }
 
     public void setSexeMale(Boolean sexeMale) {

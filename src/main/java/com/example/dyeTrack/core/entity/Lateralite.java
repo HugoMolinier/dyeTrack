@@ -13,15 +13,15 @@ public class Lateralite {
     private Long id;
 
     @NotBlank
-    private String nomFR;
+    private String nameFR;
 
     @NotBlank
-    private String nomEN;
+    private String nameEN;
 
-    public Lateralite(Long id, String nomFR, String nomEN) {
+    public Lateralite(Long id, String nameFR, String nameEN) {
         this.id = id;
-        this.nomFR = nomFR;
-        this.nomEN = nomEN;
+        this.nameFR = nameFR;
+        this.nameEN = nameEN;
     }
 
     protected Lateralite() {
@@ -31,17 +31,17 @@ public class Lateralite {
         return id;
     }
 
-    public String getNomFR() {
-        return nomFR;
+    public String getNameFR() {
+        return nameFR;
     }
 
-    public String getNomEN() {
-        return nomEN;
+    public String getNameEN() {
+        return nameEN;
     }
 
     @Override
     public String toString() {
         return "id " + this.id +
-                " : nomFR " + this.nomFR;
+                " : nameFR " + this.nameFR;
     }
 }

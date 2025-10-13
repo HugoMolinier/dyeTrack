@@ -21,10 +21,10 @@ public class Muscle {
 
     @NotBlank
     @ManyToOne
-    @JoinColumn(name = "groupe_musculaire_id", nullable = false)
-    private GroupeMusculaire groupeMusculaire;
+    @JoinColumn(name = "muscle_group_id", nullable = false)
+    private MuscleGroup groupeMusculaire;
 
-    public Muscle(Long id, String nameFR, String nameEN, GroupeMusculaire groupeMusculaire) {
+    public Muscle(Long id, String nameFR, String nameEN, MuscleGroup groupeMusculaire) {
         this.nameFR = nameFR;
         this.id = id;
         this.nameEN = nameEN;
@@ -46,7 +46,7 @@ public class Muscle {
         return nameEN;
     }
 
-    public GroupeMusculaire getGroupeMusculaire() {
+    public MuscleGroup getGroupeMusculaire() {
         return groupeMusculaire;
     }
 

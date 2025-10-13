@@ -10,11 +10,11 @@ import com.example.dyeTrack.core.entity.PresetSeance;
 
 public interface PresetSeanceRepository extends JpaRepository<PresetSeance, Long> {
 
-    @Query("SELECT DISTINCT p FROM PresetSeance p " +
-            "LEFT JOIN FETCH p.presetSeanceExercices pse " +
-            "WHERE p.user.id = :userId " +
-            "AND (:name IS NULL OR LOWER(p.name) LIKE LOWER(CONCAT('%', :name, '%')))")
-    List<PresetSeance> findAllPresetOfUser(
-            @Param("userId") Long userId,
-            @Param("name") String name);
+        @Query("SELECT DISTINCT p FROM PresetSeance p " +
+                        "LEFT JOIN FETCH p.presetSeanceExercises pse " +
+                        "WHERE p.user.id = :userId " +
+                        "AND (:name IS NULL OR LOWER(p.name) LIKE LOWER(CONCAT('%', :name, '%')))")
+        List<PresetSeance> findAllPresetOfUser(
+                        @Param("userId") Long userId,
+                        @Param("name") String name);
 }

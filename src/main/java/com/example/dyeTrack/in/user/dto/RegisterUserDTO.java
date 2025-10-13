@@ -14,11 +14,11 @@ public class RegisterUserDTO extends LoginUserDTO {
     private String pseudo;
 
     @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd")
-    private LocalDate dateNaissance;
+    private LocalDate birthdate;
 
-    @Min(value = 50, message = "Taille trop petite")
-    @Max(value = 300, message = "Taille trop grande")
-    private Integer taille;
+    @Min(value = 50, message = "Height trop petite")
+    @Max(value = 300, message = "Height trop grande")
+    private Integer height;
     private Boolean sexeMale;
 
     // Getters et setters
@@ -30,20 +30,20 @@ public class RegisterUserDTO extends LoginUserDTO {
         this.pseudo = pseudo;
     }
 
-    public LocalDate getDateNaissance() {
-        return dateNaissance;
+    public LocalDate getBirthdate() {
+        return birthdate;
     }
 
-    public void setDateNaissance(LocalDate dateNaissance) {
-        this.dateNaissance = dateNaissance;
+    public void setBirthdate(LocalDate birthdate) {
+        this.birthdate = birthdate;
     }
 
-    public Integer getTaille() {
-        return taille;
+    public Integer getHeight() {
+        return height;
     }
 
-    public void setTaille(Integer taille) {
-        this.taille = taille;
+    public void setHeight(Integer height) {
+        this.height = height;
     }
 
     public Boolean getSexeMale() {

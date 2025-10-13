@@ -34,8 +34,8 @@ public class UserController {
                 user.getId(),
                 user.getPseudo(),
                 user.getDateRegister(),
-                user.getDateNaissance(),
-                user.getTaille(),
+                user.getBirthdate(),
+                user.getHeight(),
                 user.getSexeMale());
 
         return ResponseBuilder.success(dto, "Utilisateur récupéré avec succès");
@@ -60,8 +60,8 @@ public class UserController {
                         dto.getPseudo(),
                         dto.getEmail(),
                         dto.getPassword(),
-                        dto.getDateNaissance(),
-                        dto.getTaille(),
+                        dto.getBirthdate(),
+                        dto.getHeight(),
                         dto.getSexeMale()));
         return ResponseBuilder.created(response, "Utilisateur créé avec succès");
     }

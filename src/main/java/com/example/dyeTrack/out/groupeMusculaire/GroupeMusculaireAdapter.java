@@ -4,7 +4,7 @@ import java.util.List;
 
 import org.springframework.stereotype.Component;
 
-import com.example.dyeTrack.core.entity.GroupeMusculaire;
+import com.example.dyeTrack.core.entity.MuscleGroup;
 import com.example.dyeTrack.core.port.out.GroupeMusculairePort;
 
 @Component
@@ -15,12 +15,12 @@ public class GroupeMusculaireAdapter implements GroupeMusculairePort {
         this.repository = repository;
     }
 
-    public List<GroupeMusculaire> getAll() {
+    public List<MuscleGroup> getAll() {
         return repository.findAll();
     }
 
     @Override
-    public void save(GroupeMusculaire groupeMusculaire) {
+    public void save(MuscleGroup groupeMusculaire) {
         repository.save(groupeMusculaire);
     }
 

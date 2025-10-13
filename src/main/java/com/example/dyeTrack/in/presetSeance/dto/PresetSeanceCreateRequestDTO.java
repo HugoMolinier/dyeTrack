@@ -1,22 +1,22 @@
 package com.example.dyeTrack.in.presetSeance.dto;
 
 import java.util.List;
-import com.example.dyeTrack.core.valueobject.PresetSeanceExerciceVO;
+import com.example.dyeTrack.core.valueobject.PresetSeanceExerciseVO;
 
 import jakarta.validation.constraints.NotBlank;
 
 public class PresetSeanceCreateRequestDTO {
-    @NotBlank(message = "Le nom ne peut pas être vide")
+    @NotBlank(message = "Le name ne peut pas être vide")
     private String name;
 
-    private List<PresetSeanceExerciceVO> presetSeanceExerciceVOs;
+    private List<PresetSeanceExerciseVO> presetSeanceExerciseVOs;
 
     public PresetSeanceCreateRequestDTO() {
     }
 
-    public PresetSeanceCreateRequestDTO(String name, List<PresetSeanceExerciceVO> presetSeanceExerciceVOs) {
+    public PresetSeanceCreateRequestDTO(String name, List<PresetSeanceExerciseVO> presetSeanceExerciseVOs) {
         this.name = name;
-        this.presetSeanceExerciceVOs = presetSeanceExerciceVOs;
+        this.presetSeanceExerciseVOs = presetSeanceExerciseVOs;
     }
 
     public PresetSeanceCreateRequestDTO(String name) {
@@ -29,8 +29,8 @@ public class PresetSeanceCreateRequestDTO {
         return name;
     }
 
-    public List<PresetSeanceExerciceVO> getPresetSeanceExerciceVOs() {
-        return presetSeanceExerciceVOs;
+    public List<PresetSeanceExerciseVO> getPresetSeanceExerciseVOs() {
+        return presetSeanceExerciseVOs;
     }
 
     // --- Setters ---
@@ -38,7 +38,7 @@ public class PresetSeanceCreateRequestDTO {
         this.name = name;
     }
 
-    public void setPresetSeanceExerciceVOs(List<PresetSeanceExerciceVO> presetSeanceExerciceVOs) {
-        this.presetSeanceExerciceVOs = presetSeanceExerciceVOs;
+    public void setPresetSeanceExerciseVOs(List<PresetSeanceExerciseVO> presetSeanceExerciseVOs) {
+        this.presetSeanceExerciseVOs = presetSeanceExerciseVOs;
     }
 }

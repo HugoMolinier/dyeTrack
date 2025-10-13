@@ -6,11 +6,11 @@ import org.springframework.boot.CommandLineRunner;
 import org.springframework.context.annotation.Profile;
 import org.springframework.stereotype.Component;
 
-import com.example.dyeTrack.core.entity.Equipement;
-import com.example.dyeTrack.core.entity.GroupeMusculaire;
+import com.example.dyeTrack.core.entity.Equipment;
+import com.example.dyeTrack.core.entity.MuscleGroup;
 import com.example.dyeTrack.core.entity.Lateralite;
 import com.example.dyeTrack.core.entity.Muscle;
-import com.example.dyeTrack.out.equipement.EquipementRepository;
+import com.example.dyeTrack.out.equipment.EquipmentRepository;
 import com.example.dyeTrack.out.groupeMusculaire.GroupeMusculaireRepository;
 import com.example.dyeTrack.out.lateralite.LateraliteAdapter;
 import com.example.dyeTrack.out.lateralite.LateraliteRepository;
@@ -24,7 +24,7 @@ import com.example.dyeTrack.out.muscle.MuscleRepository;
 public class TestDataLoader implements CommandLineRunner {
 
     private final LateraliteRepository lateraliteRepository;
-    private final EquipementRepository equipementRepository;
+    private final EquipmentRepository equipmentRepository;
 
     private final GroupeMusculaireRepository groupeMusculaireRepository;
 
@@ -32,11 +32,11 @@ public class TestDataLoader implements CommandLineRunner {
 
     public TestDataLoader(MuscleRepository muscleRepository, GroupeMusculaireRepository groupeMusculaireRepository,
             LateraliteRepository lateraliteRepository,
-            LateraliteAdapter lateraliteAdapter, EquipementRepository equipementRepository) {
+            LateraliteAdapter lateraliteAdapter, EquipmentRepository equipmentRepository) {
         this.muscleRepository = muscleRepository;
         this.groupeMusculaireRepository = groupeMusculaireRepository;
         this.lateraliteRepository = lateraliteRepository;
-        this.equipementRepository = equipementRepository;
+        this.equipmentRepository = equipmentRepository;
     }
 
     @Override
@@ -53,13 +53,13 @@ public class TestDataLoader implements CommandLineRunner {
         doTheSaveLateralite("Unilatéral", "Unilateral", 2L);
         doTheSaveLateralite("Alterné", "Alternated", 3L);
 
-        // Equipements
-        doTheSaveEquipement("Haltère", "Dumbbell", 1L);
-        doTheSaveEquipement("Barre", "Bar", 2L);
-        doTheSaveEquipement("Élastique", "Elastic Band", 3L);
-        doTheSaveEquipement("Poids du corps", "Bodyweight", 4L);
-        doTheSaveEquipement("Poulie", "Cable Machine", 5L);
-        doTheSaveEquipement("Smith machine", "Smith Machine", 6L);
+        // Equipments
+        doTheSaveEquipment("Haltère", "Dumbbell", 1L);
+        doTheSaveEquipment("Barre", "Bar", 2L);
+        doTheSaveEquipment("Élastique", "Elastic Band", 3L);
+        doTheSaveEquipment("Poids du corps", "Bodyweight", 4L);
+        doTheSaveEquipment("Poulie", "Cable Machine", 5L);
+        doTheSaveEquipment("Smith machine", "Smith Machine", 6L);
     }
 
     private void saveGroupeEtMuscles() {
@@ -99,35 +99,35 @@ public class TestDataLoader implements CommandLineRunner {
 
     }
 
-    private void doTheSaveGroupeEtMuscles(Long groupeId, String nomFr, String nomEn, List<List<Object>> muscles) {
-        GroupeMusculaire groupe = groupeMusculaireRepository.findOneByNomFRAndNomEN(nomFr, nomEn);
+    private void doTheSaveGroupeEtMuscles(Long groupeId, String nameFr, String nameEn, List<List<Object>> muscles) {
+        MuscleGroup groupe = groupeMusculaireRepository.findOneByNameFRAndNameEN(nameFr, nameEn);
         if (groupe == null) {
-            groupe = groupeMusculaireRepository.save(new GroupeMusculaire(groupeId, nomFr, nomEn));
+            groupe = groupeMusculaireRepository.save(new MuscleGroup(groupeId, nameFr, nameEn));
         }
 
-        for (List<Object> muscleNom : muscles) {
-            Long id = (Long) muscleNom.get(0);
-            String nomMuscleFR = (String) muscleNom.get(1);
-            String nomMuscleEN = (String) muscleNom.get(2);
+        for (List<Object> muscleName : muscles) {
+            Long id = (Long) muscleName.get(0);
+            String nameMuscleFR = (String) muscleName.get(1);
+            String nameMuscleEN = (String) muscleName.get(2);
 
             // vérifie si le muscle existe déjà
-            if (muscleRepository.findByName(nomMuscleFR).isEmpty()) {
-                muscleRepository.save(new Muscle(id, nomMuscleFR, nomMuscleEN, groupe));
+            if (muscleRepository.findByName(nameMuscleFR).isEmpty()) {
+                muscleRepository.save(new Muscle(id, nameMuscleFR, nameMuscleEN, groupe));
             }
         }
     }
 
-    private void doTheSaveLateralite(String nomFr, String nomEn, Long id) {
-        Lateralite lat = lateraliteRepository.findOneByNomFRAndNomEN(nomFr, nomEn);
+    private void doTheSaveLateralite(String nameFr, String nameEn, Long id) {
+        Lateralite lat = lateraliteRepository.findOneByNameFRAndNameEN(nameFr, nameEn);
         if (lat == null) {
-            lateraliteRepository.save(new Lateralite(id, nomFr, nomEn));
+            lateraliteRepository.save(new Lateralite(id, nameFr, nameEn));
         }
     }
 
-    private void doTheSaveEquipement(String nomFr, String nomEn, Long id) {
-        Equipement lat = equipementRepository.findOneByNomFRAndNomEN(nomFr, nomEn);
+    private void doTheSaveEquipment(String nameFr, String nameEn, Long id) {
+        Equipment lat = equipmentRepository.findOneByNameFRAndNameEN(nameFr, nameEn);
         if (lat == null) {
-            equipementRepository.save(new Equipement(id, nomFr, nomEn));
+            equipmentRepository.save(new Equipment(id, nameFr, nameEn));
         }
     }
 }
