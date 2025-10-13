@@ -34,7 +34,7 @@ public interface ExerciseRepository extends JpaRepository<Exercise, Long> {
         @Query("SELECT DISTINCT e FROM Exercise e " +
                         "LEFT JOIN FETCH e.relExerciseMuscles rem " +
                         "LEFT JOIN FETCH rem.muscle m " +
-                        "LEFT JOIN FETCH m.groupeMusculaire g " +
+                        "LEFT JOIN FETCH m.muscleGroup g " +
                         "WHERE (:name IS NULL OR LOWER(e.nameFR) LIKE LOWER(CONCAT('%', :name, '%'))) " +
                         "AND (:officialExercise = TRUE AND e.user IS NULL OR :officialExercise = FALSE AND (:idUser IS NULL OR e.user.id = :idUser)) "
                         +

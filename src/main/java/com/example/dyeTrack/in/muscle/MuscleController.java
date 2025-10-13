@@ -40,7 +40,7 @@ public class MuscleController {
    }
 
    @GetMapping("/getByGroupe")
-   public ResponseEntity<ResponseBuilder.ResponseDTO<List<ReturnMuscleDTO>>> getByGroupeMusculaire(
+   public ResponseEntity<ResponseBuilder.ResponseDTO<List<ReturnMuscleDTO>>> getByMuscleGroup(
          @RequestParam List<Integer> idDGroupeMuscle) {
       return ResponseBuilder.success(listToDTO(service.getByIDGroupeMuscle(idDGroupeMuscle)),
             "Muscles récupérés par groupe musculaire avec succès");

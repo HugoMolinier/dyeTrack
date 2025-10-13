@@ -4,9 +4,9 @@ import java.util.List;
 
 import com.example.dyeTrack.core.entity.MuscleGroup;
 
-public interface GroupeMusculairePort {
+public interface MuscleGroupPort {
     List<MuscleGroup> getAll();
 
-    void save(MuscleGroup nameGroupeMusculaire);
+    void save(MuscleGroup nameMuscleGroup);
 
 }

@@ -1,4 +1,4 @@
-package com.example.dyeTrack.in.groupeMusculaire;
+package com.example.dyeTrack.in.muscleGroup;
 
 import java.util.List;
 
@@ -8,15 +8,15 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.example.dyeTrack.core.entity.MuscleGroup;
-import com.example.dyeTrack.core.service.GroupeMusculaireService;
+import com.example.dyeTrack.core.service.MuscleGroupService;
 import com.example.dyeTrack.in.utils.ResponseBuilder;
 
 @RestController
 @RequestMapping("/api/MuscleGroup")
-public class GroupeMusculaireController {
-    private GroupeMusculaireService service;
+public class MuscleGroupController {
+    private MuscleGroupService service;
 
-    public GroupeMusculaireController(GroupeMusculaireService service) {
+    public MuscleGroupController(MuscleGroupService service) {
         this.service = service;
     }
 

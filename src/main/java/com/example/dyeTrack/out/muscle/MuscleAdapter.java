@@ -29,8 +29,8 @@ public class MuscleAdapter implements MusclePort {
         return repository.findByName(name);
     }
 
-    public List<Muscle> getByIDGroupeMuscle(List<Integer> groupeMusculaires) {
-        return repository.findByGroupeMusculaireIds(groupeMusculaires);
+    public List<Muscle> getByIDGroupeMuscle(List<Integer> muscleGroups) {
+        return repository.findByMuscleGroupIds(muscleGroups);
     }
 
     @Override

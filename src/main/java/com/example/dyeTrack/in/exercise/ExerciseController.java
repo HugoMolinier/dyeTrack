@@ -159,7 +159,7 @@ public class ExerciseController {
             }
 
             if (includeMainGroup && rel.isPrincipal() && mainFocusGroup == null) {
-                MuscleGroup gm = rel.getMuscle().getGroupeMusculaire();
+                MuscleGroup gm = rel.getMuscle().getMuscleGroup();
                 if (gm != null) {
                     mainFocusGroup = gm.getId();
                 }

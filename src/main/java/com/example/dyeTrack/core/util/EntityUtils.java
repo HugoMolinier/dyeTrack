@@ -1,11 +1,9 @@
 package com.example.dyeTrack.core.util;
 
 import com.example.dyeTrack.core.entity.Exercise;
-import com.example.dyeTrack.core.entity.Lateralite;
 import com.example.dyeTrack.core.entity.User;
 import com.example.dyeTrack.core.exception.EntityNotFoundException;
 import com.example.dyeTrack.core.port.out.ExercisePort;
-import com.example.dyeTrack.core.port.out.LateralitePort;
 import com.example.dyeTrack.core.port.out.UserPort;
 
 public final class EntityUtils {

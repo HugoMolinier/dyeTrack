@@ -4,6 +4,6 @@ import java.util.List;
 
 import com.example.dyeTrack.core.entity.MuscleGroup;
 
-public interface GroupeMusculaireUseCase {
+public interface MuscleGroupUseCase {
     List<MuscleGroup> getAll();
 }

@@ -10,8 +10,8 @@ import java.util.List;
 
 public interface MuscleRepository extends JpaRepository<Muscle, Long> {
 
-    @Query("SELECT m FROM Muscle m WHERE m.groupeMusculaire.id IN :ids")
-    List<Muscle> findByGroupeMusculaireIds(@Param("ids") List<Integer> ids);
+    @Query("SELECT m FROM Muscle m WHERE m.muscleGroup.id IN :ids")
+    List<Muscle> findByMuscleGroupIds(@Param("ids") List<Integer> ids);
 
     @Query("SELECT m FROM Muscle m WHERE LOWER(m.nameFR) LIKE LOWER(CONCAT('%', :name, '%')) " +
             "OR LOWER(m.nameEN) LIKE LOWER(CONCAT('%', :name, '%'))")

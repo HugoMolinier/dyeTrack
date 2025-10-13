@@ -16,7 +16,7 @@ public class ReturnMuscleDTO {
         this.idMuscle = muscle.getId();
         this.nameEn = muscle.getNameEN();
         this.nameFr = muscle.getNameFR();
-        this.idMuscularGroup = muscle.getGroupeMusculaire().getId();
+        this.idMuscularGroup = muscle.getMuscleGroup().getId();
     }
 
     public Long getIdMuscle() {

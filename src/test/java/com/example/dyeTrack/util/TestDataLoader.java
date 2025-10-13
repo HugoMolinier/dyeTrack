@@ -11,7 +11,7 @@ import com.example.dyeTrack.core.entity.MuscleGroup;
 import com.example.dyeTrack.core.entity.Lateralite;
 import com.example.dyeTrack.core.entity.Muscle;
 import com.example.dyeTrack.out.equipment.EquipmentRepository;
-import com.example.dyeTrack.out.groupeMusculaire.GroupeMusculaireRepository;
+import com.example.dyeTrack.out.muscleGroup.MuscleGroupRepository;
 import com.example.dyeTrack.out.lateralite.LateraliteAdapter;
 import com.example.dyeTrack.out.lateralite.LateraliteRepository;
 import com.example.dyeTrack.out.muscle.MuscleRepository;
@@ -26,15 +26,15 @@ public class TestDataLoader implements CommandLineRunner {
     private final LateraliteRepository lateraliteRepository;
     private final EquipmentRepository equipmentRepository;
 
-    private final GroupeMusculaireRepository groupeMusculaireRepository;
+    private final MuscleGroupRepository muscleGroupRepository;
 
     private final MuscleRepository muscleRepository;
 
-    public TestDataLoader(MuscleRepository muscleRepository, GroupeMusculaireRepository groupeMusculaireRepository,
+    public TestDataLoader(MuscleRepository muscleRepository, MuscleGroupRepository muscleGroupRepository,
             LateraliteRepository lateraliteRepository,
             LateraliteAdapter lateraliteAdapter, EquipmentRepository equipmentRepository) {
         this.muscleRepository = muscleRepository;
-        this.groupeMusculaireRepository = groupeMusculaireRepository;
+        this.muscleGroupRepository = muscleGroupRepository;
         this.lateraliteRepository = lateraliteRepository;
         this.equipmentRepository = equipmentRepository;
     }
@@ -100,9 +100,9 @@ public class TestDataLoader implements CommandLineRunner {
     }
 
     private void doTheSaveGroupeEtMuscles(Long groupeId, String nameFr, String nameEn, List<List<Object>> muscles) {
-        MuscleGroup groupe = groupeMusculaireRepository.findOneByNameFRAndNameEN(nameFr, nameEn);
+        MuscleGroup groupe = muscleGroupRepository.findOneByNameFRAndNameEN(nameFr, nameEn);
         if (groupe == null) {
-            groupe = groupeMusculaireRepository.save(new MuscleGroup(groupeId, nameFr, nameEn));
+            groupe = muscleGroupRepository.save(new MuscleGroup(groupeId, nameFr, nameEn));
         }
 
         for (List<Object> muscleName : muscles) {

@@ -41,7 +41,7 @@ public class MuscleGroup {
 
     @Override
     public String toString() {
-        return "idGroupeMusculaire " + this.id +
+        return "idMuscleGroup " + this.id +
                 " : nameFR " + this.nameFR;
     }
 }
