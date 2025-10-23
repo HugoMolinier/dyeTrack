@@ -23,8 +23,11 @@ public class SecurityConfig {
 
     };
 
-    public SecurityConfig(JWTAuthenticationFilter jwtAuthenticationFilter) {
+    private final ApiKeyFilter apiKeyFilter;
+
+    public SecurityConfig(JWTAuthenticationFilter jwtAuthenticationFilter, ApiKeyFilter apiKeyFilter) {
         this.jwtAuthenticationFilter = jwtAuthenticationFilter;
+        this.apiKeyFilter = apiKeyFilter;
     }
 
     @Bean
@@ -33,9 +36,11 @@ public class SecurityConfig {
                 .csrf(csrf -> csrf.disable())
                 .sessionManagement(sm -> sm.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
                 .authorizeHttpRequests(auth -> auth
+
                         .requestMatchers(SECURED_URLS).authenticated()
                         .anyRequest().permitAll())
                 .anonymous(an -> an.disable())
+                .addFilterBefore(apiKeyFilter, UsernamePasswordAuthenticationFilter.class)
                 .addFilterBefore(jwtAuthenticationFilter, UsernamePasswordAuthenticationFilter.class);
 
         return http.build();
