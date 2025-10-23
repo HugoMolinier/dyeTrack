@@ -16,7 +16,7 @@ public class PlannedExerciseReturnDTO {
 
     private Long equipmentId;
 
-    private List<SetOfPlannedExerciseReturnDTO> setOfPlannedExerciseReturnDTOs;
+    private List<SetOfPlannedExerciseReturnDTO> sets;
 
     public PlannedExerciseReturnDTO() {
     }
@@ -27,7 +27,7 @@ public class PlannedExerciseReturnDTO {
         this.exerciseId = plannedExercise.getExercise().getIdExercise();
         this.lateraliteId = plannedExercise.getLateralite().getId();
         this.equipmentId = plannedExercise.getEquipment().getId();
-        this.setOfPlannedExerciseReturnDTOs = plannedExercise.getSetsOfPlannedExercise()
+        this.sets = plannedExercise.getSetsOfPlannedExercise()
                 .stream()
                 .map(SetOfPlannedExerciseReturnDTO::new)
                 .collect(Collectors.toList());
@@ -74,11 +74,11 @@ public class PlannedExerciseReturnDTO {
         this.equipmentId = equipmentId;
     }
 
-    public List<SetOfPlannedExerciseReturnDTO> getSetOfPlannedExerciseReturnDTOs() {
-        return setOfPlannedExerciseReturnDTOs;
+    public List<SetOfPlannedExerciseReturnDTO> getSets() {
+        return sets;
     }
 
-    public void setSetOfPlannedExerciseReturnDTOs(List<SetOfPlannedExerciseReturnDTO> setOfPlannedExerciseReturnDTOs) {
-        this.setOfPlannedExerciseReturnDTOs = setOfPlannedExerciseReturnDTOs;
+    public void setSets(List<SetOfPlannedExerciseReturnDTO> setOfPlannedExerciseReturnDTOs) {
+        this.sets = setOfPlannedExerciseReturnDTOs;
     }
 }

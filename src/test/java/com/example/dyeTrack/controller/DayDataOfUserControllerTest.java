@@ -243,7 +243,7 @@ public class DayDataOfUserControllerTest {
 
                 assertThat(updatedDay.getSeanceTrack().getPlannedExercises()).hasSize(2);
                 assertThat(updatedDay.getSeanceTrack().getPlannedExercises().get(0).getExerciseOrder()).isEqualTo(1);
-                assertThat(updatedDay.getSeanceTrack().getPlannedExercises().get(0).getSetOfPlannedExerciseReturnDTOs())
+                assertThat(updatedDay.getSeanceTrack().getPlannedExercises().get(0).getSets())
                                 .hasSize(2);
 
                 // 3️⃣ Modifier l'ordre des exercices
@@ -376,7 +376,7 @@ public class DayDataOfUserControllerTest {
 
                 assertThat(updatedDayData.getSeanceTrack().getPlannedExercises()).hasSize(1);
                 assertThat(updatedDayData.getSeanceTrack().getPlannedExercises().get(0)
-                                .getSetOfPlannedExerciseReturnDTOs()).isEmpty();
+                                .getSets()).isEmpty();
         }
 
         @Test

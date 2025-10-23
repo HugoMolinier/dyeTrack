@@ -80,7 +80,7 @@ public class SeanceTrackService implements SeanceTrackUseCase {
         }
         seanceTrack.getPlannedExercises().clear();
         // 🧩 2. Ajouter les nouveaux exercices à la séance
-        for (PlannedExerciseVO exerciseVO : vo.getPlannedExerciseVOs()) {
+        for (PlannedExerciseVO exerciseVO : vo.getPlannedExercises()) {
             PlannedExercise plannedExercise = new PlannedExercise();
             plannedExercise.setExerciseOrder(exerciseVO.getExerciseOrder());
             plannedExercise.setExercise(EntityUtils.getExerciseOrThrow(exerciseVO.getExerciseId(), exercisePort));

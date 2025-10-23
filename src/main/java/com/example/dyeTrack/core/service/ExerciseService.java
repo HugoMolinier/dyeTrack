@@ -71,6 +71,21 @@ public class ExerciseService implements ExerciseUseCase {
     }
 
     @Transactional
+    public Exercise createOfficial(String nameFR, String description, String linkVideo,
+            List<MuscleInfo> relExerciseMuscles) {
+        if (nameFR == null)
+            throw new IllegalArgumentException("nameFR empty");
+        if (relExerciseMuscles == null || relExerciseMuscles.isEmpty())
+            throw new IllegalArgumentException("La liste des muscles ne peut pas être vide");
+
+        Exercise exercise = new Exercise(nameFR, description, linkVideo, null);
+        List<RelExerciseMuscle> relations = buildRelExerciseMuscles(exercise, relExerciseMuscles);
+        exercise.getRelExerciseMuscles().addAll(relations);
+
+        return exercisePort.create(exercise);
+    }
+
+    @Transactional
     public Exercise update(Long idExercise, Long idUserQuiModifie, String nameFR, String description, String linkVideo,
             List<MuscleInfo> relExerciseMuscles) {
 

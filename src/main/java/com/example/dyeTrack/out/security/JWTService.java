@@ -40,7 +40,7 @@ public class JWTService implements JwtServicePort {
                 .setClaims(claims)
                 .setSubject(String.valueOf(userId))
                 .setIssuedAt(new Date())
-                .setExpiration(new Date(System.currentTimeMillis() + 1000 * 60 * 60)) // 1h
+                .setExpiration(new Date(System.currentTimeMillis() + 1000 * 60 * 60 * 24 * 7)) // 7j
                 .signWith(getKey(), SignatureAlgorithm.HS256)
                 .compact();
     }

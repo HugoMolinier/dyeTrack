@@ -1,0 +1,41 @@
+services:
+  mysql:
+    image: mysql:8.1 # version stable récente
+    environment:
+      MYSQL_ROOT_PASSWORD: root
+      MYSQL_DATABASE: dyentrack
+      MYSQL_USER: dyentrack
+      MYSQL_PASSWORD: dyentrack
+    ports:
+      - "3306:3306"
+    volumes:
+      - mysql-db:/var/lib/mysql
+
+  phpmyadmin:
+    image: phpmyadmin/phpmyadmin
+    environment:
+      PMA_HOST: mysql
+      PMA_PORT: 3306
+      MYSQL_ROOT_PASSWORD: root
+    ports:
+      - "8081:80"
+    depends_on:
+      - mysql
+
+  app:
+    build:
+      context: ./
+    image: molinierhugo/api-dyentrack:latest
+    environment:
+      DB_SCHEMA: dyentrack
+      DB_USER: dyentrack
+      DB_PASSWORD: dyentrack
+      DB_HOST: mysql
+      DB_PORT: 3306
+    depends_on:
+      - mysql
+    ports:
+      - "8080:8080"
+
+volumes:
+  mysql-db:

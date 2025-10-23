@@ -68,7 +68,7 @@ public class MasterDataController {
             refreshCache();
             System.out.println("Cache rafraîchi automatiquement depuis /static car trop vieux");
         }
-        return ResponseBuilder.success(cachedData, "Toutes les données récupérées avec succès");
+        return ResponseBuilder.success(buildMasterData(), "Toutes les données récupérées avec succès");
     }
 
     @GetMapping("/lastUpdate")
@@ -84,7 +84,9 @@ public class MasterDataController {
         allData.put("equipment", equipmentService.getAll());
 
         List<ExerciseDetailReturnDTO> officialExercises = exerciseService.getAll(
-                null, true, null, false, true, null, null, null).stream()
+                null, true, null, false,
+                true, null,
+                null, null).stream()
                 .map(ex -> {
                     List<MuscleInfo> muscles = new ArrayList<>();
                     Long mainFocus = null;

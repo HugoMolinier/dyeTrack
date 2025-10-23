@@ -8,7 +8,7 @@ public class SeanceTrackVO {
 
     private LocalTime startHour;
     private Long presetSeanceId;
-    private List<PlannedExerciseVO> plannedExerciseVOs = new ArrayList<>(); // initialisation ici
+    private List<PlannedExerciseVO> plannedExercises = new ArrayList<>(); // initialisation ici
 
     public SeanceTrackVO() {
     }
@@ -16,7 +16,7 @@ public class SeanceTrackVO {
     public SeanceTrackVO(LocalTime startHour, Long presetSeanceId, List<PlannedExerciseVO> plannedExerciseVOs) {
         this.startHour = startHour;
         this.presetSeanceId = presetSeanceId;
-        this.plannedExerciseVOs = plannedExerciseVOs != null ? plannedExerciseVOs : new ArrayList<>();
+        this.plannedExercises = plannedExerciseVOs != null ? plannedExerciseVOs : new ArrayList<>();
     }
 
     public LocalTime getStartHour() {
@@ -35,11 +35,11 @@ public class SeanceTrackVO {
         this.presetSeanceId = presetSeanceId;
     }
 
-    public List<PlannedExerciseVO> getPlannedExerciseVOs() {
-        return plannedExerciseVOs;
+    public List<PlannedExerciseVO> getPlannedExercises() {
+        return plannedExercises;
     }
 
-    public void setPlannedExerciseVOs(List<PlannedExerciseVO> plannedExerciseVOs) {
-        this.plannedExerciseVOs = plannedExerciseVOs != null ? plannedExerciseVOs : new ArrayList<>();
+    public void setPlannedExercises(List<PlannedExerciseVO> plannedExerciseVOs) {
+        this.plannedExercises = plannedExerciseVOs != null ? plannedExerciseVOs : new ArrayList<>();
     }
 }

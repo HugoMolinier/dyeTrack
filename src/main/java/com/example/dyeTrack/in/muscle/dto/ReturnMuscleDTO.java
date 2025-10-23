@@ -5,8 +5,8 @@ import com.example.dyeTrack.core.entity.Muscle;
 public class ReturnMuscleDTO {
 
     private Long idMuscle;
-    private String nameFr;
-    private String nameEn;
+    private String nameFR;
+    private String nameEN;
     private Long idMuscularGroup;
 
     public ReturnMuscleDTO() {
@@ -14,8 +14,8 @@ public class ReturnMuscleDTO {
 
     public ReturnMuscleDTO(Muscle muscle) {
         this.idMuscle = muscle.getId();
-        this.nameEn = muscle.getNameEN();
-        this.nameFr = muscle.getNameFR();
+        this.nameEN = muscle.getNameEN();
+        this.nameFR = muscle.getNameFR();
         this.idMuscularGroup = muscle.getMuscleGroup().getId();
     }
 
@@ -28,19 +28,19 @@ public class ReturnMuscleDTO {
     }
 
     public String getNameFr() {
-        return nameFr;
+        return nameFR;
     }
 
     public void setNameFr(String nameFr) {
-        this.nameFr = nameFr;
+        this.nameFR = nameFr;
     }
 
     public String getNameEn() {
-        return nameEn;
+        return nameEN;
     }
 
     public void setNameEn(String nameEn) {
-        this.nameEn = nameEn;
+        this.nameEN = nameEn;
     }
 
     public Long getIdMuscularGroup() {
