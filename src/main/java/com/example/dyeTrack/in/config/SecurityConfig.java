@@ -7,6 +7,8 @@ import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 
+import io.micrometer.common.lang.Nullable;
+
 @Configuration
 public class SecurityConfig {
 
@@ -25,7 +27,7 @@ public class SecurityConfig {
 
     private final ApiKeyFilter apiKeyFilter;
 
-    public SecurityConfig(JWTAuthenticationFilter jwtAuthenticationFilter, ApiKeyFilter apiKeyFilter) {
+    public SecurityConfig(JWTAuthenticationFilter jwtAuthenticationFilter, @Nullable ApiKeyFilter apiKeyFilter) {
         this.jwtAuthenticationFilter = jwtAuthenticationFilter;
         this.apiKeyFilter = apiKeyFilter;
     }
@@ -39,9 +41,11 @@ public class SecurityConfig {
 
                         .requestMatchers(SECURED_URLS).authenticated()
                         .anyRequest().permitAll())
-                .anonymous(an -> an.disable())
-                .addFilterBefore(apiKeyFilter, UsernamePasswordAuthenticationFilter.class)
-                .addFilterBefore(jwtAuthenticationFilter, UsernamePasswordAuthenticationFilter.class);
+                .anonymous(an -> an.disable());
+        if (apiKeyFilter != null) {
+            http.addFilterBefore(apiKeyFilter, UsernamePasswordAuthenticationFilter.class);
+        }
+        http.addFilterBefore(jwtAuthenticationFilter, UsernamePasswordAuthenticationFilter.class);
 
         return http.build();
     }

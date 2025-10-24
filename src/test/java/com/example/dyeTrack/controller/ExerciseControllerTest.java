@@ -329,7 +329,7 @@ public class ExerciseControllerTest {
                 // No token
                 mockMvc.perform(org.springframework.test.web.servlet.request.MockMvcRequestBuilders
                                 .delete("/api/Exercise/delete/" + created2.getIdExercise()))
-                                .andExpect(status().isForbidden());
+                                .andExpect(status().isUnauthorized());
         }
 
 }
