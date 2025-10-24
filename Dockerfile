@@ -21,6 +21,7 @@ FROM eclipse-temurin:21-jre-alpine
 WORKDIR /app
 
 # Copier le jar et le script
+RUN apk add --no-cache bash
 COPY --from=build /app/app.jar app.jar
 COPY --from=build /app/wait-for-it.sh wait-for-it.sh
 RUN chmod +x wait-for-it.sh
