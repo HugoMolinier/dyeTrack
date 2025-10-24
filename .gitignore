@@ -33,8 +33,5 @@ build/
 .vscode/
 
 
-# Fichier de configuration Spring Boot
-application.properties
-application-test.properties
-src/test/resources/application-test.properties
-src/main/resources/application.properties
+.env
+

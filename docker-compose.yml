@@ -26,6 +26,8 @@ services:
     build:
       context: ./
     image: molinierhugo/api-dyentrack:latest
+    env_file:
+      - .env
     environment:
       DB_SCHEMA: dyentrack
       DB_USER: dyentrack

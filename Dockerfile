@@ -1,23 +1,20 @@
-# Étape 1 : build Maven
+# Build stage
 FROM maven:3.9.4-eclipse-temurin-21 AS build
 WORKDIR /app
-
-# Copier uniquement le pom pour cache des dépendances
 COPY pom.xml mvnw ./
 COPY .mvn .mvn
-
-# Télécharger les dépendances avant de copier le code source
-RUN ./mvnw dependency:resolve
-
-# Copier le code source
+RUN chmod +x mvnw
+RUN ./mvnw dependency:go-offline
+COPY .env .env
 COPY src src
-
-# Build
 RUN ./mvnw clean package -U
+RUN mv target/*.jar app.jar
 
-# Étape 2 : runtime
+# Runtime stage
 FROM eclipse-temurin:21-jre-alpine
+RUN addgroup -S spring && adduser -S spring -G spring
+USER spring:spring
 WORKDIR /app
-COPY --from=build /app/target/*.jar app.jar
+COPY --from=build /app/app.jar app.jar
 EXPOSE 8080
 ENTRYPOINT ["java", "-jar", "app.jar"]
