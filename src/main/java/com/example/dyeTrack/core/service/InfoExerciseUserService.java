@@ -8,7 +8,6 @@ import com.example.dyeTrack.core.entity.Exercise;
 import com.example.dyeTrack.core.entity.User;
 import com.example.dyeTrack.core.entity.infoExerciseUser.InfoExerciseUser;
 import com.example.dyeTrack.core.entity.infoExerciseUser.InfoExerciseUserId;
-import com.example.dyeTrack.core.exception.ForbiddenException;
 import com.example.dyeTrack.core.port.in.InfoExerciseUserUseCase;
 import com.example.dyeTrack.core.port.out.ExercisePort;
 import com.example.dyeTrack.core.port.out.InfoExerciseUserPort;
@@ -42,7 +41,7 @@ public class InfoExerciseUserService implements InfoExerciseUserUseCase {
             User user = EntityUtils.getUserOrThrow(userId, userPort);
             Exercise exercise = EntityUtils.getExerciseOrThrow(exerciseId, exercisePort);
             if ((note == null || note.isBlank()) && (favorite == null || !favorite))
-                throw new ForbiddenException(
+                throw new IllegalArgumentException(
                         "note " + note + " et favorite" + favorite + " pour un nouveau enregistrement" + note + favorite
                                 + exerciseId + userId + new InfoExerciseUserId(userId, exerciseId));
             existing = new InfoExerciseUser(user, exercise, note, favorite);

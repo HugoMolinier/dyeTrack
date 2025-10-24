@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.RestControllerAdvice;
 
 import com.example.dyeTrack.core.exception.EntityNotFoundException;
 import com.example.dyeTrack.core.exception.ForbiddenException;
+import com.example.dyeTrack.core.exception.UnauthorizedException;
 import com.example.dyeTrack.in.utils.dtoUtil.ErrorResponseDTO;
 
 import io.swagger.v3.oas.annotations.media.Content;
@@ -25,6 +26,13 @@ public class GlobalExceptionHandler {
     @ApiResponse(responseCode = "400", description = "Bad Request", content = @Content(mediaType = "application/json", schema = @Schema(implementation = ErrorResponseDTO.class)))
     public ResponseEntity<ErrorResponseDTO> handleBadRequest(Exception ex, HttpServletRequest request) {
         return buildErrorResponse(HttpStatus.BAD_REQUEST, "Bad Request", ex.getMessage(), request.getRequestURI());
+    }
+
+    /* --- 401 Unauthorized --- */
+    @ExceptionHandler(UnauthorizedException.class)
+    @ApiResponse(responseCode = "401", description = "Unauthorized", content = @Content(mediaType = "application/json", schema = @Schema(implementation = ErrorResponseDTO.class)))
+    public ResponseEntity<ErrorResponseDTO> handleForbidden(UnauthorizedException ex, HttpServletRequest request) {
+        return buildErrorResponse(HttpStatus.UNAUTHORIZED, "Unauthorized", ex.getMessage(), request.getRequestURI());
     }
 
     /* --- 403 Forbidden --- */
@@ -51,7 +59,7 @@ public class GlobalExceptionHandler {
     }
 
     /* --- Helper pour construire la réponse d'erreur --- */
-    private ResponseEntity<ErrorResponseDTO> buildErrorResponse(HttpStatus status, String error, String message,
+    public ResponseEntity<ErrorResponseDTO> buildErrorResponse(HttpStatus status, String error, String message,
             String path) {
         ErrorResponseDTO body = new ErrorResponseDTO();
         body.setStatus(status.value());

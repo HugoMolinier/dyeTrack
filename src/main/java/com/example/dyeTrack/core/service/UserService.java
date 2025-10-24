@@ -10,6 +10,7 @@ import org.springframework.stereotype.Service;
 
 import com.example.dyeTrack.core.entity.User;
 import com.example.dyeTrack.core.exception.ForbiddenException;
+import com.example.dyeTrack.core.exception.UnauthorizedException;
 import com.example.dyeTrack.core.port.in.UserUseCase;
 import com.example.dyeTrack.core.port.out.UserPort;
 import com.example.dyeTrack.core.util.HashUtil;
@@ -75,7 +76,7 @@ public class UserService implements UserUseCase {
         User user = userPort.findByMailHashed(hashedEmail);
 
         if (user == null || !passwordEncoder.matches(password, user.getPassword())) {
-            throw new ForbiddenException("Email ou mot de passe incorrect");
+            throw new UnauthorizedException("Email ou mot de passe incorrect");
         }
 
         return new AuthValue(jwtService.generateToken(user.getId()), user);

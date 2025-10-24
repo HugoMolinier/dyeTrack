@@ -33,8 +33,11 @@ public class ApiKeyFilter extends OncePerRequestFilter {
 
         String headerKey = request.getHeader("X-API-KEY");
         if (headerKey == null || !headerKey.equals(apiKey)) {
-            response.setStatus(HttpServletResponse.SC_FORBIDDEN);
-            response.getWriter().write("Invalid API Key");
+            response.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
+            response.setContentType("application/json");
+            response.getWriter()
+                    .write("{\"status\":401,\"error\":\"Unauthorized\",\"message\":\"Invalid API Key\",\"path\":\""
+                            + path + "\"}");
             return;
         }
 

@@ -2,7 +2,7 @@ package com.example.dyeTrack.in.utils;
 
 import org.springframework.security.core.context.SecurityContextHolder;
 
-import com.example.dyeTrack.core.exception.ForbiddenException;
+import com.example.dyeTrack.core.exception.UnauthorizedException;
 
 public class SecurityUtil {
 
@@ -11,7 +11,7 @@ public class SecurityUtil {
 
         if (authentication == null || !authentication.isAuthenticated()
                 || "anonymousUser".equals(authentication.getPrincipal())) {
-            throw new ForbiddenException("User is not authenticated");
+            throw new UnauthorizedException("User is not authenticated");
         }
 
         try {
