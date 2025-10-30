@@ -11,7 +11,6 @@ import io.jsonwebtoken.JwtException;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
 import io.jsonwebtoken.security.Keys;
-import jakarta.annotation.PostConstruct;
 
 import java.security.Key;
 
@@ -26,17 +25,6 @@ public class JWTService implements JwtServicePort {
 
     public JWTService(@Value("${jwt.secret.key}") String secretKey) {
         this.secretKey = secretKey;
-    }
-
-    @PostConstruct
-    public void debugEnv() {
-        System.out.println("🔍 JWT_SECRET_KEY chargé = " + secretKey);
-    }
-
-    @PostConstruct
-    public void debugKeyLength() {
-        byte[] decoded = java.util.Base64.getDecoder().decode(secretKey);
-        System.out.println("🔑 Taille de la clé décodée = " + decoded.length + " octets");
     }
 
     /**
