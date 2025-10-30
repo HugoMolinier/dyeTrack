@@ -23,24 +23,24 @@ public class ReturnMuscleDTO {
         return id;
     }
 
-    public void setId(Long idMuscle) {
-        this.id = idMuscle;
+    public void setId(Long id) {
+        this.id = id;
     }
 
     public String getNameFR() {
         return nameFR;
     }
 
-    public void setNameFR(String nameFr) {
-        this.nameFR = nameFr;
+    public void setNameFR(String nameFR) {
+        this.nameFR = nameFR;
     }
 
     public String getNameEN() {
         return nameEN;
     }
 
-    public void setNameEN(String nameEn) {
-        this.nameEN = nameEn;
+    public void setNameEN(String nameEN) {
+        this.nameEN = nameEN;
     }
 
     public Long getIdMuscularGroup() {
