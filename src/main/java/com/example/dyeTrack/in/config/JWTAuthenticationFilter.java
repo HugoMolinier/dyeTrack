@@ -37,7 +37,6 @@ public class JWTAuthenticationFilter extends OncePerRequestFilter {
             try {
                 Long userId = jwtService.extractUserId(token);
 
-                // Créer un objet Authentication avec l'ID utilisateur
                 UsernamePasswordAuthenticationToken authentication = new UsernamePasswordAuthenticationToken(userId,
                         null, null);
                 authentication.setDetails(new WebAuthenticationDetailsSource().buildDetails(request));
