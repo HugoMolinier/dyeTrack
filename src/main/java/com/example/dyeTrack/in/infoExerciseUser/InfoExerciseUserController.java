@@ -35,11 +35,9 @@ public class InfoExerciseUserController {
 
     @GetMapping("/getAll")
     @Operation(summary = "Get All Register Exercise of user", description = "Accessible only if a valid JWT is provided and corresponds to the user")
-    public ResponseEntity<ResponseBuilder.ResponseDTO<List<ReturnInfoExerciseUserDTO>>> findAllOfUser(
-            @RequestParam(defaultValue = "false") Boolean favorite,
-            @RequestParam(defaultValue = "false") Boolean withNote) {
+    public ResponseEntity<ResponseBuilder.ResponseDTO<List<ReturnInfoExerciseUserDTO>>> findAllOfUser() {
         Long idTokenUser = SecurityUtil.getUserIdFromContext();
-        List<InfoExerciseUser> infoExerciseUsers = infoExerciseUserService.getAll(favorite, withNote, idTokenUser);
+        List<InfoExerciseUser> infoExerciseUsers = infoExerciseUserService.getAll(idTokenUser);
         return ResponseBuilder.success(
                 infoExerciseUsers.stream()
                         .map(this::buildDto)

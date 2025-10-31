@@ -28,8 +28,8 @@ public class InfoExerciseUserService implements InfoExerciseUserUseCase {
         this.exercisePort = exercisePort;
     }
 
-    public List<InfoExerciseUser> getAll(Boolean favorite, Boolean withNote, Long userId) {
-        return infoExerciseUserPort.getAll(favorite, withNote, userId);
+    public List<InfoExerciseUser> getAll(Long userId) {
+        return infoExerciseUserPort.getAll(userId);
 
     };
 

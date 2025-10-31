@@ -15,11 +15,7 @@ public interface InfoExerciseUserRepository extends JpaRepository<InfoExerciseUs
       SELECT i
       FROM InfoExerciseUser i
       WHERE (:idUser IS NULL OR i.user.id = :idUser)
-        AND (:favorite IS NULL OR i.favorite = :favorite)
-        AND (:withNote IS NULL OR (i.note IS NOT NULL AND i.note <> ''))
       """)
   List<InfoExerciseUser> getAllWithFilter(
-      @Param("favorite") Boolean favorite,
-      @Param("withNote") Boolean withNote,
       @Param("idUser") Long idUser);
 }

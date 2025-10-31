@@ -7,6 +7,6 @@ import com.example.dyeTrack.core.entity.infoExerciseUser.InfoExerciseUser;
 public interface InfoExerciseUserUseCase {
     InfoExerciseUser update(Long exerciseId, Long userId, Boolean favorite, String note);
 
-    List<InfoExerciseUser> getAll(Boolean favorite, Boolean withNote, Long idUser);
+    List<InfoExerciseUser> getAll(Long idUser);
 
 }

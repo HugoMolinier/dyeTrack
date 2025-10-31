@@ -10,7 +10,7 @@ public interface InfoExerciseUserPort {
 
     InfoExerciseUser getById(InfoExerciseUserId id);
 
-    List<InfoExerciseUser> getAll(Boolean favorite, Boolean withNote, Long idUser);
+    List<InfoExerciseUser> getAll(Long idUser);
 
     void delete(InfoExerciseUser relRecensementExercise);
 }

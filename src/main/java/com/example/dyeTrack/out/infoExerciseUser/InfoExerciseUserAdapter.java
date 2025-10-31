@@ -22,8 +22,8 @@ public class InfoExerciseUserAdapter implements InfoExerciseUserPort {
     }
 
     @Override
-    public List<InfoExerciseUser> getAll(Boolean favorite, Boolean withNote, Long idUser) {
-        return infoExerciseUserRepository.getAllWithFilter(favorite, withNote, idUser);
+    public List<InfoExerciseUser> getAll(Long idUser) {
+        return infoExerciseUserRepository.getAllWithFilter(idUser);
     }
 
     @Override
