@@ -47,7 +47,7 @@ public class InfoExerciseUserController {
                 "Liste des exercises utilisateur récupérée avec succès");
     }
 
-    @PostMapping("/{id}")
+    @PostMapping("/update/{id}")
     @Operation(summary = "Create or update exercise info for the authenticated user")
     public ResponseEntity<ResponseBuilder.ResponseDTO<ReturnInfoExerciseUserDTO>> updateInfo(
             @PathVariable Long id,

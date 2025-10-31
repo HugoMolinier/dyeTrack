@@ -63,7 +63,7 @@ public class InfoExerciseUserControllerTest {
                 // Création ou mise à jour de l’info
                 UpdateInfoExerciseUserDTO updateDto = new UpdateInfoExerciseUserDTO(true, "Très bon exercise");
 
-                String response = mockMvc.perform(post("/api/info-exercise-user/" + createdExe.getIdExercise())
+                String response = mockMvc.perform(post("/api/info-exercise-user/update/" + createdExe.getIdExercise())
                                 .header("Authorization", "Bearer " + tokenUser1)
                                 .contentType(MediaType.APPLICATION_JSON)
                                 .content(TestUtils.toJson(objectMapper, updateDto)))
@@ -90,7 +90,7 @@ public class InfoExerciseUserControllerTest {
 
                 // Étape 1 : on crée une info
                 UpdateInfoExerciseUserDTO createDto = new UpdateInfoExerciseUserDTO(true, "Top !");
-                mockMvc.perform(post("/api/info-exercise-user/" + createdExe.getIdExercise())
+                mockMvc.perform(post("/api/info-exercise-user/update/" + createdExe.getIdExercise())
                                 .header("Authorization", "Bearer " + tokenUser1)
                                 .contentType(MediaType.APPLICATION_JSON)
                                 .content(TestUtils.toJson(objectMapper, createDto)))
@@ -103,7 +103,7 @@ public class InfoExerciseUserControllerTest {
 
                 // Étape 2 : on supprime la note et le favori → suppression automatique
                 UpdateInfoExerciseUserDTO removeDto = new UpdateInfoExerciseUserDTO(false, "");
-                mockMvc.perform(post("/api/info-exercise-user/" + createdExe.getIdExercise())
+                mockMvc.perform(post("/api/info-exercise-user/update/" + createdExe.getIdExercise())
                                 .header("Authorization", "Bearer " + tokenUser1)
                                 .contentType(MediaType.APPLICATION_JSON)
                                 .content(TestUtils.toJson(objectMapper, removeDto)))
@@ -123,7 +123,7 @@ public class InfoExerciseUserControllerTest {
 
                 UpdateInfoExerciseUserDTO dto1 = new UpdateInfoExerciseUserDTO(true, "Bon exercise");
 
-                mockMvc.perform(post("/api/info-exercise-user/" + createdExe.getIdExercise())
+                mockMvc.perform(post("/api/info-exercise-user/update/" + createdExe.getIdExercise())
                                 .header("Authorization", "Bearer " + tokenUser1)
                                 .contentType(MediaType.APPLICATION_JSON)
                                 .content(TestUtils.toJson(objectMapper, dto1)))
@@ -131,7 +131,7 @@ public class InfoExerciseUserControllerTest {
 
                 UpdateInfoExerciseUserDTO dto2 = new UpdateInfoExerciseUserDTO(false, null); // juste changer favorite
 
-                mockMvc.perform(post("/api/info-exercise-user/" + createdExe.getIdExercise())
+                mockMvc.perform(post("/api/info-exercise-user/update/" + createdExe.getIdExercise())
                                 .header("Authorization", "Bearer " + tokenUser1)
                                 .contentType(MediaType.APPLICATION_JSON)
                                 .content(TestUtils.toJson(objectMapper, dto2)))
@@ -158,7 +158,7 @@ public class InfoExerciseUserControllerTest {
                 ExerciseDetailReturnDTO createdExe = TestUtils.createExercise(mockMvc, objectMapper, tokenUser1, dto);
 
                 UpdateInfoExerciseUserDTO body = new UpdateInfoExerciseUserDTO(true, "Top !");
-                mockMvc.perform(post("/api/info-exercise-user/" + createdExe.getIdExercise())
+                mockMvc.perform(post("/api/info-exercise-user/update/" + createdExe.getIdExercise())
                                 .header("Authorization", "Bearer wrong_token")
                                 .contentType(MediaType.APPLICATION_JSON)
                                 .content(TestUtils.toJson(objectMapper, body)))
@@ -172,7 +172,7 @@ public class InfoExerciseUserControllerTest {
                 ExerciseDetailReturnDTO createdExe = TestUtils.createExercise(mockMvc, objectMapper, tokenUser1, dto);
 
                 UpdateInfoExerciseUserDTO body = new UpdateInfoExerciseUserDTO(true, "Top !");
-                mockMvc.perform(post("/api/info-exercise-user/" + createdExe.getIdExercise())
+                mockMvc.perform(post("/api/info-exercise-user/update/" + createdExe.getIdExercise())
                                 .header("Authorization", "Bearer " + tokenUser1)
                                 .contentType(MediaType.APPLICATION_JSON)
                                 .content(TestUtils.toJson(objectMapper, body)))
