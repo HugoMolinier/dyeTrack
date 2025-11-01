@@ -15,6 +15,7 @@ public class ReturnInfoExerciseUserDTO {
 
     }
 
+
     public Long getIdExercise() {
         return idExercise;
     }
