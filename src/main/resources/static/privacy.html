@@ -1,219 +1,339 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
-<head>
+  <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>DyeNTrack – Privacy</title>
-    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="assets/css/styles.css" />
     <link rel="icon" type="image/png" href="assets/favicon-32x32.png" />
-
-</head>
-<body class="bg-[#121212] text-[#E0E0E0]">
-
-<!-- TOP NAVIGATION -->
-<nav class="sticky top-0 z-50 bg-[#1E1E1E] flex justify-between items-center px-10 md:px-52 py-1 shadow-md">
-    <div class="text-xl font-bold text-[#3BB266] flex items-center gap-2">
-        <img src="assets/icon-playstore.png" alt="Play Store" class="w-10 h-10 rounded-lg" />
+  </head>
+  <body class="bg-[#121212] text-[#E0E0E0]">
+    <!-- TOP NAVIGATION -->
+    <nav
+      class="sticky top-0 z-50 bg-[#1E1E1E] flex justify-between items-center px-10 md:px-52 py-1 shadow-md"
+    >
+      <div class="text-xl font-bold text-[#3BB266] flex items-center gap-2">
+        <img
+          src="assets/icon-playstore.png"
+          alt="Play Store"
+          class="w-10 h-10 rounded-lg"
+        />
         DyeNTrack
-    </div>
-    <div class="flex md:flex md:items-center md:space-x-6">
-        <a href="index.html"  class="hidden md:inline" data-i18n="nav.home">Home</a>
-        <select id="languageSwitcher" class="bg-[#1E1E1E] text-white border border-[#3BB266] rounded px-2 py-1">
-            <option value="en">EN</option>
-            <option value="fr">FR</option>
+      </div>
+      <div class="flex md:flex md:items-center md:space-x-6">
+        <a href="index.html" class="hidden md:inline" data-i18n="nav.home"
+          >Home</a
+        >
+        <select
+          id="languageSwitcher"
+          class="bg-[#1E1E1E] text-white border border-[#3BB266] rounded px-2 py-1"
+        >
+          <option value="en">EN</option>
+          <option value="fr">FR</option>
         </select>
-    </div>
+      </div>
+    </nav>
 
-</nav>
-
-<!-- PAGE TITLE -->
-<header class="px-6 md:px-80 py-10">
-    <h1 class="text-3xl md:text-4xl font-bold text-[#3BB266] text-center" data-i18n="privacy.page_title">
+    <!-- PAGE TITLE -->
+    <header class="px-6 md:px-80 py-10">
+      <h1
+        class="text-3xl md:text-4xl font-bold text-[#3BB266] text-center"
+        data-i18n="privacy.page_title"
+      >
         Privacy & Security
-    </h1>
-    <p class="text-[#9CA3AF] text-center mt-4" data-i18n="privacy.intro">
+      </h1>
+      <p class="text-[#9CA3AF] text-center mt-4" data-i18n="privacy.intro">
         We clearly explain how your data is used and protected.
-    </p>
-</header>
+      </p>
+    </header>
 
-<!-- SECTIONS -->
-<main class="px-6 md:px-80 space-y-16">
-
-    <!-- Section 1 -->
-    <section>
-        <h2 class="text-xl font-semibold mb-4 text-white" data-i18n="privacy.sections.1.title">
-            1. Data Controller
+    <!-- SECTIONS -->
+    <main class="px-6 md:px-80 space-y-16">
+      <!-- Section 1 -->
+      <section>
+        <h2
+          class="text-xl font-semibold mb-4 text-white"
+          data-i18n="privacy.sections.1.title"
+        >
+          1. Data Controller
         </h2>
         <p class="text-[#9CA3AF]" data-i18n="privacy.sections.1.text">
-            Personal data collected through the app is processed by the app publisher, who is responsible for processing under the General Data Protection Regulation (GDPR).
+          Personal data collected through the app is processed by the app
+          publisher, who is responsible for processing under the General Data
+          Protection Regulation (GDPR).
         </p>
-    </section>
+      </section>
 
-    <!-- Section 2 -->
-    <section>
-        <h2 class="text-xl font-semibold mb-4 text-white" data-i18n="privacy.sections.2.title">
-            2. Data Collected
+      <!-- Section 2 -->
+      <section>
+        <h2
+          class="text-xl font-semibold mb-4 text-white"
+          data-i18n="privacy.sections.2.title"
+        >
+          2. Data Collected
         </h2>
         <p class="text-[#9CA3AF]" data-i18n="privacy.sections.2.text">
-            We collect only the data strictly necessary for the app to function: email address, profile information (height, gender, birthdate), user preferences, and data related to activity, nutrition, weight, and sleep. Health data is collected only after explicit user consent, including when syncing with third-party services like Health Connect.
+          We collect only the data strictly necessary for the app to function:
+          email address, profile information (height, gender, birthdate), user
+          preferences, and data related to activity, nutrition, weight, and
+          sleep. Health data is collected only after explicit user consent,
+          including when syncing with third-party services like Health Connect.
         </p>
-    </section>
+      </section>
 
-    <!-- Section 3 -->
-    <section>
-        <h2 class="text-xl font-semibold mb-4 text-white" data-i18n="privacy.sections.3.title">
-            3. Use of Data
+      <!-- Section 3 -->
+      <section>
+        <h2
+          class="text-xl font-semibold mb-4 text-white"
+          data-i18n="privacy.sections.3.title"
+        >
+          3. Use of Data
         </h2>
         <p class="text-[#9CA3AF]" data-i18n="privacy.sections.3.text">
-            Data is used to create and manage your account, track your activity, nutrition, and sleep, and personalize your app experience. No data is used for advertising or commercial purposes.
+          Data is used to create and manage your account, track your activity,
+          nutrition, and sleep, and personalize your app experience. No data is
+          used for advertising or commercial purposes.
         </p>
-    </section>
+      </section>
 
-    <!-- Section 4 -->
-    <section>
-        <h2 class="text-xl font-semibold mb-4 text-white" data-i18n="privacy.sections.4.title">
-            4. Offline Usage
+      <!-- Section 4 -->
+      <section>
+        <h2
+          class="text-xl font-semibold mb-4 text-white"
+          data-i18n="privacy.sections.4.title"
+        >
+          4. Offline Usage
         </h2>
         <p class="text-[#9CA3AF]" data-i18n="privacy.sections.4.text">
-            When the user is not logged into an account, no data is transmitted to a remote server. All data is stored locally on the user’s device, allowing offline use. No synchronization, transmission, or server processing occurs without prior authentication.
+          When the user is not logged into an account, no data is transmitted to
+          a remote server. All data is stored locally on the user’s device,
+          allowing offline use. No synchronization, transmission, or server
+          processing occurs without prior authentication.
         </p>
-    </section>
+      </section>
 
-    <!-- Section 5 -->
-    <section>
-        <h2 class="text-xl font-semibold mb-4 text-white" data-i18n="privacy.sections.5.title">
-            5. Email Address
+      <!-- Section 5 -->
+      <section>
+        <h2
+          class="text-xl font-semibold mb-4 text-white"
+          data-i18n="privacy.sections.5.title"
+        >
+          5. Email Address
         </h2>
         <p class="text-[#9CA3AF]" data-i18n="privacy.sections.5.text">
-            Email is collected only for user identification and account security. No promotional or commercial emails will be sent, and your email is never shared with third parties.
+          Email is collected only for user identification and account security.
+          No promotional or commercial emails will be sent, and your email is
+          never shared with third parties.
         </p>
-    </section>
+      </section>
 
-    <!-- Section 6 -->
-    <section>
-        <h2 class="text-xl font-semibold mb-4 text-white" data-i18n="privacy.sections.6.title">
-            6. Data Sharing
+      <!-- Section 6 -->
+      <section>
+        <h2
+          class="text-xl font-semibold mb-4 text-white"
+          data-i18n="privacy.sections.6.title"
+        >
+          6. Data Sharing
         </h2>
         <p class="text-[#9CA3AF]" data-i18n="privacy.sections.6.text">
-            Personal data is not sold, rented, or shared with third parties. Third-party services integrated into the app access data only with explicit user permission.
+          Personal data is not sold, rented, or shared with third parties.
+          Third-party services integrated into the app access data only with
+          explicit user permission.
         </p>
-    </section>
+      </section>
 
-    <!-- Section 7 -->
-    <section>
-        <h2 class="text-xl font-semibold mb-4 text-white" data-i18n="privacy.sections.7.title">
-            7. Data Security
+      <!-- Section 7 -->
+      <section>
+        <h2
+          class="text-xl font-semibold mb-4 text-white"
+          data-i18n="privacy.sections.7.title"
+        >
+          7. Data Security
         </h2>
         <p class="text-[#9CA3AF]" data-i18n="privacy.sections.7.text">
-            Technical and organizational measures are in place to ensure data security. Access is strictly limited, and unauthorized attempts are prevented by appropriate security mechanisms.
+          Technical and organizational measures are in place to ensure data
+          security. Access is strictly limited, and unauthorized attempts are
+          prevented by appropriate security mechanisms.
         </p>
-    </section>
+      </section>
 
-    <!-- Section 8 -->
-    <section>
-        <h2 class="text-xl font-semibold mb-4 text-white" data-i18n="privacy.sections.8.title">
-            8. Data Retention
+      <!-- Section 8 -->
+      <section>
+        <h2
+          class="text-xl font-semibold mb-4 text-white"
+          data-i18n="privacy.sections.8.title"
+        >
+          8. Data Retention
         </h2>
         <p class="text-[#9CA3AF]" data-i18n="privacy.sections.8.text">
-            Personal data is retained only for as long as the user account is active. Upon account deletion, all associated data is permanently removed. Local data is deleted when the app is uninstalled.
+          Personal data is retained only for as long as the user account is
+          active. Upon account deletion, all associated data is permanently
+          removed. Local data is deleted when the app is uninstalled.
         </p>
-    </section>
+      </section>
 
-    <!-- Section 9 -->
-    <section>
-        <h2 class="text-xl font-semibold mb-4 text-white" data-i18n="privacy.sections.9.title">
-            9. User Rights
+      <!-- Section 9 -->
+      <section>
+        <h2
+          class="text-xl font-semibold mb-4 text-white"
+          data-i18n="privacy.sections.9.title"
+        >
+          9. User Rights
         </h2>
         <p class="text-[#9CA3AF]" data-i18n="privacy.sections.9.text">
-            In accordance with GDPR, users have the right to access, correct, and delete their data, as well as to restrict or object to processing. These rights can be exercised directly within the app.
+          In accordance with GDPR, users have the right to access, correct, and
+          delete their data, as well as to restrict or object to processing.
+          These rights can be exercised directly within the app.
         </p>
-    </section>
+      </section>
 
-    <!-- Section 10 -->
-    <section>
-        <h2 class="text-xl font-semibold mb-4 text-white" data-i18n="privacy.sections.10.title">
-            10. Policy Updates
+      <!-- Section 10 -->
+      <section>
+        <h2
+          class="text-xl font-semibold mb-4 text-white"
+          data-i18n="privacy.sections.10.title"
+        >
+          10. Policy Updates
         </h2>
         <p class="text-[#9CA3AF]" data-i18n="privacy.sections.10.text">
-            This privacy policy may be updated at any time. Any significant changes will be communicated within the app. Continuing to use the app constitutes acceptance of the updated policy.
+          This privacy policy may be updated at any time. Any significant
+          changes will be communicated within the app. Continuing to use the app
+          constitutes acceptance of the updated policy.
         </p>
-    </section>
+      </section>
 
-    <!-- Section 11 -->
-    <section>
-        <h2 class="text-xl font-semibold mb-4 text-white" data-i18n="privacy.sections.11.title">
-            11. Updates
+      <!-- Section 11 -->
+      <section>
+        <h2
+          class="text-xl font-semibold mb-4 text-white"
+          data-i18n="privacy.sections.11.title"
+        >
+          11. Updates
         </h2>
         <p class="text-[#9CA3AF]" data-i18n="privacy.sections.11.text">
-            The app may evolve to improve user experience and add new features. Changes never compromise your data security. You are always informed of updates via release notes.
+          The app may evolve to improve user experience and add new features.
+          Changes never compromise your data security. You are always informed
+          of updates via release notes.
         </p>
-    </section>
+      </section>
 
-    <!-- Section 12 -->
-    <section>
-        <h2 class="text-xl font-semibold mb-4 text-white" data-i18n="privacy.sections.12.title">
-            12. Contact & Support
+      <!-- Section 12 -->
+      <section>
+        <h2
+          class="text-xl font-semibold mb-4 text-white"
+          data-i18n="privacy.sections.12.title"
+        >
+          12. Contact & Support
         </h2>
         <p class="text-[#9CA3AF]" data-i18n="privacy.sections.12.text">
-            If you have any questions regarding your data or privacy, contact our support. We respond quickly to ensure your security and peace of mind. Email: gogomolinier@gmail.com
+          If you have any questions regarding your data or privacy, contact our
+          support. We respond quickly to ensure your security and peace of mind.
+          Email: gogomolinier@gmail.com
         </p>
-    </section>
+      </section>
 
-    <!-- Section 13 -->
-    <section class="pb-24">
-        <h2 class="text-xl font-semibold mb-4 text-white" data-i18n="privacy.sections.13.title">
-            13. Personal Data Deletion
+      <!-- Section 13 -->
+      <section class="pb-24">
+        <h2
+          class="text-xl font-semibold mb-4 text-white"
+          data-i18n="privacy.sections.13.title"
+        >
+          13. Personal Data Deletion
         </h2>
         <p class="text-[#9CA3AF]" data-i18n="privacy.sections.13.text">
-            Under GDPR, users have the right to delete their personal data.
+          Under GDPR, users have the right to delete their personal data.
         </p>
-        <h3 class="text-lg font-semibold mt-4 mb-2 text-white" data-i18n="privacy.sections.13.app_delete_title">
-            Deletion via the App
+        <h3
+          class="text-lg font-semibold mt-4 mb-2 text-white"
+          data-i18n="privacy.sections.13.app_delete_title"
+        >
+          Deletion via the App
         </h3>
-        <p class="text-[#9CA3AF]" data-i18n="privacy.sections.13.app_delete_text">
-            Users can delete all their data directly from the app using the account deletion feature (Home -> Settings -> Information). This action permanently removes the account, profile information, activity, nutrition, and tracking data, as well as any associated data.
+        <p
+          class="text-[#9CA3AF]"
+          data-i18n="privacy.sections.13.app_delete_text"
+        >
+          Users can delete all their data directly from the app using the
+          account deletion feature (Home -> Settings -> Information). This
+          action permanently removes the account, profile information, activity,
+          nutrition, and tracking data, as well as any associated data.
         </p>
         <div class="flex flex-wrap justify-center gap-4">
-            <img src="assets/delete1.png" alt="App preview" class="w-28 md:w-36 rounded-lg shadow-md" />
-            <img src="assets/delete2.png" alt="App preview" class="w-28 md:w-36 rounded-lg shadow-md" />
-            <img src="assets/delete3.png" alt="App preview" class="w-28 md:w-36 rounded-lg shadow-md" />
+          <img
+            src="assets/delete1.png"
+            alt="App preview"
+            class="w-28 md:w-36 rounded-lg shadow-md"
+          />
+          <img
+            src="assets/delete2.png"
+            alt="App preview"
+            class="w-28 md:w-36 rounded-lg shadow-md"
+          />
+          <img
+            src="assets/delete3.png"
+            alt="App preview"
+            class="w-28 md:w-36 rounded-lg shadow-md"
+          />
         </div>
-        <h3 class="text-lg font-semibold mt-4 mb-2 text-white" data-i18n="privacy.sections.13.manual_delete_title">
-            Manual Deletion Request
+        <h3
+          class="text-lg font-semibold mt-4 mb-2 text-white"
+          data-i18n="privacy.sections.13.manual_delete_title"
+        >
+          Manual Deletion Request
         </h3>
-        <p class="text-[#9CA3AF]" data-i18n="privacy.sections.13.manual_delete_text">
-            If users cannot access the app, they can request deletion of their data by contacting support at <strong>gogomolinier@gmail.com</strong>. Requests will be processed within 30 days.
+        <p
+          class="text-[#9CA3AF]"
+          data-i18n="privacy.sections.13.manual_delete_text"
+        >
+          If users cannot access the app, they can request deletion of their
+          data by contacting support at <strong>gogomolinier@gmail.com</strong>.
+          Requests will be processed within 30 days.
         </p>
-    </section>
+      </section>
+    </main>
 
-</main>
-
-<!-- FOOTER -->
-<footer class="bg-[#1E1E1E] text-[#9CA3AF] py-10">
-    <div class="max-w-6xl mx-auto px-6 grid grid-cols-1 md:grid-cols-3 gap-6 text-center md:text-left">
+    <!-- FOOTER -->
+    <footer class="bg-[#1E1E1E] text-[#9CA3AF] py-10">
+      <div
+        class="max-w-6xl mx-auto px-6 grid grid-cols-1 md:grid-cols-3 gap-6 text-center md:text-left"
+      >
         <div class="linkFooter flex flex-col items-center md:items-start">
-            <h3 class=" font-semibold mb-2" data-i18n="footer.links">Useful Links</h3>
-            <a href="index.html" class="hover:text-[#3BB266] mb-1" data-i18n="footer.home">Home</a>
-            <a href="privacy.html" class="hover:text-[#3BB266] mb-1" data-i18n="footer.privacy">Privacy Policy</a>
-            <a href="swagger-ui/index.html" class="hover:text-[#3BB266] mb-1" data-i18n="footer.api">API</a>
+          <h3 class="font-semibold mb-2" data-i18n="footer.links">
+            Useful Links
+          </h3>
+          <a
+            href="index.html"
+            class="hover:text-[#3BB266] mb-1"
+            data-i18n="footer.home"
+            >Home</a
+          >
+          <a
+            href="privacy.html"
+            class="hover:text-[#3BB266] mb-1"
+            data-i18n="footer.privacy"
+            >Privacy Policy</a
+          >
+          <a
+            href="swagger-ui/index.html"
+            class="hover:text-[#3BB266] mb-1"
+            data-i18n="footer.api"
+            >API</a
+          >
         </div>
-    </div>
-    <div class="flex flex-col items-center md:items-center">
+      </div>
+      <div class="flex flex-col items-center md:items-center">
         <h3 class="font-semibold mb-2">© 2026 DyeNTrack</h3>
         <p class="text-sm" data-i18n="footer.all_rights">All rights reserved</p>
-    </div>
-</footer>
-<script>
-    // Vérifie si on vient de l'app via l'URL
-    const urlParams = new URLSearchParams(window.location.search);
-    const fromApp = urlParams.get('fromApp');
+      </div>
+    </footer>
+    <script src="assets/js/lang.js"></script>
+    <script>
+      const fromApp = urlParams.get("fromApp");
 
-    if (fromApp === 'yes') {
-        document.querySelector('.linkFooter').style.display = 'none';
-        document.querySelector('nav').style.display ='none'
-
-    }
-</script>
-<script src="assets/js/lang.js"></script>
-</body>
+      if (fromApp === "yes") {
+        document.querySelector(".linkFooter").style.display = "none";
+        document.querySelector("nav").style.display = "none";
+      }
+    </script>
+  </body>
 </html>

@@ -1,10 +1,10 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>DyeNTrack</title>
-    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="assets/css/styles.css" />
     <link rel="icon" type="image/png" href="assets/favicon-32x32.png" />
   </head>
   <body class="bg-[#121212] text-[#E0E0E0]">
@@ -26,11 +26,13 @@
         <a href="#demo" data-i18n="nav.demo">Demo</a>
         <a href="#faq" data-i18n="nav.faq">FAQ</a>
         <a href="#download" data-i18n="nav.download">Download</a>
-        <select id="languageSwitcher" class="bg-[#1E1E1E] text-white border border-[#3BB266] rounded px-2 py-1">
+        <select
+          id="languageSwitcher"
+          class="bg-[#1E1E1E] text-white border border-[#3BB266] rounded px-2 py-1"
+        >
           <option value="en">EN</option>
           <option value="fr">FR</option>
         </select>
-
       </div>
     </nav>
 
@@ -40,17 +42,22 @@
       class="grid md:grid-cols-2 items-center px-6 md:px-52 py-20"
     >
       <div class="pl-6 pb-8">
-        <h1 class="text-4xl md:text-5xl font-bold mb-6 text-white" data-i18n="hero.title">
+        <h1
+          class="text-4xl md:text-5xl font-bold mb-6 text-white"
+          data-i18n="hero.title"
+        >
           Track your nutrition & training, stress-free
         </h1>
         <p class="text-[#9CA3AF] mb-6" data-i18n="hero.subtitle">
-          DyeNTrack helps you track your workouts, nutrition, and sleep with ease.
-          Get automatic performance insights and personalized recommendations.
+          DyeNTrack helps you track your workouts, nutrition, and sleep with
+          ease. Get automatic performance insights and personalized
+          recommendations.
         </p>
         <a
           href="#download"
           data-i18n="hero.button"
-          class="bg-[#3BB266] text-black font-semibold px-6 py-3 rounded-lg hover:bg-green-600 transition">
+          class="bg-[#3BB266] text-black font-semibold px-6 py-3 rounded-lg hover:bg-green-600 transition"
+        >
           Download the app
         </a>
       </div>
@@ -65,11 +72,19 @@
 
     <!-- FEATURES -->
     <section id="features" class="px-6 md:px-52 py-20 text-center">
-      <h4 class="text-[#3BB266] font-semibold mb-2" data-i18n="hero.button">features.title</h4>
-      <h2 class="text-3xl md:text-4xl font-bold text-white mb-4" data-i18n="features.subtitle">
+      <h4 class="text-[#3BB266] font-semibold mb-2" data-i18n="hero.button">
+        features.title
+      </h4>
+      <h2
+        class="text-3xl md:text-4xl font-bold text-white mb-4"
+        data-i18n="features.subtitle"
+      >
         Upgrade your fitness & nutrition tracking
       </h2>
-      <p class="text-[#9CA3AF] mb-12 max-w-2xl mx-auto" data-i18n="features.description">
+      <p
+        class="text-[#9CA3AF] mb-12 max-w-2xl mx-auto"
+        data-i18n="features.description"
+      >
         Your performance, nutrition, and well-being <br />
         all in one simple and intuitive app.
       </p>
@@ -77,7 +92,10 @@
       <div class="grid md:grid-cols-2 lg:grid-cols-4 gap-8">
         <div class="bg-[#1E1E1E] p-6 rounded-xl shadow-md">
           <div class="text-3xl pb-8 pt-4">📓</div>
-          <h3 class="text-[#3BB266] text-xl font-semibold mb-2" data-i18n="features.training_log">
+          <h3
+            class="text-[#3BB266] text-xl font-semibold mb-2"
+            data-i18n="features.training_log"
+          >
             Training log
           </h3>
           <p class="text-[#9CA3AF]" data-i18n="features.training_log_desc">
@@ -86,7 +104,12 @@
         </div>
         <div class="bg-[#1E1E1E] p-6 rounded-xl shadow-md">
           <div class="text-3xl pb-8 pt-4">📈</div>
-          <h3 class="text-[#3BB266] text-xl font-semibold mb-2" data-i18n="features.progress_charts">Progress charts</h3>
+          <h3
+            class="text-[#3BB266] text-xl font-semibold mb-2"
+            data-i18n="features.progress_charts"
+          >
+            Progress charts
+          </h3>
           <p class="text-[#9CA3AF]" data-i18n="features.progress_charts_desc">
             Easily visualize your progress with clear and readable charts.
           </p>
@@ -94,31 +117,48 @@
         <div class="bg-[#1E1E1E] p-6 rounded-xl shadow-md">
           <div class="text-3xl pb-8 pt-4">🏋️</div>
 
-          <h3 class="text-[#3BB266] text-xl font-semibold mb-2" data-i18n="features.exercises_equipment">
+          <h3
+            class="text-[#3BB266] text-xl font-semibold mb-2"
+            data-i18n="features.exercises_equipment"
+          >
             Exercises & equipment
           </h3>
-          <p class="text-[#9CA3AF]" data-i18n="features.exercises_equipment_desc">
+          <p
+            class="text-[#9CA3AF]"
+            data-i18n="features.exercises_equipment_desc"
+          >
             Personalized guidance based on your equipment and fitness level.
           </p>
         </div>
         <div class="bg-[#1E1E1E] p-6 rounded-xl shadow-md">
           <div class="text-3xl pb-8 pt-4">🔄</div>
-          <h3 class="text-[#3BB266] text-xl font-semibold mb-2" data-i18n="features.data_sync">
+          <h3
+            class="text-[#3BB266] text-xl font-semibold mb-2"
+            data-i18n="features.data_sync"
+          >
             Data sync
           </h3>
           <p class="text-[#9CA3AF]" data-i18n="features.data_sync_desc">
-            All your data in one place for simple and efficient tracking.
-            No account required.
+            All your data in one place for simple and efficient tracking. No
+            account required.
           </p>
         </div>
       </div>
     </section>
     <section id="demo" class="px-6 bg-[#1E1E1E] md:px-52 py-20 text-center">
-      <h4 class="text-[#3BB266] font-semibold mb-2" data-i18n="demo.title">Demo</h4>
-      <h2 class="text-3xl md:text-4xl font-bold text-white mb-4" data-i18n="demo.subtitle">
+      <h4 class="text-[#3BB266] font-semibold mb-2" data-i18n="demo.title">
+        Demo
+      </h4>
+      <h2
+        class="text-3xl md:text-4xl font-bold text-white mb-4"
+        data-i18n="demo.subtitle"
+      >
         A clean and simple interface
       </h2>
-      <p class="text-[#9CA3AF] mb-12 max-w-2xl mx-auto" data-i18n="demo.description">
+      <p
+        class="text-[#9CA3AF] mb-12 max-w-2xl mx-auto"
+        data-i18n="demo.description"
+      >
         Improve your training by tracking it <br />
         with an app that is simple and easy to use.
       </p>
@@ -150,19 +190,25 @@
     <!-- FAQ -->
     <section id="faq" class="px-6 md:px-52 py-20 text-center">
       <h4 class="text-[#3BB266] font-semibold mb-2">FAQ</h4>
-      <h2 class="text-3xl md:text-4xl font-bold text-white mb-4 pb-12" data-i18n="faq.subtitle">
+      <h2
+        class="text-3xl md:text-4xl font-bold text-white mb-4 pb-12"
+        data-i18n="faq.subtitle"
+      >
         ❓ Frequently Asked Questions
       </h2>
 
       <div class="grid md:grid-cols-2 pt-4 gap-20 items-start">
         <!-- FAQ QUESTIONS -->
         <div>
-          <h3 class="text-3xl md:text-2xl font-bold text-white text-left mb-4" data-i18n="faq.intro_title">
+          <h3
+            class="text-3xl md:text-2xl font-bold text-white text-left mb-4"
+            data-i18n="faq.intro_title"
+          >
             Got questions?
           </h3>
           <p class="text-left mb-6 text-[#9CA3AF]" data-i18n="faq.intro_desc">
-            You probably have a few questions before getting started.
-            Here are the most common ones.
+            You probably have a few questions before getting started. Here are
+            the most common ones.
           </p>
 
           <div class="space-y-4">
@@ -179,17 +225,31 @@
               <div
                 class="faq-answer max-h-0 overflow-hidden transition-all duration-300 ease-in-out"
               >
-                <p class="px-4 py-3 text-[#9CA3AF] mb-4 text-left" data-i18n="faq.a1">
-                  DyeNTrack is designed for athletes who want to track their training
-                  and nutrition without complexity.
+                <p
+                  class="px-4 py-3 text-[#9CA3AF] mb-4 text-left"
+                  data-i18n="faq.a1"
+                >
+                  DyeNTrack is designed for athletes who want to track their
+                  training and nutrition without complexity.
                 </p>
                 <ul class="px-4 space-y-3 text-[#9CA3AF] text-left">
-                  <li data-i18n="faq.a1_list_1">✅ Replace a paper training log</li>
-                  <li data-i18n="faq.a1_list_2">✅ Track your performance and progress</li>
-                  <li data-i18n="faq.a1_list_3">✅ Centralize workouts, exercises, and analytics</li>
-                  <li data-i18n="faq.a1_list_4">✅ Simple tracking, even offline</li>
+                  <li data-i18n="faq.a1_list_1">
+                    ✅ Replace a paper training log
+                  </li>
+                  <li data-i18n="faq.a1_list_2">
+                    ✅ Track your performance and progress
+                  </li>
+                  <li data-i18n="faq.a1_list_3">
+                    ✅ Centralize workouts, exercises, and analytics
+                  </li>
+                  <li data-i18n="faq.a1_list_4">
+                    ✅ Simple tracking, even offline
+                  </li>
                 </ul>
-                <p class="px-4 py-3 text-[#9CA3AF] mt-4 text-left" data-i18n="faq.a1_conclusion">
+                <p
+                  class="px-4 py-3 text-[#9CA3AF] mt-4 text-left"
+                  data-i18n="faq.a1_conclusion"
+                >
                   The goal is simple :
                   <strong class="text-white">focus on what matters</strong>,
                   without counting calories or wasting time on settings.
@@ -209,11 +269,14 @@
               <div
                 class="faq-answer max-h-0 overflow-hidden transition-all duration-300 ease-in-out"
               >
-                <p class="px-4 py-3 text-left text-[#9CA3AF]" data-i18n="faq.a2">
-                  Yes, the app is completely free and will remain so.
-                  DyeNTrack is a student project built to solve a real need:
-                  replacing paper training logs with a simple and accessible tool.
-                  No subscriptions, no hidden features.
+                <p
+                  class="px-4 py-3 text-left text-[#9CA3AF]"
+                  data-i18n="faq.a2"
+                >
+                  Yes, the app is completely free and will remain so. DyeNTrack
+                  is a student project built to solve a real need: replacing
+                  paper training logs with a simple and accessible tool. No
+                  subscriptions, no hidden features.
                 </p>
               </div>
             </div>
@@ -231,11 +294,14 @@
               <div
                 class="faq-answer max-h-0 overflow-hidden transition-all duration-300 ease-in-out"
               >
-                <p class="px-4 py-3 text-left text-[#9CA3AF]" data-i18n="faq.a3">
-                  No account is required to use the app.
-                  DyeNTrack works fully offline with no sign-up.
-                  Creating an account is optional and only allows you to back up
-                  your data, sync across devices, and access advanced features.
+                <p
+                  class="px-4 py-3 text-left text-[#9CA3AF]"
+                  data-i18n="faq.a3"
+                >
+                  No account is required to use the app. DyeNTrack works fully
+                  offline with no sign-up. Creating an account is optional and
+                  only allows you to back up your data, sync across devices, and
+                  access advanced features.
                 </p>
               </div>
             </div>
@@ -253,17 +319,20 @@
               <div
                 class="faq-answer max-h-0 overflow-hidden transition-all duration-300 ease-in-out"
               >
-                <p class="px-4 py-3 text-left text-[#9CA3AF]" data-i18n="faq.a4">
-                  Yes. Data security and privacy are a top priority.
-                  Sensitive information such as emails and passwords is encrypted.
-                  No personal data is shared or sold.
-                  You remain the sole owner of your data.
+                <p
+                  class="px-4 py-3 text-left text-[#9CA3AF]"
+                  data-i18n="faq.a4"
+                >
+                  Yes. Data security and privacy are a top priority. Sensitive
+                  information such as emails and passwords is encrypted. No
+                  personal data is shared or sold. You remain the sole owner of
+                  your data.
                 </p>
               </div>
             </div>
           </div>
         </div>
-        <div class="text-center md:text-left relative ">
+        <div class="text-center md:text-left relative">
           <video
             src="assets/demo.mp4"
             class="mx-auto md:mx-0 max-w-xs rounded-lg"
@@ -282,7 +351,7 @@
       id="download"
       class="grid md:grid-cols-2 gap-10 items-center px-6 md:px-52 py-20"
     >
-          <div class="p-6 rounded-2xl shadow-md">
+      <div class="p-6 rounded-2xl shadow-md">
         <img
           src="assets/mock.png"
           alt="App mobile"
@@ -290,37 +359,54 @@
         />
       </div>
       <div>
-        <div class="text-[#3BB266] uppercase font-bold text-sm mb-2" data-i18n="download.title">
+        <div
+          class="text-[#3BB266] uppercase font-bold text-sm mb-2"
+          data-i18n="download.title"
+        >
           Download
         </div>
-        <h2 class="text-3xl font-bold mb-4 text-white" data-i18n="download.subtitle">
+        <h2
+          class="text-3xl font-bold mb-4 text-white"
+          data-i18n="download.subtitle"
+        >
           Available on Android
         </h2>
         <p class="text-[#9CA3AF] mb-6" data-i18n="download.description">
-          Easily track your nutrition, workouts, and sleep
-          with a fast and simple app.<br />
+          Easily track your nutrition, workouts, and sleep with a fast and
+          simple app.<br />
           Currently available as a private demo on the Play Store.
         </p>
         <div class="flex space-x-4 mb-6 pt-4">
           <img src="assets/playstore.png" alt="Google Play" class="h-12" />
         </div>
       </div>
-
     </section>
     <!-- FOOTER -->
     <footer class="bg-[#1E1E1E] text-[#9CA3AF] py-10">
-      <div class="max-w-6xl mx-auto px-6 grid grid-cols-1 md:grid-cols-3 gap-6 text-center md:text-left">
-
-
+      <div
+        class="max-w-6xl mx-auto px-6 grid grid-cols-1 md:grid-cols-3 gap-6 text-center md:text-left"
+      >
         <!-- Colonne 2 : Liens -->
         <div class="flex flex-col items-center md:items-start">
-          <h3 class="font-semibold mb-2" data-i18n="footer.links" >Useful links</h3>
-          <a href="index.html" class="hover:text-[#3BB266] mb-1" data-i18n="footer.home">Home</a>
-          <a href="privacy.html" class="hover:text-[#3BB266] mb-1" data-i18n="footer.privacy">Privacy policy</a>
-          <a href="swagger-ui/index.html" class="hover:text-[#3BB266] mb-1">API</a>
+          <h3 class="font-semibold mb-2" data-i18n="footer.links">
+            Useful links
+          </h3>
+          <a
+            href="index.html"
+            class="hover:text-[#3BB266] mb-1"
+            data-i18n="footer.home"
+            >Home</a
+          >
+          <a
+            href="privacy.html"
+            class="hover:text-[#3BB266] mb-1"
+            data-i18n="footer.privacy"
+            >Privacy policy</a
+          >
+          <a href="swagger-ui/index.html" class="hover:text-[#3BB266] mb-1"
+            >API</a
+          >
         </div>
-
-
       </div>
       <div class="flex flex-col items-center md:items-center">
         <h3 class="font-semibold mb-2">© 2026 DyeNTrack</h3>
@@ -333,12 +419,12 @@
         const currentAnswer = button.nextElementSibling;
         const currentIcon = button.querySelector(".faq-icon");
 
-
         document.querySelectorAll(".faq-answer").forEach((answer) => {
           if (answer !== currentAnswer) {
             answer.style.maxHeight = null;
-            answer.previousElementSibling.querySelector(".faq-icon").textContent =
-              "+";
+            answer.previousElementSibling.querySelector(
+              ".faq-icon",
+            ).textContent = "+";
           }
         });
 
@@ -356,8 +442,9 @@
         const firstAnswer = document.querySelector(".faq-answer");
         if (firstAnswer) {
           firstAnswer.style.maxHeight = firstAnswer.scrollHeight + "px";
-          firstAnswer.previousElementSibling.querySelector(".faq-icon").textContent =
-            "−";
+          firstAnswer.previousElementSibling.querySelector(
+            ".faq-icon",
+          ).textContent = "−";
         }
       });
     </script>
