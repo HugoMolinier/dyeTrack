@@ -1,0 +1,121 @@
+{
+  "nav": {
+    "home": "Accueil",
+    "features": "Fonctionnalités",
+    "demo": "Démo",
+    "faq": "FAQ",
+    "download": "Télécharger"
+  },
+  "hero": {
+    "title": "Suivez votre nutrition et votre entraînement, sans stress",
+    "subtitle": "DyeNTrack vous aide à suivre vos entraînements, votre nutrition et votre sommeil facilement. Obtenez des analyses automatiques et des recommandations personnalisées.",
+    "button": "Télécharger l'application"
+  },
+  "features": {
+    "title": "Fonctionnalités",
+    "subtitle": "Améliorez le suivi de votre forme et de votre nutrition",
+    "description": "Vos performances, votre nutrition et votre bien-être tout en une seule application simple et intuitive.",
+    "training_log": "Journal d'entraînement",
+    "training_log_desc": "Suivez tous vos entraînements passés et vos performances en un seul endroit.",
+    "progress_charts": "Graphiques de progression",
+    "progress_charts_desc": "Visualisez facilement vos progrès avec des graphiques clairs et lisibles.",
+    "exercises_equipment": "Exercices & équipement",
+    "exercises_equipment_desc": "Des conseils personnalisés en fonction de votre équipement et de votre niveau.",
+    "data_sync": "Synchronisation des données",
+    "data_sync_desc": "Toutes vos données au même endroit pour un suivi simple et efficace. Aucun compte requis."
+  },
+  "demo": {
+    "title": "Démo",
+    "subtitle": "Une interface claire et simple",
+    "description": "Améliorez votre entraînement en le suivant avec une application simple et facile à utiliser."
+  },
+  "faq": {
+    "subtitle": "❓ Questions fréquemment posées",
+    "intro_title": "Vous avez des questions ?",
+    "intro_desc": "Vous avez probablement quelques questions avant de commencer. Voici les plus courantes.",
+    "q1": "À quoi sert DyeNTrack ?",
+    "a1": "DyeNTrack est conçu pour les sportifs qui souhaitent suivre leur entraînement et leur nutrition sans complexité.",
+    "a1_list_1": "✅ Remplacer un journal d'entraînement papier",
+    "a1_list_2": "✅ Suivre vos performances et vos progrès",
+    "a1_list_3": "✅ Centraliser les entraînements, exercices et analyses",
+    "a1_list_4": "✅ Suivi simple, même hors ligne",
+    "a1_conclusion": "L'objectif est simple : concentrez-vous sur l'essentiel, sans compter les calories ni perdre de temps sur les réglages.",
+    "q2": "L'application est-elle gratuite ?",
+    "a2": "Oui, l'application est entièrement gratuite et le restera. DyeNTrack est un projet étudiant visant à remplacer les journaux papier par un outil simple et accessible. Pas d'abonnements ni de fonctionnalités cachées.",
+    "q3": "Dois-je créer un compte ?",
+    "a3": "Aucun compte n'est requis pour utiliser l'application. DyeNTrack fonctionne complètement hors ligne. Créer un compte est optionnel et permet uniquement de sauvegarder vos données, les synchroniser et accéder à des fonctionnalités avancées.",
+    "q4": "Mes données sont-elles sécurisées ?",
+    "a4": "Oui. La sécurité et la confidentialité des données sont une priorité. Les informations sensibles comme les emails et mots de passe sont cryptées. Aucune donnée personnelle n'est partagée ou vendue. Vous restez le seul propriétaire de vos données."
+  },
+  "download": {
+    "title": "Télécharger",
+    "subtitle": "Disponible sur Android",
+    "description": "Suivez facilement votre nutrition, vos entraînements et votre sommeil avec une application rapide et simple. Actuellement disponible en démo privée sur le Play Store."
+  },
+  "footer": {
+    "links": "Liens utiles",
+    "home": "Accueil",
+    "privacy": "Politique de confidentialité",
+    "all_rights": "Tous droits réservés"
+  },
+  "privacy": {
+    "page_title": "Confidentialité et sécurité",
+    "intro": "Nous expliquons clairement comment vos données sont utilisées et protégées.",
+    "sections": {
+      "1": {
+        "title": "1. Responsable du traitement",
+        "text": "Les données personnelles collectées via l’application sont traitées par l’éditeur de l’application, responsable du traitement au sens du RGPD."
+      },
+      "2": {
+        "title": "2. Données collectées",
+        "text": "Nous collectons uniquement les données strictement nécessaires au fonctionnement de l’application : adresse email, informations de profil, préférences utilisateur, données liées à l’activité, nutrition, poids et sommeil. Les données de santé sont collectées uniquement après consentement explicite de l’utilisateur."
+      },
+      "3": {
+        "title": "3. Utilisation des données",
+        "text": "Les données sont utilisées pour permettre la création et la gestion du compte utilisateur, assurer le suivi de l'activité, de la nutrition et du sommeil, et personnaliser l'expérience. Aucune donnée n’est utilisée à des fins publicitaires ou commerciales."
+      },
+      "4": {
+        "title": "4. Utilisation hors connexion",
+        "text": "Lorsque l’utilisateur n’est pas connecté à un compte, aucune donnée n’est transmise à un serveur distant et tout est stocké localement sur l’appareil."
+      },
+      "5": {
+        "title": "5. Adresse email",
+        "text": "L’adresse email est collectée uniquement pour l’identification et la sécurisation du compte. Aucun email promotionnel ou commercial n’est envoyé, et l’adresse email n’est jamais partagée avec des tiers."
+      },
+      "6": {
+        "title": "6. Partage des données",
+        "text": "Les données personnelles ne sont ni vendues, ni louées, ni cédées à des tiers. Aucun partage à des fins commerciales ou publicitaires. Les services tiers n’accèdent aux données qu’après autorisation explicite."
+      },
+      "7": {
+        "title": "7. Sécurité des données",
+        "text": "Des mesures techniques et organisationnelles appropriées garantissent la sécurité des données. L’accès est strictement limité et toute tentative non autorisée est empêchée."
+      },
+      "8": {
+        "title": "8. Conservation des données",
+        "text": "Les données personnelles sont conservées uniquement pendant la durée d’utilisation du compte. En cas de suppression du compte, toutes les données sont supprimées définitivement. Les données locales sont supprimées lors de la désinstallation."
+      },
+      "9": {
+        "title": "9. Droits de l’utilisateur",
+        "text": "Conformément au RGPD, l’utilisateur dispose d’un droit d’accès, de rectification et de suppression, ainsi que de limitation ou opposition au traitement."
+      },
+      "10": {
+        "title": "10. Modification de la politique",
+        "text": "La politique peut être mise à jour à tout moment. Toute modification substantielle fera l’objet d’une information dans l’application. La poursuite de l’utilisation vaut acceptation de la politique mise à jour."
+      },
+      "11": {
+        "title": "11. Mises à jour",
+        "text": "L’application peut évoluer pour améliorer l’expérience utilisateur et ajouter des fonctionnalités. Les changements n’affectent jamais la sécurité des données. Vous êtes informé via les notes de mise à jour."
+      },
+      "12": {
+        "title": "12. Contact et support",
+        "text": "Pour toute question concernant vos données ou la confidentialité, contactez notre support. Email : gogomolinier@gmail.com"
+      },
+      "13": {
+        "title": "13. Suppression des données personnelles",
+        "text": "Conformément au RGPD, l’utilisateur dispose d’un droit à l’effacement de ses données.",
+        "app_delete": "Suppression via l’application : l’utilisateur peut supprimer l’intégralité de ses données directement depuis l’application (Home -> Paramètres -> Informations). Cette action supprime définitivement le compte, les informations de profil, les données d’activité, nutrition et suivi, ainsi que toute donnée associée.",
+        "manual_delete": "Suppression par demande manuelle : si l’utilisateur ne peut pas accéder à l’application, il peut demander la suppression de ses données en contactant le support à gogomolinier@gmail.com. La demande sera traitée dans un délai maximum de 30 jours."
+      }
+    }
+  }
+}
