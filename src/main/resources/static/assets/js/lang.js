@@ -1,8 +1,8 @@
 const langSwitcher = document.getElementById("languageSwitcher");
 const savedLang = localStorage.getItem("lang") || "en";
-
+const languageApp = urlParams.get('languageApp');
 // si FR est choisi, on remplace le texte
-if (savedLang === "fr") {
+if (savedLang === "fr"|| languageApp==="FR") {
     loadLanguage("fr");
 }
 

@@ -191,8 +191,8 @@
 <!-- FOOTER -->
 <footer class="bg-[#1E1E1E] text-[#9CA3AF] py-10">
     <div class="max-w-6xl mx-auto px-6 grid grid-cols-1 md:grid-cols-3 gap-6 text-center md:text-left">
-        <div class="flex flex-col items-center md:items-start">
-            <h3 class="linkFooter font-semibold mb-2" data-i18n="footer.links">Useful Links</h3>
+        <div class="linkFooter flex flex-col items-center md:items-start">
+            <h3 class=" font-semibold mb-2" data-i18n="footer.links">Useful Links</h3>
             <a href="index.html" class="hover:text-[#3BB266] mb-1" data-i18n="footer.home">Home</a>
             <a href="privacy.html" class="hover:text-[#3BB266] mb-1" data-i18n="footer.privacy">Privacy Policy</a>
             <a href="swagger-ui/index.html" class="hover:text-[#3BB266] mb-1" data-i18n="footer.api">API</a>
@@ -209,14 +209,8 @@
     const fromApp = urlParams.get('fromApp');
 
     if (fromApp === 'yes') {
-        // Cache le lien Home du footer
-        document.querySelectorAll('a').forEach(link => {
-            link.style.display = 'none';
-        });
-        const footerText = document.querySelector('.linkFooter');
-        if (footerText) {
-            footerText.style.display = 'none';
-        }
+        document.querySelector('.linkFooter').style.display = 'none';
+        document.querySelector('nav').style.display ='none'
 
     }
 </script>
