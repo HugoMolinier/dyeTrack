@@ -46,7 +46,7 @@ public class UserService implements UserUseCase {
             Integer height, Boolean sexeMale) {
         validateNewUserInputs(pseudo, email, password, height);
 
-        String hashedEmail = HashUtil.hashEmail(email, emailSecretKey);
+        String hashedEmail = HashUtil.encryptEmail(email, emailSecretKey);
         if (userPort.findByMailHashed(hashedEmail) != null) {
             throw new IllegalArgumentException("Email déjà utilisé : " + email);
         }
@@ -71,7 +71,7 @@ public class UserService implements UserUseCase {
             throw new IllegalArgumentException("Email ou mot de passe vide");
         }
 
-        String hashedEmail = HashUtil.hashEmail(email, emailSecretKey);
+        String hashedEmail = HashUtil.encryptEmail(email, emailSecretKey);
         User user = userPort.findByMailHashed(hashedEmail);
 
         if (user == null || !passwordEncoder.matches(password, user.getPassword())) {

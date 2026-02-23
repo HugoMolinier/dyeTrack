@@ -5,6 +5,7 @@ import java.util.List;
 
 import com.example.dyeTrack.core.entity.DayDataOfUser;
 
+import com.example.dyeTrack.core.entity.ExportRequest;
 import com.example.dyeTrack.core.valueobject.DayDataOfUserVO;
 
 public interface DayDataOfUserUseCase {
@@ -16,4 +17,5 @@ public interface DayDataOfUserUseCase {
     DayDataOfUser getById(Long id, Long idUser);
 
     DayDataOfUser getDayDataOfUser(Long idUser, LocalDate daydata);
+
 }

@@ -168,7 +168,7 @@ public class TestUtils {
             UserRepository userRepository,
             JWTService jwtService,
             String emailSecretKey) {
-        String hashedEmail = HashUtil.hashEmail(email, emailSecretKey);
+        String hashedEmail = HashUtil.encryptEmail(email, emailSecretKey);
         var userOpt = userRepository.findByEmail(hashedEmail);
         assertThat(userOpt).isPresent();
 

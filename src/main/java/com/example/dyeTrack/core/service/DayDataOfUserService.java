@@ -4,6 +4,7 @@ import java.time.Instant;
 import java.time.LocalDate;
 import java.util.List;
 
+import org.springframework.scheduling.annotation.Async;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -53,6 +54,7 @@ public class DayDataOfUserService implements DayDataOfUserUseCase {
             throw new EntityNotFoundException("dataOfUser Not found with idUser " + idUser + " and date : " + dayData);
         return dataOfUser;
     }
+
 
     @Transactional
     public DayDataOfUser save(Long idUser, DayDataOfUserVO dayDataOfUserVO) {

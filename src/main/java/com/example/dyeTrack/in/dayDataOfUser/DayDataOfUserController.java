@@ -3,6 +3,10 @@ package com.example.dyeTrack.in.dayDataOfUser;
 import java.time.LocalDate;
 import java.util.List;
 
+import com.example.dyeTrack.core.entity.ExportRequest;
+import com.example.dyeTrack.core.service.ExportDayDataService;
+import com.example.dyeTrack.in.config.async.ExportAsyncLauncher;
+import com.example.dyeTrack.in.dayDataOfUser.dto.returnDTO.ExportRequestDTO;
 import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -23,9 +27,12 @@ import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 public class DayDataOfUserController {
 
     private final DayDataOfUserService dayDataOfUserService;
-
-    public DayDataOfUserController(DayDataOfUserService dayDataOfUserService) {
+    private final ExportDayDataService exportDayDataService;
+    private final ExportAsyncLauncher exportAsyncLauncher;
+    public DayDataOfUserController(DayDataOfUserService dayDataOfUserService,ExportDayDataService exportDayDataService,ExportAsyncLauncher exportAsyncLauncher ) {
         this.dayDataOfUserService = dayDataOfUserService;
+        this.exportDayDataService = exportDayDataService;
+        this.exportAsyncLauncher = exportAsyncLauncher;
     }
 
     @GetMapping("/getAll")
@@ -70,6 +77,16 @@ public class DayDataOfUserController {
         return ResponseBuilder.created(toDTO(dayData), "DataDay update Info");
     }
 
+
+    @PostMapping("/generateExcel")
+    @Operation(summary = "Export All data into csv beetween 2 date", description = "Accessible only if a valid JWT is provided and corresponds to the user", security = @SecurityRequirement(name = "bearerAuth"))
+    public ResponseEntity<ResponseBuilder.ResponseDTO<String>> exportCsv(@RequestBody ExportRequestDTO request) {
+        Long idUser = SecurityUtil.getUserIdFromContext();
+        ExportRequest exportRequest = exportDayDataService.createExportRequest(
+                idUser, request.startDate(), request.endDate());
+        exportAsyncLauncher.launch(exportRequest.getId());
+        return  ResponseBuilder.created(  exportRequest.getId().toString(),"Export lancé avec succès");
+    }
     // helper :
 
     private DayDataOfUserReturnDTO toDTO(DayDataOfUser entity) {
