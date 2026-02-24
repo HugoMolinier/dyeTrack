@@ -25,7 +25,7 @@ public class ApiKeyFilter extends OncePerRequestFilter {
     protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain) throws ServletException, IOException {
 
         String path = request.getRequestURI();
-        if (Objects.equals(path, "/") || path.startsWith("/index.html") || path.startsWith("/privacy.html") || path.startsWith("/assets/") || path.startsWith("/api-docs") || path.startsWith("/swagger-ui") || path.startsWith("/webjars")) {
+        if (Objects.equals(path, "/") || path.startsWith("/index.html") || path.startsWith("/app-ads.txt")|| path.startsWith("/privacy.html") || path.startsWith("/assets/") || path.startsWith("/api-docs") || path.startsWith("/swagger-ui") || path.startsWith("/webjars")) {
             filterChain.doFilter(request, response);
             return;
         }
