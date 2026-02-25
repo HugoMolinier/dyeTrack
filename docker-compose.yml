@@ -1,23 +1,27 @@
 services:
   mysql:
-    image: mysql:8.1 # version stable récente
+    image: mysql:8.1
+    env_file:
+      - .env
     environment:
-      MYSQL_ROOT_PASSWORD: root
-      MYSQL_DATABASE: dyentrack
-      MYSQL_USER: dyentrack
-      MYSQL_PASSWORD: dyentrack
+      MYSQL_ROOT_PASSWORD: ${MYSQL_ROOT_PASSWORD}
+      MYSQL_DATABASE: ${MYSQL_DATABASE}
+      MYSQL_USER: ${MYSQL_USER}
+      MYSQL_PASSWORD: ${MYSQL_PASSWORD}
     ports:
-      - "3306:3306"
+      - "${DB_PORT}:3306"
     restart: unless-stopped
     volumes:
       - mysql-db:/var/lib/mysql
 
   phpmyadmin:
     image: phpmyadmin/phpmyadmin
+    env_file:
+      - .env
     environment:
       PMA_HOST: mysql
-      PMA_PORT: 3306
-      MYSQL_ROOT_PASSWORD: root
+      PMA_PORT: ${DB_PORT}
+      MYSQL_ROOT_PASSWORD: ${MYSQL_ROOT_PASSWORD}
     ports:
       - "8081:80"
     depends_on:
@@ -30,11 +34,11 @@ services:
     env_file:
       - .env
     environment:
-      DB_SCHEMA: dyentrack
-      DB_USER: dyentrack
-      DB_PASSWORD: dyentrack
+      DB_SCHEMA: ${MYSQL_DATABASE}
+      DB_USER: ${MYSQL_USER}
+      DB_PASSWORD: ${MYSQL_PASSWORD}
       DB_HOST: mysql
-      DB_PORT: 3306
+      DB_PORT: ${DB_PORT}
     depends_on:
       - mysql
     restart: unless-stopped
